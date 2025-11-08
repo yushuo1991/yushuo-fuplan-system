@@ -1,0 +1,3 @@
+https://apphis.longhuvip.com/w1/api/index.php?a=GetDayBaseFaceListZDEvnArt&st=10&c=ZhiShuKLine&PhoneOSNew=1&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.7.0.12&Index=0&apiv=w31&Type=0&StockID=801218&IsBoom=0
+
+实时接口:https://apphq.longhuvip.com/w1/api/index.php?a=GetBaseFaceListZDEvnArtNew&c=ZhiShuL2Data&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&apiv=w33&StockID=801199&

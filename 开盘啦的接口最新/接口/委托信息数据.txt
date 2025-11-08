@@ -1,0 +1,3 @@
+https://apphq.longhuvip.com/w1/api/index.php?a=GetWeiTuo_W14&st=10000&c=StockL2Data&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Token=4761ad40037d3c58725b7966dbcbfdd2&Tur=30&apiv=w33&Type=2&Vol=500&StockID=603037&VType=1&UserID=497432&VOrder=0&
+
+注意：stockid是股票代码，你要哪个代码的委托信息直接换哪个股票的代码就行

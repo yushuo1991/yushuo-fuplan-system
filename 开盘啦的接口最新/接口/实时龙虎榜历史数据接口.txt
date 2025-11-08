@@ -1,0 +1,1 @@
+https://apphis.longhuvip.com/w1/api/index.php?Order=1&a=HisRankingInfo_W8&st=22&c=HisStockRanking&PhoneOSNew=1&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.7.0.12&Isst=0&index=0&Date=2023-08-01&apiv=w31&Type=1&FilterMotherboard=0&Filter=0&Ratio=6&FilterTIB=0&FilterGem=0&

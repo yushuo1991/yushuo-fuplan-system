@@ -1,0 +1,2 @@
+https://apphis.longhuvip.com/w1/api/index.php?a=GetVolTurIncremental&c=ZhiShuL2Data&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.14.0.0&apiv=w36&StockID=801088&Day=2024-04-03&
+Day设置历史日期

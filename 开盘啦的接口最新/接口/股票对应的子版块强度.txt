@@ -1,0 +1,3 @@
+https://apphq.longhuvip.com/w1/api/index.php?a=SonPlate_Info&apiv=w31&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.7.0.12&PlateID=801218
+
+注意：PlateID为股票代码

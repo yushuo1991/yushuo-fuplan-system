@@ -1,0 +1,1 @@
+https://apphq.longhuvip.com/w1/api/index.php?a=GetPanKou&apiv=w34&c=ZhiShuL2Data&StockID=801824&PhoneOSNew=1&UserID=1708828&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.12.0.4&Token=c2867c5653773c26c7365e9e6c38d960&Day=&

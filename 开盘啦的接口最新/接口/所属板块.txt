@@ -1,0 +1,1 @@
+https://apphwhq.longhuvip.com/w1/api/index.php?a=GetStockIDPlate&apiv=w35&Type=2&c=StockL2Data&StockID=300810&PhoneOSNew=1&UserID=1973778&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.13.0.2&Token=d336f47db0d11c37400313830329564e&

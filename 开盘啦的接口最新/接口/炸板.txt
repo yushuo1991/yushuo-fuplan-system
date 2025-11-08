@@ -1,0 +1,3 @@
+历史数据：https://apphis.longhuvip.com/w1/api/index.php?st=60&Is_st=1&FilterGem=0&Index=0&PidType=2&FilterMotherboard=0&Order=1&PhoneOSNew=1&FilterTIB=0&a=HisDaBanList&apiv=w33&Type=4&Filter=0&Day=2023-12-18&c=HisHomeDingPan&VerSion=5.11.0.6&DeviceID=00000000-4bd0-7c8d-0000-00006d0b2bf7&
+
+实时数据:https://apphq.longhuvip.com/w1/api/index.php?Order=1&a=DaBanList&st=60&c=HomeDingPan&PhoneOSNew=1&DeviceID=20ad85ca-becb-3bed-b3d4-30032a0f5923&Type=4&Is_st=1&Index=0&PidType=2&FilterMotherboard=0&Filter=0&FilterTIB=0&FilterGem=0

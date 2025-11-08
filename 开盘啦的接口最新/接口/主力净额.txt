@@ -1,0 +1,4 @@
+https://apphq.longhuvip.com/w1/api/index.php?a=StockDPRealData&apiv=w33&c=StockYiDongKanPan&StockID=301337&PhoneOSNew=1&UserID=1973778&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Token=d336f47db0d11c37400313830329564e&
+
+
+股票代码参数StockId,你要哪个净额换代码就行

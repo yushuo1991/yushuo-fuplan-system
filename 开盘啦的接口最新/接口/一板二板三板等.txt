@@ -1,0 +1,7 @@
+https://apphq.longhuvip.com/w1/api/index.php?Order=0&a=DailyLimitPerformance&st=100&apiv=w33&Type=4&c=HomeDingPan&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Index=0&PidType=1"
+
+PidType=1为1板
+PidType=2为二板
+
+
+PidType=5为高度板

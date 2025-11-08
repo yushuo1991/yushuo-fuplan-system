@@ -1,0 +1,1 @@
+https://apphis.longhuvip.com/w1/api/index.php?a=GetMoneyDate&st=100&apiv=w29&c=Emotion&PhoneOSNew=1&DeviceID=20ad85ca-becb-3bed-b3d4-30032a0f5923&index=0

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>涨停板块溢价分析系统</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="footer-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    <script>
+        // 🚀 自动重定向到增强版页面（使用真实API）
+        if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+            console.log('🔄 自动重定向到增强版页面（真实API版本）');
+            window.location.href = '/enhanced.html';
+        }
+        
+        // Chart.js加载检查和后备方案
+        document.addEventListener('DOMContentLoaded', function() {
+            function checkAndLoadFallback() {
+                if (typeof Chart === 'undefined') {
+                    console.warn('Chart.js CDN加载失败，使用本地简单图表库');
+                    // 加载本地简单图表库
+                    const script = document.createElement('script');
+                    script.src = 'simple-chart.js';
+                    script.onload = function() {
+                        console.log('本地简单图表库加载成功');
+                    };
+                    script.onerror = function() {
+                        console.error('本地图表库也加载失败，图表功能将被禁用');
+                    };
+                    document.head.appendChild(script);
+                } else {
+                    console.log('Chart.js 加载成功');
+                }
+            }
+            
+            // 立即检查
+            checkAndLoadFallback();
+            
+            // 延迟再次检查（给CDN更多时间）
+            setTimeout(checkAndLoadFallback, 1000);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <i class="fas fa-chart-line"></i>
+                    涨停板块溢价分析
+                </h1>
+                <p class="subtitle">实时跟踪涨停股票板块表现与后续涨跌</p>
+            </div>
+        </header>
+
+        <!-- 控制面板 -->
+        <section class="control-panel">
+            <div class="control-group">
+                <label for="dateSelect" class="control-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    选择日期
+                </label>
+                <input type="date" id="dateSelect" class="date-input">
+                <button id="refreshBtn" class="refresh-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    刷新数据
+                </button>
+            </div>
+            <div class="status-bar">
+                <div id="statusText" class="status-text">准备就绪</div>
+                <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据统计概览 -->
+        <section class="stats-overview" id="statsOverview" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalLimitUp">0</div>
+                        <div class="stat-label">涨停股票</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalCategories">0</div>
+                        <div class="stat-label">板块数量</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="topCategory">-</div>
+                        <div class="stat-label">最大板块</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="avgReturn">0%</div>
+                        <div class="stat-label">平均涨幅</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 板块分布图表 -->
+        <section class="chart-section" id="chartSection" style="display: none;">
+            <h2 class="section-title">
+                <i class="fas fa-chart-pie"></i>
+                板块分布分析
+            </h2>
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 板块详情列表 -->
+        <section class="categories-section" id="categoriesSection" style="display: none;">
+            <h2 class="section-title">
+                <i class="fas fa-list"></i>
+                板块详情分析
+            </h2>
+            
+            <!-- 视图切换控制 -->
+            <div class="view-controls">
+                <label>显示方式:</label>
+                <div class="view-toggle">
+                    <button id="tableViewBtn" class="active" onclick="switchView('table')">
+                        <i class="fas fa-table"></i> 表格视图
+                    </button>
+                    <button id="gridViewBtn" onclick="switchView('grid')">
+                        <i class="fas fa-th-large"></i> 卡片视图
+                    </button>
+                </div>
+            </div>
+            
+            <div id="categoriesList" class="categories-list">
+                <!-- 动态生成板块内容 -->
+            </div>
+        </section>
+
+        <!-- 无数据提示 -->
+        <section class="no-data" id="noDataSection" style="display: none;">
+            <div class="no-data-content">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>暂无数据</h3>
+                <p>请选择其他交易日期或稍后再试</p>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2024 涨停板块溢价分析系统 | 数据来源: Tushare</p>
+                <div class="footer-links">
+                    <span>最后更新: <span id="lastUpdate">-</span></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 模态框 - 股票详情 -->
+    <div id="stockModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">股票详情</h3>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <!-- 动态生成详情内容 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据来源信息 -->
+    <footer class="data-source-footer">
+        <div class="footer-content">
+            <div class="data-info">
+                <h4>📊 数据来源信息</h4>
+                <div class="source-details">
+                    <div class="source-item">
+                        <strong>接口:</strong> Tushare Pro API - limit_list_d (涨跌停列表)
+                    </div>
+                    <div class="source-item">
+                        <strong>数据日期:</strong> <span id="dataDate">2025-09-09</span>
+                        <small style="color: #059669; font-weight: normal;">（最新真实交易日）</small>
+                    </div>
+                    <div class="source-item">
+                        <strong>更新时间:</strong> <span id="lastUpdate">--</span>
+                    </div>
+                    <div class="source-item">
+                        <strong>Token积分:</strong> 5000积分 (已验证)
+                    </div>
+                </div>
+            </div>
+            <div class="api-info">
+                <h4>🔗 调用的真实接口</h4>
+                <ul class="api-list">
+                    <li>✓ pro.limit_list_d() - 获取涨停股票详情</li>
+                    <li>✓ pro.kpl_concept() - 获取概念板块统计</li>
+                    <li>✓ pro.kpl_concept_cons() - 获取概念成分股</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

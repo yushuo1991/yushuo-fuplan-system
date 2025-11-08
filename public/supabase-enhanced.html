@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase增强版涨停分析系统</title>
+    <link rel="stylesheet" href="enhanced-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2.38.4/dist/umd/supabase.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <i class="fas fa-database"></i>
+                    Supabase增强版涨停分析系统
+                </h1>
+                <p class="subtitle">真实API + 数据缓存 | 解决跨域问题 | 高性能分析</p>
+            </div>
+        </header>
+
+        <!-- 系统状态指示器 -->
+        <section class="system-status">
+            <div class="status-indicator" id="systemStatus">
+                <i class="fas fa-circle status-dot" id="statusDot"></i>
+                <span id="statusMessage">系统初始化中...</span>
+                <span class="status-detail" id="statusDetail"></span>
+            </div>
+        </section>
+
+        <!-- 控制面板 -->
+        <section class="control-panel">
+            <div class="control-group">
+                <label for="dateSelect" class="control-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    选择交易日期
+                </label>
+                <select id="dateSelect" class="date-input">
+                    <!-- 动态生成 -->
+                </select>
+                <button id="refreshBtn" class="refresh-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    刷新数据
+                </button>
+                <button id="forceRefreshBtn" class="force-refresh-btn">
+                    <i class="fas fa-download"></i>
+                    强制获取最新
+                </button>
+            </div>
+        </section>
+
+        <!-- 数据源信息 -->
+        <section class="data-source-info">
+            <div class="source-card">
+                <h4>🛡️ 跨域问题解决方案</h4>
+                <div class="source-details">
+                    <div class="source-flow">
+                        <span class="flow-step">浏览器</span>
+                        <i class="fas fa-arrow-right"></i>
+                        <span class="flow-step">Supabase</span>
+                        <i class="fas fa-arrow-right"></i>
+                        <span class="flow-step">开盘啦API</span>
+                        <i class="fas fa-arrow-down"></i>
+                        <span class="flow-step">PostgreSQL缓存</span>
+                    </div>
+                    <div class="benefits">
+                        <span class="benefit-tag">✅ 绕过CORS限制</span>
+                        <span class="benefit-tag">✅ 数据持久化</span>
+                        <span class="benefit-tag">✅ 智能缓存</span>
+                        <span class="benefit-tag">✅ 高可用性</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 加载指示器 -->
+        <section class="loading-section" id="loadingSection" style="display: none;">
+            <div class="loading-content">
+                <div class="loading-spinner-large"></div>
+                <h3>获取真实数据中...</h3>
+                <p id="loadingMessage">正在通过Supabase调用开盘啦API...</p>
+                <div class="progress-steps">
+                    <div class="step" id="step1">📡 调用Edge Function</div>
+                    <div class="step" id="step2">🔄 访问外部API</div>
+                    <div class="step" id="step3">💾 存储到数据库</div>
+                    <div class="step" id="step4">📊 处理和展示</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据统计概览 -->
+        <section class="stats-overview" id="statsOverview" style="display: none;">
+            <div class="stats-header">
+                <h3>📊 数据统计概览</h3>
+                <div class="data-freshness" id="dataFreshness">
+                    <i class="fas fa-clock"></i>
+                    <span id="freshnessText">数据来源检测中...</span>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-arrow-up"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalLimitUp">0</div>
+                        <div class="stat-label">涨停股票</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalCategories">0</div>
+                        <div class="stat-label">热门板块</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-crown"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="topCategory">-</div>
+                        <div class="stat-label">最强板块</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-database"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="dataSource">-</div>
+                        <div class="stat-label">数据来源</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 板块详情列表 -->
+        <section class="categories-section" id="categoriesSection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-database"></i>
+                    Supabase数据分析 - 真实API + 智能缓存
+                </h2>
+                <div class="cache-info" id="cacheInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span>数据获取方式检测中...</span>
+                </div>
+            </div>
+            
+            <div id="categoriesList" class="categories-list">
+                <!-- 动态生成板块内容 -->
+            </div>
+        </section>
+
+        <!-- 无数据提示 -->
+        <section class="no-data" id="noDataSection" style="display: none;">
+            <div class="no-data-content">
+                <i class="fas fa-database"></i>
+                <h3>暂无数据</h3>
+                <p id="noDataMessage">该交易日暂无涨停数据</p>
+                <button class="retry-btn" onclick="forceRefreshData()">
+                    <i class="fas fa-redo"></i>
+                    重新获取数据
+                </button>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Supabase增强版涨停分析系统 | 真实数据源: 开盘啦 API</p>
+                <div class="footer-links">
+                    <span>最后更新: <span id="lastUpdate">-</span></span>
+                    <span>数据状态: <span id="dataStatus">检测中</span></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 模态框 - 股票详情 -->
+    <div id="stockModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">股票详情</h3>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <!-- 动态生成详情内容 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 错误提示模态框 -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content error-modal">
+            <div class="modal-header">
+                <h3>❌ 连接错误</h3>
+                <button class="close-btn" onclick="closeErrorModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="errorContent">
+                    <p>请检查Supabase配置是否正确</p>
+                </div>
+                <div class="error-actions">
+                    <button class="retry-btn" onclick="retryConnection()">
+                        <i class="fas fa-redo"></i>
+                        重试连接
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .system-status {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            border-left: 4px solid #28a745;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            color: #6c757d;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.connected {
+            color: #28a745;
+        }
+
+        .status-dot.error {
+            color: #dc3545;
+        }
+
+        .status-detail {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-left: auto;
+        }
+
+        .data-source-info {
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .source-card {
+            padding: 20px;
+        }
+
+        .source-card h4 {
+            margin: 0 0 16px 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .source-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .benefits {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .benefit-tag {
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .loading-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .loading-spinner-large {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            font-size: 0.9em;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: #667eea;
+            color: white;
+            opacity: 1;
+        }
+
+        .step.completed {
+            background: #28a745;
+            color: white;
+            opacity: 1;
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .data-freshness {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .cache-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .force-refresh-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .force-refresh-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        .retry-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 16px auto 0;
+        }
+
+        .error-modal .modal-content {
+            border-left: 4px solid #dc3545;
+        }
+
+        .error-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .source-flow {
+                flex-direction: column;
+            }
+            
+            .progress-steps {
+                flex-direction: column;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+    <script src="supabase-enhanced-script.js"></script>
+</body>
+</html>

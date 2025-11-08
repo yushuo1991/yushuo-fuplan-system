@@ -1,0 +1,483 @@
+/* 增强版涨停分析系统样式 */
+
+/* 板块卡片样式 */
+.category-card {
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.category-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+.category-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-title {
+    margin: 0 0 8px 0;
+    font-size: 1.3em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.category-title i {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.category-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.high-limit-badge {
+    background: #ff6b6b;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.category-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+/* 股票列表样式 */
+.stocks-list {
+    padding: 12px;
+}
+
+.stock-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    background: #f8f9fc;
+    border: 1px solid #e8edf5;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stock-item:hover {
+    background: #e8f2ff;
+    border-color: #667eea;
+    transform: translateX(4px);
+}
+
+.stock-item:last-child {
+    margin-bottom: 0;
+}
+
+.stock-info {
+    flex: 1;
+}
+
+.stock-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 2px;
+}
+
+.stock-code {
+    font-size: 0.85em;
+    color: #7f8c8d;
+    font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.stock-metrics {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* 连续涨停次数样式 */
+.limit-times {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: white;
+}
+
+.limit-times-low {
+    background: #95a5a6;
+}
+
+.limit-times-medium {
+    background: #f39c12;
+}
+
+.limit-times-high {
+    background: #e74c3c;
+    animation: glow 1.5s infinite alternate;
+}
+
+.limit-times-ultra {
+    background: #9b59b6;
+    animation: rainbow 2s infinite;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px rgba(231, 76, 60, 0.5); }
+    to { box-shadow: 0 0 15px rgba(231, 76, 60, 0.8); }
+}
+
+@keyframes rainbow {
+    0% { background: #9b59b6; }
+    25% { background: #e74c3c; }
+    50% { background: #f39c12; }
+    75% { background: #27ae60; }
+    100% { background: #9b59b6; }
+}
+
+.pct-chg {
+    background: #27ae60;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: center;
+}
+
+.next-day-return {
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+}
+
+.return-high {
+    background: #27ae60;
+    color: white;
+}
+
+.return-positive {
+    background: #f39c12;
+    color: white;
+}
+
+.return-negative {
+    background: #e74c3c;
+    color: white;
+}
+
+/* 模态框增强样式 */
+.stock-detail {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.detail-section {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8edf5;
+}
+
+.detail-section:last-child {
+    border-bottom: none;
+}
+
+.detail-section h4 {
+    margin: 0 0 12px 0;
+    color: #2c3e50;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.detail-section h4:before {
+    content: '▶';
+    color: #667eea;
+    font-size: 0.8em;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8f9fc;
+    border-radius: 6px;
+    border-left: 3px solid #667eea;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #34495e;
+}
+
+.detail-value {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.forecast-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.forecast-day {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8f9fc;
+    border-radius: 8px;
+    border: 1px solid #e8edf5;
+    transition: all 0.2s ease;
+}
+
+.forecast-day:hover {
+    background: #e8f2ff;
+    border-color: #667eea;
+}
+
+.forecast-date {
+    font-weight: 500;
+    color: #34495e;
+    font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.forecast-return {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+}
+
+.analysis-text {
+    line-height: 1.6;
+    color: #555;
+    background: #f8f9fc;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 0;
+    border-left: 4px solid #667eea;
+}
+
+/* 日期选择器增强 */
+.date-input {
+    appearance: none;
+    background: white;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 200px;
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.date-input:hover {
+    border-color: #667eea;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .stock-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .stock-metrics {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-stats {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .forecast-day {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-title {
+        font-size: 1.1em;
+    }
+    
+    .category-header {
+        padding: 12px 16px;
+    }
+    
+    .stocks-list {
+        padding: 8px;
+    }
+    
+    .stock-item {
+        padding: 10px 12px;
+    }
+}
+
+/* 加载动画增强 */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    border-top-color: #667eea;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 状态栏增强 */
+.status-text {
+    font-size: 0.9em;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-text:before {
+    content: '●';
+    color: #27ae60;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+/* 数据统计概览增强 */
+.stats-overview {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+
+.stat-value {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+/* 无数据状态增强 */
+.no-data {
+    text-align: center;
+    padding: 60px 20px;
+    color: #7f8c8d;
+}
+
+.no-data-content i {
+    font-size: 3em;
+    margin-bottom: 16px;
+    color: #bdc3c7;
+}
+
+.no-data-content h3 {
+    margin: 0 0 8px 0;
+    color: #34495e;
+}
+
+.no-data-content p {
+    margin: 0;
+    font-size: 0.9em;
+}

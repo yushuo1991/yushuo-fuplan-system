@@ -1,0 +1,206 @@
+name: Daily Limit-Up Stock Analysis
+
+# 每日自动运行涨停股票分析
+on:
+  schedule:
+    # 每个交易日下午 16:00 (UTC+8 = UTC+8:00, 所以 UTC 时间为 8:00)
+    - cron: '0 8 * * 1-5'  # 周一到周五 UTC 8:00
+  
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      analysis_date:
+        description: '分析日期 (YYYYMMDD格式，留空则分析最近5天)'
+        required: false
+        default: ''
+      force_update:
+        description: '强制更新已存在的数据'
+        type: boolean
+        default: false
+
+# 环境变量
+env:
+  PYTHON_VERSION: '3.9'
+  TZ: 'Asia/Shanghai'
+
+jobs:
+  analyze-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Cache Python Dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tushare pandas numpy supabase python-dotenv requests
+        pip install -r requirements.txt || echo "No requirements.txt found, using inline dependencies"
+        
+    - name: Set up Environment Variables
+      run: |
+        echo "TUSHARE_TOKEN=${{ secrets.TUSHARE_TOKEN }}" >> $GITHUB_ENV
+        echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
+        echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> $GITHUB_ENV
+        
+    - name: Create Log Directory
+      run: |
+        mkdir -p log
+        
+    - name: Check Trading Day
+      id: check_trading_day
+      run: |
+        python -c "
+        from datetime import datetime, timedelta
+        import requests
+        
+        # 检查今天是否为交易日（简单检查：排除周末）
+        today = datetime.now()
+        weekday = today.weekday()  # 0=Monday, 6=Sunday
+        
+        if weekday >= 5:  # Saturday or Sunday
+            print(f'::set-output name=is_trading_day::false')
+            print('Weekend detected, skipping analysis')
+        else:
+            print(f'::set-output name=is_trading_day::true') 
+            print('Weekday detected, proceeding with analysis')
+        "
+        
+    - name: Run Stock Analysis
+      if: steps.check_trading_day.outputs.is_trading_day == 'true' || github.event_name == 'workflow_dispatch'
+      run: |
+        echo "🚀 开始运行涨停股票分析..."
+        echo "分析时间: $(date)"
+        echo "时区: $TZ"
+        
+        # 设置分析参数
+        ANALYSIS_DATE="${{ github.event.inputs.analysis_date }}"
+        FORCE_UPDATE="${{ github.event.inputs.force_update }}"
+        
+        if [ -z "$ANALYSIS_DATE" ]; then
+            echo "使用批量分析模式（最近5天）"
+            python 涨停板块分析_supabase版.py
+        else
+            echo "使用指定日期分析模式: $ANALYSIS_DATE"
+            python -c "
+        from 涨停板块分析_supabase版 import SupabaseLimitUpAnalyzer
+        import os
+        
+        analyzer = SupabaseLimitUpAnalyzer(
+            os.getenv('TUSHARE_TOKEN'),
+            os.getenv('SUPABASE_URL'), 
+            os.getenv('SUPABASE_KEY')
+        )
+        
+        success = analyzer.analyze_and_save('$ANALYSIS_DATE')
+        print(f'✅ 分析完成: $ANALYSIS_DATE') if success else print(f'❌ 分析失败: $ANALYSIS_DATE')
+        "
+        fi
+        
+    - name: Verify Data Upload
+      if: steps.check_trading_day.outputs.is_trading_day == 'true' || github.event_name == 'workflow_dispatch'
+      run: |
+        echo "🔍 验证数据上传情况..."
+        python -c "
+        from 涨停板块分析_supabase版 import SupabaseLimitUpAnalyzer
+        import os
+        from datetime import datetime
+        
+        try:
+            analyzer = SupabaseLimitUpAnalyzer(
+                os.getenv('TUSHARE_TOKEN'),
+                os.getenv('SUPABASE_URL'), 
+                os.getenv('SUPABASE_KEY')
+            )
+            
+            # 获取最近的数据
+            recent_dates = analyzer.get_available_dates(5)
+            print(f'📊 数据库中最近的日期: {recent_dates}')
+            
+            if recent_dates:
+                latest_date = recent_dates[0]
+                data = analyzer.get_from_supabase(latest_date)
+                if data:
+                    print(f'✅ 最新数据验证成功: {latest_date}, 涨停数: {data.get(\"total_count\", 0)}')
+                else:
+                    print(f'⚠️ 最新数据读取失败: {latest_date}')
+            else:
+                print('⚠️ 数据库中无数据')
+                
+        except Exception as e:
+            print(f'❌ 验证过程出错: {e}')
+        "
+        
+    - name: Upload Log Files
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: analysis-logs-${{ github.run_number }}
+        path: log/
+        retention-days: 30
+        
+    - name: Update Web Data (触发Netlify重新部署)
+      if: steps.check_trading_day.outputs.is_trading_day == 'true' || github.event_name == 'workflow_dispatch'
+      run: |
+        echo "🌐 触发网站数据更新..."
+        
+        # 更新 web 目录中的配置文件以触发 Netlify 重新部署
+        echo "/* 数据更新时间: $(date) */" > web/last_update.txt
+        
+        # 如果设置了 Netlify 构建钩子，可以触发重新部署
+        if [ -n "${{ secrets.NETLIFY_BUILD_HOOK }}" ]; then
+          curl -X POST -d {} "${{ secrets.NETLIFY_BUILD_HOOK }}"
+          echo "✅ Netlify 重新部署已触发"
+        fi
+        
+    - name: Commit and Push Updates
+      if: steps.check_trading_day.outputs.is_trading_day == 'true' || github.event_name == 'workflow_dispatch'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # 检查是否有变更
+        if git diff --quiet && git diff --staged --quiet; then
+          echo "📝 无文件变更，跳过提交"
+        else
+          git add web/last_update.txt || echo "No update file to add"
+          git commit -m "🤖 自动更新数据 - $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          git push origin main || echo "Nothing to push"
+          echo "✅ 变更已提交并推送"
+        fi
+        
+    - name: Send Notification (可选)
+      if: always()
+      run: |
+        echo "📬 分析任务完成通知"
+        echo "状态: ${{ job.status }}"
+        echo "时间: $(date)"
+        
+        # 这里可以添加发送邮件、微信或其他通知的代码
+        # 例如使用 curl 发送到 webhook
+        
+    - name: Cleanup
+      if: always()
+      run: |
+        echo "🧹 清理临时文件..."
+        # 清理敏感信息
+        unset TUSHARE_TOKEN
+        unset SUPABASE_KEY
+        
+        # 显示磁盘使用情况
+        df -h
+        
+        echo "✅ 涨停股票分析任务完成"

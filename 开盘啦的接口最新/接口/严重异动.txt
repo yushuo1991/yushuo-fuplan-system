@@ -1,0 +1,2 @@
+历史数据:https://apphis.longhuvip.com/w1/api/index.php?a=GetPianLiZhi_Index_W32&apiv=w33&c=StockBidYiDong&PhoneOSNew=1&UserID=1708828&IsZT=0&DeviceID=00000000-4bd0-7c8d-0000-00006d0b2bf7&VerSion=5.11.0.6&Token=f38d3910471feb2151385e80d61a54f4&Day=2023-10-17&
+当天实时数据:https://apphq.longhuvip.com/w1/api/index.php?a=GetPianLiZhi_Index&UserID=497432&apiv=w33&c=StockBidYiDong&VerSion=5.11.0.6&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&Token=4761ad40037d3c58725b7966dbcbfdd2&

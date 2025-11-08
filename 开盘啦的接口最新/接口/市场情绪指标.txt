@@ -1,0 +1,5 @@
+实时数据：https://apphq.longhuvip.com/w1/api/index.php?a=ChangeStatistics&apiv=w33&c=HomeDingPan&PhoneOSNew=1&UserID=497432&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Token=4761ad40037d3c58725b7966dbcbfdd2&
+
+历史数据:https://apphis.longhuvip.com/w1/api/index.php?a=ChangeStatistics&apiv=w33&c=HisHomeDingPan&PhoneOSNew=1&UserID=497432&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Token=4761ad40037d3c58725b7966dbcbfdd2&Day=2023-11-13
+
+所有历史的：https://apphis.longhuvip.com/w1/api/index.php?a=ChangeStatistics&apiv=w33&c=HisHomeDingPan&PhoneOSNew=1&UserID=497432&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Token=4761ad40037d3c58725b7966dbcbfdd2&st=100

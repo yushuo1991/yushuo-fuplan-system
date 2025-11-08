@@ -1,0 +1,3 @@
+https://apphq.longhuvip.com/w1/api/index.php?a=ZhangTingExpression&apiv=w36&c=HomeDingPan&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.14.0.0&
+
+https://apphis.longhuvip.com/w1/api/index.php?a=ZhangTingExpression&apiv=w37&Day=2024-07-31&c=HisHomeDingPan&VerSion=5.15.0.4&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&

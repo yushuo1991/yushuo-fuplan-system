@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Read(//c/吴QQ的AIR/BaiduSyncdisk/600 - 原桌面/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

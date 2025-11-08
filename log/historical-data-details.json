@@ -1,0 +1,194 @@
+[
+  {
+    "timestamp": "2025-09-10T05:58:37.843Z",
+    "message": "✅ 2025-09-09 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:38.867Z",
+    "message": "✅ 2025-09-08 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:39.894Z",
+    "message": "✅ 2025-09-05 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:40.916Z",
+    "message": "✅ 2025-09-04 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:41.929Z",
+    "message": "✅ 2025-09-03 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:42.938Z",
+    "message": "✅ 2025-09-02 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:43.943Z",
+    "message": "✅ 2025-09-01 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:44.447Z",
+    "message": "📈 汇总结果:",
+    "data": {
+      "total_stocks": 0,
+      "total_categories": [],
+      "date_range": "2025-09-01 到 2025-09-09"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:45.965Z",
+    "message": "✅ 2024-09-06 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T05:58:46.579Z",
+    "message": "✅ 2024-09-06 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:40.841Z",
+    "message": "✅ 2025-09-09 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:41.859Z",
+    "message": "✅ 2025-09-08 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:42.876Z",
+    "message": "✅ 2025-09-05 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:43.890Z",
+    "message": "✅ 2025-09-04 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:44.898Z",
+    "message": "✅ 2025-09-03 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:45.903Z",
+    "message": "✅ 2025-09-02 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:46.909Z",
+    "message": "✅ 2025-09-01 数据获取成功",
+    "data": {
+      "total_count": 0,
+      "categories_count": 0,
+      "categories": []
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:47.414Z",
+    "message": "📈 汇总结果:",
+    "data": {
+      "total_stocks": 0,
+      "total_categories": [],
+      "date_range": "2025-09-01 到 2025-09-09"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:48.928Z",
+    "message": "✅ 2024-09-06 数据获取成功",
+    "data": {
+      "total_count": 23,
+      "categories_count": 5,
+      "categories": [
+        "人工智能",
+        "新能源汽车",
+        "芯片半导体",
+        "医药生物",
+        "5G通信"
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:01:49.552Z",
+    "message": "✅ 2024-09-06 数据获取成功",
+    "data": {
+      "total_count": 23,
+      "categories_count": 5,
+      "categories": [
+        "人工智能",
+        "新能源汽车",
+        "芯片半导体",
+        "医药生物",
+        "5G通信"
+      ]
+    }
+  }
+]

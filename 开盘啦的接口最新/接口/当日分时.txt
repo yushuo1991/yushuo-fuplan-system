@@ -1,0 +1,1 @@
+https://apphis.longhuvip.com/w1/api/index.php?a=GetStockTrend&apiv=w33&c=StockL2History&StockID=600545&PhoneOSNew=1&UserID=1708828&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.11.0.6&Token=71970ad0139ddc692f9f0ccd4bbe415e&Day=20230911&

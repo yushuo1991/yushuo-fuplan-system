@@ -1,0 +1,1 @@
+https://apphis.longhuvip.com/w1/api/index.php?Order=0&st=100&a=DailyLimitPerformance&c=HisHomeDingPan&PhoneOSNew=1&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.7.0.12&Index=0&PidType=1&apiv=w31&Type=4&Day=2023-09-28&

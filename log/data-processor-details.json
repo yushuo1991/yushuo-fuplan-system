@@ -1,0 +1,65 @@
+[
+  {
+    "timestamp": "2025-09-10T06:03:54.247Z",
+    "message": "✅ 2024-09-06 数据处理成功",
+    "data": {
+      "total_stocks": 23,
+      "total_categories": 5,
+      "market_sentiment": "bearish",
+      "top_category": "人工智能"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:03:54.759Z",
+    "message": "✅ 2024-09-05 数据处理成功",
+    "data": {
+      "total_stocks": 18,
+      "total_categories": 4,
+      "market_sentiment": "bearish",
+      "top_category": "光伏能源"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:03:55.270Z",
+    "message": "✅ 2024-09-04 数据处理成功",
+    "data": {
+      "total_stocks": 15,
+      "total_categories": 4,
+      "market_sentiment": "bearish",
+      "top_category": "锂电池"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:03:56.286Z",
+    "message": "✅ POST方法测试成功",
+    "data": {
+      "total_stocks": 11,
+      "categories_order": [
+        "人工智能",
+        "医药生物",
+        "新能源汽车"
+      ],
+      "market_sentiment": "neutral"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:03:57.815Z",
+    "message": "✅ 2024-09-06 数据处理成功",
+    "data": {
+      "total_stocks": 23,
+      "total_categories": 5,
+      "market_sentiment": "bearish",
+      "top_category": "人工智能"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:03:58.436Z",
+    "message": "✅ 2024-09-06 数据处理成功",
+    "data": {
+      "total_stocks": 23,
+      "total_categories": 5,
+      "market_sentiment": "bearish",
+      "top_category": "人工智能"
+    }
+  }
+]

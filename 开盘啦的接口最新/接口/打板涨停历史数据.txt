@@ -1,0 +1,2 @@
+
+https://apphis.longhuvip.com/w1/api/index.php?Order=1&a=HisDaBanList&st=60&c=HisHomeDingPan&PhoneOSNew=1&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.7.0.12&Index=0&Is_st=1&PidType=1&apiv=w31&Type=6&FilterMotherboard=0&Filter=0&FilterTIB=0&Day=2023-09-27&FilterGem=0&

@@ -1,0 +1,2 @@
+https://apphis.longhuvip.com/w1/api/index.php?a=GetDayZhangTing&st=100&apiv=w31&c=HisLimitResumption&StockID=002456&PhoneOSNew=1&UserID=0&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.7.0.12&Token=0&Index=0&
+

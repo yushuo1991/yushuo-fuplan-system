@@ -1,0 +1,78 @@
+/* 数据来源页脚样式 */
+.data-source-footer {
+    margin-top: 3rem;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-top: 3px solid #3b82f6;
+    border-radius: 12px 12px 0 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.data-info h4,
+.api-info h4 {
+    color: #1e40af;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.source-details {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.source-item {
+    background: white;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.source-item strong {
+    color: #374151;
+    display: inline-block;
+    min-width: 80px;
+}
+
+.api-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+}
+
+.api-list li {
+    background: white;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: #374151;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+#dataDate,
+#lastUpdate {
+    color: #059669;
+    font-weight: 600;
+}
+
+/* 响应式设计 - 页脚 */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}

@@ -1,0 +1,4 @@
+https://apphq.longhuvip.com/w1/api/index.php?a=ZhangFuDetail&apiv=w33&c=HomeDingPan&VerSion=5.11.0.6&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&
+
+
+https://apphis.longhuvip.com/w1/api/index.php?a=HisZhangFuDetail&apiv=w33&c=HisHomeDingPan&VerSion=5.11.0.6&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&Day=2024-07-31

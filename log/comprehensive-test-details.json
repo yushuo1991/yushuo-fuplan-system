@@ -1,0 +1,324 @@
+[
+  {
+    "timestamp": "2025-09-10T06:10:18.207Z",
+    "message": "💥 测试流程异常: Cannot read properties of undefined (reading 'push')",
+    "data": {
+      "error": "TypeError: Cannot read properties of undefined (reading 'push')\n    at validateDataAccuracy (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:135:23)\n    at testCompleteDataFlow (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:94:30)\n    at async runComprehensiveTests (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:537:22)"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:10:18.723Z",
+    "message": "💥 测试流程异常: Cannot read properties of undefined (reading 'push')",
+    "data": {
+      "error": "TypeError: Cannot read properties of undefined (reading 'push')\n    at validateDataAccuracy (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:135:23)\n    at testCompleteDataFlow (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:94:30)\n    at async runComprehensiveTests (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:537:22)"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:10:19.230Z",
+    "message": "💥 测试流程异常: Cannot read properties of undefined (reading 'push')",
+    "data": {
+      "error": "TypeError: Cannot read properties of undefined (reading 'push')\n    at validateDataAccuracy (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:135:23)\n    at testCompleteDataFlow (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:94:30)\n    at async runComprehensiveTests (C:\\Users\\yushu\\Documents\\GitHub\\limit-up-analysis\\api\\comprehensive-test.js:537:22)"
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:10:21.073Z",
+    "message": "数据一致性测试: ✅ 通过",
+    "data": {
+      "test_date": "2024-09-06",
+      "attempts": 3,
+      "consistent": true,
+      "result_hashes": [
+        {
+          "attempt": 1,
+          "hash": "e9c66aa8"
+        },
+        {
+          "attempt": 2,
+          "hash": "e9c66aa8"
+        },
+        {
+          "attempt": 3,
+          "hash": "e9c66aa8"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:10:22.592Z",
+    "message": "⚡ 平均性能: 总计505ms (历史数据505ms + 数据处理0ms)",
+    "data": {
+      "test_count": 3,
+      "avg_total_time": 505,
+      "avg_historical_time": 504.6666666666667,
+      "avg_processor_time": 0.3333333333333333,
+      "all_results": [
+        {
+          "date": "2024-09-06",
+          "total_time": 503,
+          "historical_time": 502,
+          "processor_time": 1,
+          "success": true
+        },
+        {
+          "date": "2024-09-05",
+          "total_time": 512,
+          "historical_time": 512,
+          "processor_time": 0,
+          "success": true
+        },
+        {
+          "date": "2024-09-04",
+          "total_time": 500,
+          "historical_time": 500,
+          "processor_time": 0,
+          "success": true
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:11:28.748Z",
+    "message": "✅ 数据验证通过: 所有验证通过 (6/6)",
+    "data": {
+      "original_total": 23,
+      "processed_total": 23,
+      "original_categories": 5,
+      "processed_categories": 5,
+      "checks": [
+        {
+          "test": "股票总数一致性",
+          "status": "PASS",
+          "description": "股票总数一致: 23只"
+        },
+        {
+          "test": "板块数量一致性",
+          "status": "PASS",
+          "description": "板块数量一致: 5个"
+        },
+        {
+          "test": "板块排序准确性",
+          "status": "PASS",
+          "description": "板块按优先级正确排序",
+          "details": []
+        },
+        {
+          "test": "股票内部排序准确性",
+          "status": "PASS",
+          "description": "所有板块内股票排序正确",
+          "details": []
+        },
+        {
+          "test": "后续5天预测数据完整性",
+          "status": "PASS",
+          "description": "预测数据完整性: 23/23 (100.0%)",
+          "details": {
+            "total_stocks": 23,
+            "valid_forecast_stocks": 23,
+            "coverage_rate": "100.0%",
+            "issues": []
+          }
+        },
+        {
+          "test": "市场情绪计算准确性",
+          "status": "PASS",
+          "description": "市场情绪计算正确: bearish",
+          "details": {
+            "actual_sentiment": "bearish",
+            "expected_sentiment": "bearish",
+            "avg_category_size": "4.60",
+            "high_limit_ratio": "4.35%",
+            "calculation_factors": {
+              "avg_category_size": 4.6,
+              "high_limit_ratio": 0.043478260869565216,
+              "total_stocks": 23,
+              "total_categories": 5,
+              "high_limit_stocks": 1
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:11:29.262Z",
+    "message": "✅ 数据验证通过: 所有验证通过 (6/6)",
+    "data": {
+      "original_total": 18,
+      "processed_total": 18,
+      "original_categories": 4,
+      "processed_categories": 4,
+      "checks": [
+        {
+          "test": "股票总数一致性",
+          "status": "PASS",
+          "description": "股票总数一致: 18只"
+        },
+        {
+          "test": "板块数量一致性",
+          "status": "PASS",
+          "description": "板块数量一致: 4个"
+        },
+        {
+          "test": "板块排序准确性",
+          "status": "PASS",
+          "description": "板块按优先级正确排序",
+          "details": []
+        },
+        {
+          "test": "股票内部排序准确性",
+          "status": "PASS",
+          "description": "所有板块内股票排序正确",
+          "details": []
+        },
+        {
+          "test": "后续5天预测数据完整性",
+          "status": "PASS",
+          "description": "预测数据完整性: 18/18 (100.0%)",
+          "details": {
+            "total_stocks": 18,
+            "valid_forecast_stocks": 18,
+            "coverage_rate": "100.0%",
+            "issues": []
+          }
+        },
+        {
+          "test": "市场情绪计算准确性",
+          "status": "PASS",
+          "description": "市场情绪计算正确: bearish",
+          "details": {
+            "actual_sentiment": "bearish",
+            "expected_sentiment": "bearish",
+            "avg_category_size": "4.50",
+            "high_limit_ratio": "5.56%",
+            "calculation_factors": {
+              "avg_category_size": 4.5,
+              "high_limit_ratio": 0.05555555555555555,
+              "total_stocks": 18,
+              "total_categories": 4,
+              "high_limit_stocks": 1
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:11:29.780Z",
+    "message": "✅ 数据验证通过: 所有验证通过 (6/6)",
+    "data": {
+      "original_total": 15,
+      "processed_total": 15,
+      "original_categories": 4,
+      "processed_categories": 4,
+      "checks": [
+        {
+          "test": "股票总数一致性",
+          "status": "PASS",
+          "description": "股票总数一致: 15只"
+        },
+        {
+          "test": "板块数量一致性",
+          "status": "PASS",
+          "description": "板块数量一致: 4个"
+        },
+        {
+          "test": "板块排序准确性",
+          "status": "PASS",
+          "description": "板块按优先级正确排序",
+          "details": []
+        },
+        {
+          "test": "股票内部排序准确性",
+          "status": "PASS",
+          "description": "所有板块内股票排序正确",
+          "details": []
+        },
+        {
+          "test": "后续5天预测数据完整性",
+          "status": "PASS",
+          "description": "预测数据完整性: 15/15 (100.0%)",
+          "details": {
+            "total_stocks": 15,
+            "valid_forecast_stocks": 15,
+            "coverage_rate": "100.0%",
+            "issues": []
+          }
+        },
+        {
+          "test": "市场情绪计算准确性",
+          "status": "PASS",
+          "description": "市场情绪计算正确: bearish",
+          "details": {
+            "actual_sentiment": "bearish",
+            "expected_sentiment": "bearish",
+            "avg_category_size": "3.75",
+            "high_limit_ratio": "0.00%",
+            "calculation_factors": {
+              "avg_category_size": 3.75,
+              "high_limit_ratio": 0,
+              "total_stocks": 15,
+              "total_categories": 4,
+              "high_limit_stocks": 0
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:11:31.626Z",
+    "message": "数据一致性测试: ✅ 通过",
+    "data": {
+      "test_date": "2024-09-06",
+      "attempts": 3,
+      "consistent": true,
+      "result_hashes": [
+        {
+          "attempt": 1,
+          "hash": "e9c66aa8"
+        },
+        {
+          "attempt": 2,
+          "hash": "e9c66aa8"
+        },
+        {
+          "attempt": 3,
+          "hash": "e9c66aa8"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-09-10T06:11:33.167Z",
+    "message": "⚡ 平均性能: 总计513ms (历史数据512ms + 数据处理1ms)",
+    "data": {
+      "test_count": 3,
+      "avg_total_time": 512.6666666666666,
+      "avg_historical_time": 512,
+      "avg_processor_time": 0.6666666666666666,
+      "all_results": [
+        {
+          "date": "2024-09-06",
+          "total_time": 511,
+          "historical_time": 510,
+          "processor_time": 1,
+          "success": true
+        },
+        {
+          "date": "2024-09-05",
+          "total_time": 512,
+          "historical_time": 511,
+          "processor_time": 1,
+          "success": true
+        },
+        {
+          "date": "2024-09-04",
+          "total_time": 515,
+          "historical_time": 515,
+          "processor_time": 0,
+          "success": true
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,6 @@
+最新的http接口:https://apphq.longhuvip.com/w1/api/index.php?Order=0&a=DailyLimitPerformance&st=1000&apiv=w33&Type=4&c=HomeDingPan&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Index=0&PidType=1
+https://apphq.longhuvip.com/w1/api/index.php?Order=0&a=DailyLimitPerformance&st=1000&apiv=w33&Type=4&c=HomeDingPan&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Index=0&PidType=2
+https://apphq.longhuvip.com/w1/api/index.php?Order=0&a=DailyLimitPerformance&st=1000&apiv=w33&Type=4&c=HomeDingPan&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Index=0&PidType=3
+https://apphq.longhuvip.com/w1/api/index.php?Order=0&a=DailyLimitPerformance&st=1000&apiv=w33&Type=4&c=HomeDingPan&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Index=0&PidType=4
+https://apphq.longhuvip.com/w1/api/index.php?Order=0&a=DailyLimitPerformance&st=1000&apiv=w33&Type=4&c=HomeDingPan&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.11.0.6&Index=0&PidType=5
+分别为涨停的1板，二，板，3板，4板，五板以及以上

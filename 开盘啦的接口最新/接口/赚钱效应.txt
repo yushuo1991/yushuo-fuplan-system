@@ -1,0 +1,1 @@
+https://apphq.longhuvip.com/w1/api/index.php?c=StockFengKData&a=GetFengKListBest&Time=

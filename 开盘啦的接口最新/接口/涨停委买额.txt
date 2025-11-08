@@ -1,0 +1,3 @@
+https://apphwhq.longhuvip.com/w1/api/index.php?a=GetStockPanKou&apiv=w36&c=StockL2Data&StockID="+code+"&PhoneOSNew=1&UserID=2653861&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.14.0.0&Token=9db76fbc981cc796139fbacfb26c9304&
+
+code为个股代码

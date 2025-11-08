@@ -1,0 +1,5 @@
+实时接口:https://apphwhq.longhuvip.com/w1/api/index.php?a=GroupStock_W28&st=15&apiv=w36&Type=0_0_0_0_0&c=StockNewHigh&PhoneOSNew=1&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&VerSion=5.14.0.0&Index=0&
+
+历史接口:https://apphis.longhuvip.com/w1/api/index.php?st=15&a=GroupStock_W28&apiv=w36&Type=0_0_0_0_0&Index=0&c=StockNewHigh&VerSion=5.14.0.0&PhoneOSNew=1&Date=2024-04-11&DeviceID=ffffffff-e91e-5efd-ffff-ffffa460846b&
+
+区别:实时接口为https://apphwhq.longhuvip.com开头，历史接口为https://apphis.longhuvip.com开头，历史接口有包含日期的参数

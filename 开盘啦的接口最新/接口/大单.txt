@@ -1,0 +1,3 @@
+实时大单成交量接口：https://apphq.longhuvip.com/w1/api/index.php?Order=0&st=20&a=GetMainMonitor_w30&c=StockYiDongKanPan&PhoneOSNew=1&DeviceID=00000000-296c-20ad-0000-00003eb74e84&VerSion=5.7.0.12&Token=4e7fa8458a2add3f14a50ca79e863772&Index=0&Money=2&apiv=w31&StockID=300339&UserID=1973778&IsBS=0&
+
+注意：index，第一页为0，第二页index为20，第3页为40，第n页为（n-1)*20，StockID表示股票的代码，注意 money=3 表示三百万，以此类推

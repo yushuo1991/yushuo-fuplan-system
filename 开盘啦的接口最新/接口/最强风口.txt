@@ -1,0 +1,4 @@
+https://apphwhq.longhuvip.com/w1/api/index.php?apiv=w33&PhoneOSNew=1&VerSion=5.11.0.6&c=StockFengKData&a=GetFengKListBest&Time=&UserID=2653861&Token=9db76fbc981cc796139fbacfb26c9304
+
+历史："https://apphis.longhuvip.com/w1/api/index.php?apiv=w33&PhoneOSNew=1&VerSion=5.11.0.6&c=StockFengKData&a=GetFengKListBest&Time=&Day=2024-07-31&UserID=2653861&Token=9db76fbc981cc796139fbacfb26c9304";
+    

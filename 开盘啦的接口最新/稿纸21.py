@@ -1,0 +1,6 @@
+import requests
+
+
+url = 'https://apphis.longhuvip.com/w1/api/index.php?Order=1&a=RealRankingInfo&st=20&apiv=w26&Type=1&c=ZhiShuRanking&PhoneOSNew=1&DeviceID=20ad85ca-becb-3bed-b3d4-30032a0f5923&Index=0&ZSType=7&Date=2023-06-13'
+r = requests.get(url).json()['list']
+print(r)

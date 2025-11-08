@@ -1,0 +1,2 @@
+https://apphq.longhuvip.com/w1/api/index.php 历史数据:https://apphis.longhuvip.com/w1/api/index.php?a=Radar&st=30&apiv=w33&c=HisHomeDingPan&PhoneOSNew=1&DeviceID=00000000-4bd0-7c8d-0000-00006d0b2bf7&VerSion=5.11.0.6&Index=0&Date=2023-10-18&
+实时数据：https://apphq.longhuvip.com/w1/api/index.php?a=Radar&st=100&apiv=w33&c=HomeDingPan&PhoneOSNew=1&DeviceID=00000000-4bd0-7c8d-0000-00006d0b2bf7&VerSion=5.11.0.6&Index=0&
