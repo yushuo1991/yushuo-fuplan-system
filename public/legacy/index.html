@@ -185,10 +185,15 @@
             position: relative;
             transition: all 0.3s ease;
             border-radius: 8px;
-            margin-bottom: 3px;
-            padding: 2px 0;
+            margin-bottom: 0px;
+            padding: 0px 0;
             background-color: var(--lane-bg-default);
             border-left: 3px solid transparent;
+        }
+
+        .swim-lane.drag-over {
+            border: 2px dashed var(--color-primary);
+            background-color: rgba(59, 130, 246, 0.1);
         }
 
         /* 当有状态被选中时显示对应颜色 */
@@ -2405,85 +2410,6 @@
             font-size: 15px !important;
         }
 
-        /* Styles for 当日盘面 section (section0) */
-        #section0 .card {
-            padding: 1.5rem;
-            background-color: var(--color-surface); 
-        }
-
-        #section0 .market-review-banner {
-            width: 100%;
-            max-width: 800px; 
-            height: auto;
-            border-radius: 0.75rem;
-            margin: 0 auto 2rem auto;
-            display: block;
-            box-shadow: var(--card-shadow);
-        }
-
-        #section0 .market-section-title {
-            background-color: #335388; 
-            color: #ffffff;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.5rem;
-            font-size: 1.3rem; 
-            font-weight: 600;
-            margin-top: 1rem; 
-            margin-bottom: 1.5rem; 
-            text-align: left; 
-        }
-
-        #section0 .market-subsection-title {
-            background-color: #5da39d; 
-            color: #ffffff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-            display: inline-block; 
-        }
-
-        #section0 .market-image {
-            max-width: 100%; 
-            height: auto;
-            border-radius: 0.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--color-gray-200);
-            display: block; 
-        }
-        
-        #section0 .form-textarea { 
-            min-height: 120px;
-            resize: vertical;
-            background-color: var(--color-surface); 
-            border: 1px solid var(--color-gray-300); 
-            color: var(--color-gray-900); 
-        }
-
-        #section0 .market-image-group {
-            display: flex;
-            flex-direction: column; 
-            gap: 1rem; 
-        }
-
-        #section0 .market-category-title { 
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--color-primary);
-            margin-top: 2rem; 
-            margin-bottom: 1rem; 
-            padding-bottom: 0.5rem; 
-            border-bottom: 2px solid rgba(var(--color-primary-rgb), 0.2); 
-            text-align: left; 
-        }
-        #section0 .content-group { 
-            margin-bottom: 2rem;
-        }
-
         /* 市场实时数据展开内容样式 */
         .market-live-content {
             max-height: 70vh;
@@ -2568,11 +2494,7 @@
             <!-- 已移除深色模式开关 -->
 
             <div class="sidebar-nav">
-                <div class="sidebar-item active" data-section="section0">
-                    <i class="fas fa-tv"></i>
-                    <span>当日盘面</span>
-                </div>
-                <div class="sidebar-item" data-section="section1">
+                <div class="sidebar-item active" data-section="section1">
                     <i class="fas fa-chart-bar"></i>
                     <span>市场多空</span>
                 </div>
@@ -2624,281 +2546,8 @@
             </div>
 
             <form id="reviewForm">
-                <!-- Section 0: 当日盘面 -->
-                <section class="content-section active" id="section0">
-                    <h2 class="section-title" style="text-align: left; max-width: none;">当日盘面</h2>
-                    <div class="card">
-                        <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E6%B7%BB%E5%8A%A0%E6%A0%87%E9%A2%98.png" alt="淘股吧宇硕" class="market-review-banner">
-
-                        <h3 class="market-section-title">一、盘面回顾</h3>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 1、大盘分时 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E8%B4%A2%E8%81%94%E7%A4%BE%E5%A4%A7%E7%9B%98%E7%9B%B4%E6%92%AD.png" alt="财联社大盘直播" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 2、盘面回顾 </span></font>
-                            <div class="market-summary">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                    <h4 style="color: #5da39d; margin: 0; font-weight: 600;">【收评】三大指数冲高后小幅回落，创业板指涨逾1%</h4>
-                                    <button id="expandMarketBtn" class="btn btn-outline" style="font-size: 0.9rem; padding: 4px 12px;" type="button">
-                                        <i class="fas fa-expand"></i> 展开
-                                    </button>
-                                </div>
-                                
-                                <!-- 基础内容 - 从API加载 -->
-                                <div id="basicMarketContent">
-                                    <div style="text-align: center; padding: 20px; color: #666;">
-                                        <i class="fas fa-spinner fa-spin"></i> 正在加载今日盘面数据...
-                                    </div>
-                                </div>
-                                
-                                <!-- 扩展内容容器 -->
-                                <div id="expandedMarketContent" style="display: none; margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
-                                    <div class="market-live-loading" style="text-align: center; padding: 20px; color: #666;">
-                                        <i class="fas fa-spinner fa-spin"></i> 正在加载市场实时数据...
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 3、今日舆情 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E5%BD%93%E6%97%A5%E8%88%86%E6%83%85.png" alt="当日舆情" class="market-image">
-                        </div>
-
-                        <h3 class="market-section-title">二、市场多空矛盾（可否参与）</h3>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 指数 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/x1-%E5%A4%A7%E7%9B%98%E5%A4%8D%E7%9B%98.png" alt="x1-大盘复盘" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 风格 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/x2-%E9%A3%8E%E6%A0%BC%E5%A4%8D%E7%9B%98.png" alt="x2-风格复盘" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 情绪 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/x3-%E6%83%85%E7%BB%AA%E5%A4%8D%E7%9B%98.png" alt="x3-情绪复盘" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 连板溢价 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/2-%E8%BF%9E%E6%9D%BF%E6%B6%A8%E8%B7%8C.png" alt="2-连板涨跌" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 涨停数据</span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/3-%E6%83%85%E7%BB%AA%E6%8C%87%E6%A0%87.png" alt="3-情绪指标" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 最高板溢价 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/4-%E6%9C%80%E9%AB%98%E6%9D%BF.png" alt="4-最高板" class="market-image">
-                        </div>
-
-                        <h3 class="market-section-title">三、资金流向</h3>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 1、资金流向 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E4%B8%9C%E6%96%B9%E8%B4%A2%E5%AF%8C%E8%B5%84%E9%87%91%E6%B5%81.png" alt="东方财富资金流" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 2、主力净额</span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/x41-%E8%B5%84%E9%87%91%E5%A4%8D%E7%9B%98.png" alt="x41-资金复盘" class="market-image">
-                        </div>
-
-                        <h3 class="market-section-title">四、板块多空矛盾（有无主线）</h3>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 1、5日板块涨幅 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/x42-%E6%9D%BF%E5%9D%975%E6%97%A5%E6%B6%A8%E5%B9%85.png" alt="x42-板块5日涨幅" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 2、当日板块涨幅 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/x43-%E6%9D%BF%E5%9D%97%E5%BD%93%E6%97%A5%E6%B6%A8%E5%B9%85.png" alt="x43-板块当日涨幅" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 3、板块强度 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/5-%E6%9D%BF%E5%9D%97%E5%BC%BA%E5%BA%A6.png" alt="5-板块强度" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 4、板块节奏 </span></font>
-                            <div class="container">
-                                <div class="content-area">
-                                    <div class="image-container">
-                                        <img id="main-image" src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/7-%E6%9D%BF%E5%9D%97%E6%A2%AF%E9%98%9F.png" alt="板块节奏图片" style="display: block; max-width: 100%; height: auto;">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <script>
-                                // 板块节奏图片功能（当日盘面专用）
-                                (function() {
-                                    // 图片URL常量
-                                    const RHYTHM_IMAGES = {
-                                        BIG_CYCLE: 'https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E5%85%B7%E5%A4%87%E5%BC%80%E5%90%AF%E5%A4%A7%E5%91%A8%E6%9C%9F%E6%9D%A1%E4%BB%B6.png',
-                                        SMALL_CYCLE: 'https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E5%85%B7%E5%A4%87%E5%BC%80%E5%90%AF%E5%B0%8F%E5%91%A8%E6%9C%9F%E6%9D%A1%E4%BB%B6.png',
-                                        ROTATION: 'https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E8%BD%AE%E5%8A%A8%E8%A1%8C%E6%83%85.png',
-                                        BAOTUAN: 'https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E6%8A%B1%E5%9B%A2%E8%A1%8C%E6%83%85.png'
-                                    };
-                                    
-                                    // 立即执行初始化
-                                    function initializeRhythmDisplay() {
-                                        // 获取DOM元素
-                                        const volumeExpansion = document.getElementById('volume-expansion');
-                                        const indexTurningPoint = document.getElementById('index-turning-point');
-                                        const mainImage = document.getElementById('main-image');
-                                        const baotuanContainer = document.getElementById('baotuan-container');
-                                        
-                                        if (!volumeExpansion || !indexTurningPoint || !mainImage || !baotuanContainer) {
-                                            console.log('板块节奏元素未找到，稍后重试...');
-                                            setTimeout(initializeRhythmDisplay, 100);
-                                            return;
-                                        }
-                                        
-                                        // 更新显示内容
-                                        function updateRhythmDisplay() {
-                                            const volumeChecked = volumeExpansion.checked;
-                                            const indexChecked = indexTurningPoint.checked;
-                                            
-                                            // 重置抱团容器
-                                            baotuanContainer.classList.add('hidden');
-                                            
-                                            if (volumeChecked && indexChecked) {
-                                                // 两者都选中：显示大周期条件图片
-                                                showRhythmImage(RHYTHM_IMAGES.BIG_CYCLE);
-                                            } else if (volumeChecked && !indexChecked) {
-                                                // 只选中量能放大：显示小周期条件图片
-                                                showRhythmImage(RHYTHM_IMAGES.SMALL_CYCLE);
-                                            } else if (!volumeChecked && !indexChecked) {
-                                                // 两者都未选中：显示轮动行情图片，并显示抱团选项
-                                                showRhythmImage(RHYTHM_IMAGES.ROTATION);
-                                                baotuanContainer.classList.remove('hidden');
-                                            } else {
-                                                // 只选中指数拐点：隐藏图片
-                                                hideRhythmImage();
-                                            }
-                                        }
-                                        
-                                        // 显示图片
-                                        function showRhythmImage(imageUrl) {
-                                            mainImage.src = imageUrl;
-                                            mainImage.style.display = 'block';
-                                        }
-                                        
-                                        // 隐藏图片
-                                        function hideRhythmImage() {
-                                            mainImage.style.display = 'none';
-                                        }
-                                        
-                                        // 显示抱团行情图片
-                                        window.showBaotuanImage = function() {
-                                            showRhythmImage('https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E6%8A%B1%E5%9B%A2%E8%A1%8C%E6%83%85.png');
-                                            const baotuanContainer = document.getElementById('baotuan-container');
-                                            if (baotuanContainer) {
-                                                baotuanContainer.classList.add('hidden');
-                                            }
-                                        }
-                                        
-                                        // 绑定事件监听器
-                                        volumeExpansion.addEventListener('change', updateRhythmDisplay);
-                                        indexTurningPoint.addEventListener('change', updateRhythmDisplay);
-                                        
-                                        // 初始化显示
-                                        updateRhythmDisplay();
-                                        
-                                        console.log('板块节奏功能已初始化');
-                                    }
-                                    
-                                    // 启动初始化
-                                    initializeRhythmDisplay();
-                                    
-                                    // 作为全局函数也定义一次updateDisplay，避免onclick找不到函数
-                                    window.updateDisplay = function() {
-                                        const volumeExpansion = document.getElementById('volume-expansion');
-                                        const indexTurningPoint = document.getElementById('index-turning-point');
-                                        const mainImage = document.getElementById('main-image');
-                                        const baotuanContainer = document.getElementById('baotuan-container');
-                                        
-                                        if (!volumeExpansion || !indexTurningPoint || !mainImage || !baotuanContainer) {
-                                            return;
-                                        }
-                                        
-                                        const volumeChecked = volumeExpansion.checked;
-                                        const indexChecked = indexTurningPoint.checked;
-                                        
-                                        // 重置抱团容器
-                                        baotuanContainer.classList.add('hidden');
-                                        
-                                        if (volumeChecked && indexChecked) {
-                                            mainImage.src = 'https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E5%85%B7%E5%A4%87%E5%BC%80%E5%90%AF%E5%A4%A7%E5%91%A8%E6%9C%9F%E6%9D%A1%E4%BB%B6.png';
-                                            mainImage.style.display = 'block';
-                                        } else if (volumeChecked && !indexChecked) {
-                                            mainImage.src = 'https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E5%85%B7%E5%A4%87%E5%BC%80%E5%90%AF%E5%B0%8F%E5%91%A8%E6%9C%9F%E6%9D%A1%E4%BB%B6.png';
-                                            mainImage.style.display = 'block';
-                                        } else if (!volumeChecked && !indexChecked) {
-                                            mainImage.src = 'https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E8%BD%AE%E5%8A%A8%E8%A1%8C%E6%83%85.png';
-                                            mainImage.style.display = 'block';
-                                            baotuanContainer.classList.remove('hidden');
-                                        } else {
-                                            mainImage.style.display = 'none';
-                                        }
-                                    };
-                                })();
-                            </script>
-                        </div>
-
-                        <h3 class="market-section-title">五、个股多空矛盾（有无龙头）</h3>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 1、连板梯队 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/6-%E8%BF%9E%E6%9D%BF%E6%A2%AF%E9%98%9F.png" alt="6-连板梯队" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 2、当日涨停 </span></font>
-                            <div class="market-image-group">
-                                <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/Z%E5%BD%93%E6%97%A5%E6%B6%A8%E5%81%9C0.png" alt="Z当日涨停0" class="market-image">
-                                <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/Z%E5%BD%93%E6%97%A5%E6%B6%A8%E5%81%9C1.png" alt="Z当日涨停1" class="market-image">
-                                <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/Z%E5%BD%93%E6%97%A5%E6%B6%A8%E5%81%9C2.png" alt="Z当日涨停2" class="market-image">
-                                <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/Z%E5%BD%93%E6%97%A5%E6%B6%A8%E5%81%9C3.png" alt="Z当日涨停3" class="market-image">
-                            </div>
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 3、人气榜单 </span></font>
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E4%BA%BA%E6%B0%94.png" alt="人气" class="market-image">
-                        </div>
-
-                        <h4 class="market-category-title">Z、核心题材梳理</h4>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 1、题材A </span></font> 
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E9%A2%98%E6%9D%900.png" alt="题材0" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title"> 2、题材B </span></font> 
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E9%A2%98%E6%9D%901.png" alt="题材1" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title">3、题材C </span></font> 
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E9%A2%98%E6%9D%902.png" alt="题材2" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title">4、题材D </span></font> 
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E9%A2%98%E6%9D%903.png" alt="题材3" class="market-image">
-                        </div>
-                        <div class="content-group">
-                            <font color=#ffffff><span style="background-color:#5da39d" class="market-subsection-title">5、题材E </span></font> 
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/%E9%A2%98%E6%9D%904.png" alt="题材4" class="market-image">
-                        </div>
-
-                        <h4 class="market-category-title">C、挖掘题材</h4>
-                        <div class="market-image-group">
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/L%E9%80%BB%E8%BE%91%E9%A2%98%E6%9D%900.png" alt="L逻辑题材0" class="market-image">
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/L%E9%80%BB%E8%BE%91%E9%A2%98%E6%9D%901.png" alt="L逻辑题材1" class="market-image">
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/L%E9%80%BB%E8%BE%91%E9%A2%98%E6%9D%902.png" alt="L逻辑题材2" class="market-image">
-                            <img src="https://wuqq-obsidian.oss-cn-shanghai.aliyuncs.com/obsidian%E5%9B%BE%E7%89%87/L%E9%80%BB%E8%BE%91%E9%A2%98%E6%9D%903.png" alt="L逻辑题材3" class="market-image">
-                        </div>
-                    </div>
-                    <div class="navigation-buttons">
-                        <button type="button" class="btn btn-primary next-section" data-next="section1" style="margin-left: auto;">
-                            下一步 <i class="fas fa-arrow-right ml-2"></i>
-                        </button>
-                    </div>
-                </section>
-
                 <!-- 第一部分：市场多空 -->
-                <section class="content-section" id="section1">
+                <section class="content-section active" id="section1">
                     <h2 class="section-title">市场多空</h2>
                     
                     <div class="card">
@@ -2927,10 +2576,7 @@
                     </div>
 
                     <div class="navigation-buttons">
-                        <button type="button" class="btn btn-outline prev-section" data-prev="section0">
-                            <i class="fas fa-arrow-left mr-2"></i> 上一步
-                        </button>
-                        <button type="button" class="btn btn-primary next-section" data-next="section2">
+                        <button type="button" class="btn btn-primary next-section" data-next="section2" style="margin-left: auto;">
                             下一步 <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </div>
@@ -3161,19 +2807,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="question-title">板块状态数据表</label>
-                            
-                            <!-- 嵌入板块分析网页 -->
-                            <div style="margin: 1.5rem 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                                <iframe 
-                                    src="https://bk.yuhsuo.click" 
-                                    style="width: 100%; height: 600px; border: none;"
-                                    title="板块分析"
-                                    allow="fullscreen"
-                                    loading="lazy">
-                                </iframe>
-                            </div>
-                            
                             <!-- 泳道图工具栏 -->
                             <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                                 <div>
@@ -3954,18 +3587,53 @@
                         <h4 style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-gray-700);">历史</h4>
                         <textarea id="historyNotesTextarea" class="form-control form-textarea" style="min-height: 150px; resize: vertical; font-size: 0.9rem;" placeholder="历史记录..." readonly></textarea>
                     </div>
-                    <div style="flex: 1; min-width: 0;">
-                        <h4 style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-gray-700);">
-                            今天
-                            <span id="viewYesterdayPrediction" style="display: inline-block; margin-left: 10px; padding: 2px 8px; background-color: var(--color-primary); color: white; font-size: 0.8rem; border-radius: 4px; cursor: pointer;">
-                                昨日预判
-                            </span>
-                        </h4>
-                        <textarea id="todayNotesTextarea" class="form-control form-textarea" style="min-height: 150px; resize: vertical; font-size: 0.9rem;" placeholder="请输入今天的内容..."></textarea>
+
+                    <!-- 普通板块模式：前排后排分离 -->
+                    <div id="normalModeContainer" style="display: flex; gap: 20px; flex: 2; min-width: 0;">
+                        <div style="flex: 1; min-width: 0;">
+                            <h4 style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-gray-700);">
+                                今天
+                                <span id="viewYesterdayPrediction" style="display: inline-block; margin-left: 10px; padding: 2px 8px; background-color: var(--color-primary); color: white; font-size: 0.8rem; border-radius: 4px; cursor: pointer;">
+                                    昨日预判
+                                </span>
+                            </h4>
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size: 0.85rem; font-weight: 500; color: var(--color-gray-600); margin-bottom: 3px; display: block;">前排表现</label>
+                                <textarea id="todayFrontNotesTextarea" class="form-control form-textarea" style="min-height: 70px; resize: vertical; font-size: 0.9rem;" placeholder="请输入前排表现..."></textarea>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.85rem; font-weight: 500; color: var(--color-gray-600); margin-bottom: 3px; display: block;">后排表现</label>
+                                <textarea id="todayBackNotesTextarea" class="form-control form-textarea" style="min-height: 70px; resize: vertical; font-size: 0.9rem;" placeholder="请输入后排表现..."></textarea>
+                            </div>
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <h4 style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-gray-700);">明天</h4>
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size: 0.85rem; font-weight: 500; color: var(--color-gray-600); margin-bottom: 3px; display: block;">前排表现</label>
+                                <textarea id="tomorrowFrontNotesTextarea" class="form-control form-textarea" style="min-height: 70px; resize: vertical; font-size: 0.9rem;" placeholder="请输入前排预判..."></textarea>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.85rem; font-weight: 500; color: var(--color-gray-600); margin-bottom: 3px; display: block;">后排表现</label>
+                                <textarea id="tomorrowBackNotesTextarea" class="form-control form-textarea" style="min-height: 70px; resize: vertical; font-size: 0.9rem;" placeholder="请输入后排预判..."></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div style="flex: 1; min-width: 0;">
-                        <h4 style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-gray-700);">明天</h4>
-                        <textarea id="tomorrowNotesTextarea" class="form-control form-textarea" style="min-height: 150px; resize: vertical; font-size: 0.9rem;" placeholder="请输入对明天的预判..."></textarea>
+
+                    <!-- 大盘模式：单一输入框 -->
+                    <div id="marketModeContainer" style="display: none; gap: 20px; flex: 2; min-width: 0;">
+                        <div style="flex: 1; min-width: 0;">
+                            <h4 style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-gray-700);">
+                                今天
+                                <span id="viewYesterdayPredictionMarket" style="display: inline-block; margin-left: 10px; padding: 2px 8px; background-color: var(--color-primary); color: white; font-size: 0.8rem; border-radius: 4px; cursor: pointer;">
+                                    昨日预判
+                                </span>
+                            </h4>
+                            <textarea id="todayNotesTextarea" class="form-control form-textarea" style="min-height: 150px; resize: vertical; font-size: 0.9rem;" placeholder="请输入今天的内容..."></textarea>
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <h4 style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-gray-700);">明天</h4>
+                            <textarea id="tomorrowNotesTextarea" class="form-control form-textarea" style="min-height: 150px; resize: vertical; font-size: 0.9rem;" placeholder="请输入对明天的预判..."></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -4095,8 +3763,8 @@
                     return; 
                 }
 
-                // 如果要切换到的部分不是section0或section1，并且条件未满足，则阻止切换
-                if (sectionId !== 'section0' && sectionId !== 'section1' && !(isMacroRiskFree && isNonBreakingIndex)) {
+                // 如果要切换到的部分不是section1，并且条件未满足，则阻止切换
+                if (sectionId !== 'section1' && !(isMacroRiskFree && isNonBreakingIndex)) {
                     showCustomModal('提示', '请先在"市场多空"页面确认宏观大盘无风险！');
                     return; 
                 }
@@ -4122,9 +3790,9 @@
             function updateProgressBar() {
                 const currentSection = $('.content-section.active').attr('id');
                 const sectionNumber = parseInt(currentSection.replace('section', ''));
-                const totalActualSections = 8; // section0 to section7 (8 sections)
-                // section0 is 0%, section1 is 1/7, section2 is 2/7 ... section7 is 7/7 (100%)
-                const progress = sectionNumber === 0 ? 0 : (sectionNumber / (totalActualSections - 1)) * 100;
+                const totalActualSections = 7; // section1 to section7 (7 sections)
+                // section1 is 0%, section2 is 1/6, section3 is 2/6 ... section7 is 6/6 (100%)
+                const progress = sectionNumber === 1 ? 0 : ((sectionNumber - 1) / (totalActualSections - 1)) * 100;
                 
                 $('#progressBar').css('width', progress + '%');
             }
@@ -4204,8 +3872,8 @@
                     return; 
                 }
 
-                // 如果要切换到的部分不是section0或section1，并且条件未满足，则阻止切换
-                if (sectionId !== 'section0' && sectionId !== 'section1' && !(isMacroRiskFree && isNonBreakingIndex)) {
+                // 如果要切换到的部分不是section1，并且条件未满足，则阻止切换
+                if (sectionId !== 'section1' && !(isMacroRiskFree && isNonBreakingIndex)) {
                     showCustomModal('提示', '请先在"市场多空"页面确认宏观大盘无风险！');
                     return; 
                 }
@@ -4876,7 +4544,7 @@
                     // Unlock other sections
                     $('.sidebar-item').each(function() {
                         const section = $(this).data('section');
-                        if (section !== 'section0' && section !== 'section1') {
+                        if (section !== 'section1') {
                             $(this).removeClass('disabled');
                             $(this).css('pointer-events', 'auto');
                         }
@@ -4885,7 +4553,7 @@
                     // Lock other sections
                     $('.sidebar-item').each(function() {
                         const section = $(this).data('section');
-                        if (section !== 'section0' && section !== 'section1') {
+                        if (section !== 'section1') {
                             $(this).addClass('disabled');
                             $(this).css('pointer-events', 'none');
                         }
@@ -4893,7 +4561,7 @@
                     // If sections are locked, and current active section is one of the locked ones,
                     // switch to section1 (市场多空) as it contains the checkboxes.
                     const currentActiveSection = $('.sidebar-item.active').data('section');
-                    if (currentActiveSection !== 'section0' && currentActiveSection !== 'section1') {
+                    if (currentActiveSection !== 'section1') {
                         $('.sidebar-item[data-section="' + currentActiveSection + '"]').removeClass('active');
                         $('.content-section#' + currentActiveSection).removeClass('active');
                         
@@ -6469,13 +6137,18 @@
                 }
             }
             
+            // 根据板块名称决定是否显示删除按钮（"大盘"不显示删除按钮）
+            const removeButtonHtml = (name !== '大盘')
+                ? '<button class="remove-lane-btn" style="margin-left: 5px; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 10px; cursor: pointer; transition: all 0.2s ease;"><i class="fas fa-times"></i></button>'
+                : '';
+
             let laneHtml = `
-                <div class="swim-lane" data-lane-id="${laneId}">
+                <div class="swim-lane" data-lane-id="${laneId}" draggable="true" style="cursor: move;">
                     <div class="lane-label" style="position: absolute; left: 0; width: 110px; padding: 10px 5px; text-align: right; font-weight: 500; display: flex; align-items: center; justify-content: flex-end;">
                         <span class="lane-name">${name}</span>
-                        <button class="remove-lane-btn" style="margin-left: 5px; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 10px; cursor: pointer; transition: all 0.2s ease;"><i class="fas fa-times"></i></button>
+                        ${removeButtonHtml}
                     </div>
-                    <div class="lane-content" style="display: flex; margin-left: 120px; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; margin-bottom: 10px;">
+                    <div class="lane-content" style="display: flex; margin-left: 120px; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 2px;">
             `;
             
             $('#dateHeader .date-col').each(function(i) {
@@ -6486,7 +6159,7 @@
 
                 const isLast = i === ($('#dateHeader .date-col').length - 1);
                 laneHtml += `
-                    <div class="lane-day" style="flex: 1; min-height: 50px; display: flex; align-items: center; justify-content: center; ${!isLast ? 'border-right: 1px dashed var(--color-gray-300);' : ''} min-width: 80px;">
+                    <div class="lane-day" style="flex: 1; min-height: 35px; display: flex; align-items: center; justify-content: center; ${!isLast ? 'border-right: 1px dashed var(--color-gray-300);' : ''} min-width: 80px;">
                         <div class="state-dot" data-state="${initialState}" style="width: 20px; height: 20px; border-radius: 50%; background-color: ${initialColor}; cursor: pointer; position: relative; z-index: 2;"></div>
                     </div>
                 `;
@@ -6557,13 +6230,38 @@
         
         function updateDateHeader(baseDateStr) {
             const baseDate = new Date(baseDateStr + "T00:00:00Z"); // Use UTC for consistency
+            const workingDays = [];
+
+            // 生成向前推的工作日日期（跳过周六周日）
+            let currentDate = new Date(baseDate.getTime());
+            let daysToGenerate = $('#dateHeader .date-col').length; // 获取需要生成的日期数
+            let daysAdded = 0;
+            let offset = -4; // 从4天前开始
+
+            while (daysAdded < daysToGenerate) {
+                const tempDate = new Date(baseDate.getTime());
+                tempDate.setUTCDate(baseDate.getUTCDate() + offset);
+
+                // 获取星期几（0=周日，1=周一，...，6=周六）
+                const dayOfWeek = tempDate.getUTCDay();
+
+                // 只添加工作日（周一到周五）
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                    workingDays.push({
+                        display: `${tempDate.getUTCMonth() + 1}月${tempDate.getUTCDate()}日`,
+                        data: tempDate.toISOString().split('T')[0]
+                    });
+                    daysAdded++;
+                }
+                offset++;
+            }
+
+            // 更新DOM
             $('#dateHeader .date-col').each(function(index) {
-                const date = new Date(baseDate.getTime()); // Clone baseDate
-                date.setUTCDate(baseDate.getUTCDate() - 4 + index); // Manipulate in UTC
-                const formattedDisplayDate = `${date.getUTCMonth() + 1}月${date.getUTCDate()}日`;
-                const formattedDataDate = date.toISOString().split('T')[0];
-                $(this).text(formattedDisplayDate);
-                $(this).attr('data-date', formattedDataDate);
+                if (index < workingDays.length) {
+                    $(this).text(workingDays[index].display);
+                    $(this).attr('data-date', workingDays[index].data);
+                }
             });
         }
 
@@ -6653,7 +6351,93 @@
         }
 
         initializeSwimLanes();
-        
+
+        // 拖拽排序功能
+        let draggedElement = null;
+
+        $(document).on('dragstart', '.swim-lane', function(e) {
+            draggedElement = this;
+            $(this).css('opacity', '0.5');
+            e.originalEvent.dataTransfer.effectAllowed = 'move';
+            e.originalEvent.dataTransfer.setData('text/html', this.innerHTML);
+        });
+
+        $(document).on('dragend', '.swim-lane', function(e) {
+            $(this).css('opacity', '1');
+            $('.swim-lane').removeClass('drag-over');
+        });
+
+        $(document).on('dragover', '.swim-lane', function(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.originalEvent.dataTransfer.dropEffect = 'move';
+            return false;
+        });
+
+        $(document).on('dragenter', '.swim-lane', function(e) {
+            if (draggedElement !== this) {
+                $(this).addClass('drag-over');
+            }
+        });
+
+        $(document).on('dragleave', '.swim-lane', function(e) {
+            $(this).removeClass('drag-over');
+        });
+
+        $(document).on('drop', '.swim-lane', function(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            if (draggedElement !== this) {
+                // 获取拖拽元素和目标元素的位置
+                const draggedIndex = $(draggedElement).index();
+                const targetIndex = $(this).index();
+
+                // 移动元素
+                if (draggedIndex < targetIndex) {
+                    $(this).after(draggedElement);
+                } else {
+                    $(this).before(draggedElement);
+                }
+
+                // 更新localStorage中的泳道顺序
+                let lanes = loadLaneData();
+                const draggedLaneId = $(draggedElement).data('lane-id');
+                const targetLaneId = $(this).data('lane-id');
+
+                // 找到对应的lane对象
+                const draggedLaneIndex = lanes.findIndex(l => l.id === draggedLaneId);
+                const targetLaneIndex = lanes.findIndex(l => l.id === targetLaneId);
+
+                if (draggedLaneIndex !== -1 && targetLaneIndex !== -1) {
+                    // 从数组中移除拖拽的lane
+                    const [draggedLane] = lanes.splice(draggedLaneIndex, 1);
+
+                    // 重新计算目标位置（因为移除了一个元素）
+                    const newTargetIndex = lanes.findIndex(l => l.id === targetLaneId);
+
+                    // 插入到新位置
+                    if (draggedIndex < targetIndex) {
+                        lanes.splice(newTargetIndex + 1, 0, draggedLane);
+                    } else {
+                        lanes.splice(newTargetIndex, 0, draggedLane);
+                    }
+
+                    // 保存新的顺序
+                    saveLaneData(lanes);
+                }
+
+                // 重新分配背景颜色
+                assignLaneBackgroundColors();
+                drawConnectionLines();
+            }
+
+            $(this).removeClass('drag-over');
+            return false;
+        });
+
         $(window).resize(function() {
             drawConnectionLines();
         });
@@ -6661,43 +6445,98 @@
         // 这个原始的事件处理程序已被移除，因为我们重新实现了它
 
         $('#saveNotesBtn').click(function() {
-            // 获取数据
-            const todayText = $('#todayNotesTextarea').val();
-            const tomorrowText = $('#tomorrowNotesTextarea').val();
-            const historyText = $('#historyNotesTextarea').val();
-            
             const currentLaneId = $('#notesModal').data('lane-id');
             const currentDateString = $('#notesModal').data('date-string');
+            const isMarketLane = $('#notesModal').data('is-market');
+            const historyText = $('#historyNotesTextarea').val();
 
-            if (currentLaneId && currentDateString) {
+            if (!currentLaneId || !currentDateString) return;
+
+            let hasContent = false;
+
+            if (isMarketLane) {
+                // 大盘模式：保存单一字段
+                const todayText = $('#todayNotesTextarea').val();
+                const tomorrowText = $('#tomorrowNotesTextarea').val();
+
                 // 保存今天数据
                 const todayNoteKey = `swimlaneToday-${currentLaneId}-${currentDateString}`;
                 localStorage.setItem(todayNoteKey, todayText);
-                
+
                 // 保存明天预判数据
                 const tomorrowNoteKey = `swimlaneTomorrow-${currentLaneId}-${currentDateString}`;
                 localStorage.setItem(tomorrowNoteKey, tomorrowText);
-                
+
                 // 兼容旧版本数据 - 保存合并笔记
                 const combinedNote = `历史: (自动生成)\n\n今天: ${todayText}\n\n明天: ${tomorrowText}`;
                 const noteKey = `swimlaneNote-${currentLaneId}-${currentDateString}`;
                 localStorage.setItem(noteKey, combinedNote);
-                
-                const dayIndexToUpdate = getDateColIndexByDateString(currentDateString);
-                if (dayIndexToUpdate !== -1) {
-                    const dotToUpdate = $(`.swim-lane[data-lane-id="${currentLaneId}"] .lane-day`).eq(dayIndexToUpdate).find('.state-dot');
-                    dotToUpdate.find('.note-indicator').remove(); // Remove old one if exists
-                    
-                    // 只要有任何一个字段有内容，就显示指示器
-                    if (historyText.trim() !== '' || todayText.trim() !== '' || tomorrowText.trim() !== '') {
-                        dotToUpdate.append('<span class="note-indicator" style="position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; background-color: var(--color-secondary, #f97316); border-radius: 50%; border: 1px solid white; z-index: 3;"></span>');
-                    }
-                    
-                    // 更新该行的背景颜色状态
-                    const laneElement = dotToUpdate.closest('.swim-lane');
-                    if (laneElement.length > 0) {
-                        updateLaneBackgroundColor(laneElement);
-                    }
+
+                hasContent = historyText.trim() !== '' || todayText.trim() !== '' || tomorrowText.trim() !== '';
+
+            } else {
+                // 普通板块模式：保存前排后排分离字段
+                const todayFrontText = $('#todayFrontNotesTextarea').val();
+                const todayBackText = $('#todayBackNotesTextarea').val();
+                const tomorrowFrontText = $('#tomorrowFrontNotesTextarea').val();
+                const tomorrowBackText = $('#tomorrowBackNotesTextarea').val();
+
+                // 保存今天前排数据
+                const todayFrontNoteKey = `swimlaneTodayFront-${currentLaneId}-${currentDateString}`;
+                localStorage.setItem(todayFrontNoteKey, todayFrontText);
+
+                // 保存今天后排数据
+                const todayBackNoteKey = `swimlaneTodayBack-${currentLaneId}-${currentDateString}`;
+                localStorage.setItem(todayBackNoteKey, todayBackText);
+
+                // 保存明天前排预判数据
+                const tomorrowFrontNoteKey = `swimlaneTomorrowFront-${currentLaneId}-${currentDateString}`;
+                localStorage.setItem(tomorrowFrontNoteKey, tomorrowFrontText);
+
+                // 保存明天后排预判数据
+                const tomorrowBackNoteKey = `swimlaneTomorrowBack-${currentLaneId}-${currentDateString}`;
+                localStorage.setItem(tomorrowBackNoteKey, tomorrowBackText);
+
+                // 合并今天的内容用于向后兼容
+                const combinedTodayText = [
+                    todayFrontText ? `前排：${todayFrontText}` : '',
+                    todayBackText ? `后排：${todayBackText}` : ''
+                ].filter(t => t).join('\n');
+                const todayNoteKey = `swimlaneToday-${currentLaneId}-${currentDateString}`;
+                localStorage.setItem(todayNoteKey, combinedTodayText);
+
+                // 合并明天的内容用于向后兼容
+                const combinedTomorrowText = [
+                    tomorrowFrontText ? `前排：${tomorrowFrontText}` : '',
+                    tomorrowBackText ? `后排：${tomorrowBackText}` : ''
+                ].filter(t => t).join('\n');
+                const tomorrowNoteKey = `swimlaneTomorrow-${currentLaneId}-${currentDateString}`;
+                localStorage.setItem(tomorrowNoteKey, combinedTomorrowText);
+
+                // 兼容旧版本数据 - 保存合并笔记
+                const combinedNote = `历史: (自动生成)\n\n今天: ${combinedTodayText}\n\n明天: ${combinedTomorrowText}`;
+                const noteKey = `swimlaneNote-${currentLaneId}-${currentDateString}`;
+                localStorage.setItem(noteKey, combinedNote);
+
+                hasContent = historyText.trim() !== '' || todayFrontText.trim() !== '' || todayBackText.trim() !== '' ||
+                    tomorrowFrontText.trim() !== '' || tomorrowBackText.trim() !== '';
+            }
+
+            // 更新笔记指示器
+            const dayIndexToUpdate = getDateColIndexByDateString(currentDateString);
+            if (dayIndexToUpdate !== -1) {
+                const dotToUpdate = $(`.swim-lane[data-lane-id="${currentLaneId}"] .lane-day`).eq(dayIndexToUpdate).find('.state-dot');
+                dotToUpdate.find('.note-indicator').remove(); // Remove old one if exists
+
+                // 只要有任何一个字段有内容，就显示指示器
+                if (hasContent) {
+                    dotToUpdate.append('<span class="note-indicator" style="position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; background-color: var(--color-secondary, #f97316); border-radius: 50%; border: 1px solid white; z-index: 3;"></span>');
+                }
+
+                // 更新该行的背景颜色状态
+                const laneElement = dotToUpdate.closest('.swim-lane');
+                if (laneElement.length > 0) {
+                    updateLaneBackgroundColor(laneElement);
                 }
             }
             $('#notesModal').css('display', 'none');
@@ -6714,8 +6553,8 @@
             }
         });
 
-        // 为昨日预判按钮添加悬停效果
-        $('#viewYesterdayPrediction').hover(
+        // 为昨日预判按钮添加悬停效果（普通模式和大盘模式）
+        $('#viewYesterdayPrediction, #viewYesterdayPredictionMarket').hover(
             function() {
                 $(this).css({
                     'background-color': 'var(--color-primary-hover)',
@@ -6730,8 +6569,8 @@
             }
         );
 
-        // 昨日预判按钮点击事件
-        $('#viewYesterdayPrediction').click(function(e) {
+        // 昨日预判按钮点击事件（普通模式和大盘模式）
+        $('#viewYesterdayPrediction, #viewYesterdayPredictionMarket').click(function(e) {
             e.preventDefault();
             e.stopPropagation();
             
@@ -6953,23 +6792,56 @@
                 // 加载历史上所有"今天"的消息记录
                 let historyContent = '';
                 const allHistoryRecords = [];
-                
-                // 遍历localStorage中所有键
+
+                // 遍历localStorage中所有键，查找前排数据
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    // 检查是否是当前泳道的"今天"记录
-                    if (key && key.startsWith(`swimlaneToday-${currentLaneId}-`)) {
+                    // 检查是否是当前泳道的"今天前排"记录
+                    if (key && key.startsWith(`swimlaneTodayFront-${currentLaneId}-`)) {
                         // 提取日期部分
-                        const dateString = key.replace(`swimlaneToday-${currentLaneId}-`, '');
+                        const dateString = key.replace(`swimlaneTodayFront-${currentLaneId}-`, '');
                         if (dateString && dateString !== currentDateString) { // 排除当前日期
-                            const content = localStorage.getItem(key);
-                            if (content && content.trim() !== '') {
+                            const frontContent = localStorage.getItem(key) || '';
+                            const backKey = `swimlaneTodayBack-${currentLaneId}-${dateString}`;
+                            const backContent = localStorage.getItem(backKey) || '';
+
+                            // 只有当至少有一个字段有内容时才添加记录
+                            if (frontContent.trim() !== '' || backContent.trim() !== '') {
+                                const parts = [];
+                                if (frontContent.trim() !== '') parts.push(`前排：${frontContent}`);
+                                if (backContent.trim() !== '') parts.push(`后排：${backContent}`);
+                                const combinedContent = parts.join('\n');
+
                                 // 将日期和内容添加到记录数组
                                 allHistoryRecords.push({
                                     date: new Date(dateString),
                                     dateString: dateString,
-                                    content: content
+                                    content: combinedContent
                                 });
+                            }
+                        }
+                    } else if (key && key.startsWith(`swimlaneToday-${currentLaneId}-`)) {
+                        // 向后兼容：检查是否是旧版本的"今天"记录
+                        const dateString = key.replace(`swimlaneToday-${currentLaneId}-`, '');
+                        if (dateString && dateString !== currentDateString) {
+                            // 检查是否已经有新版本的数据
+                            const hasFrontKey = localStorage.getItem(`swimlaneTodayFront-${currentLaneId}-${dateString}`);
+                            const hasBackKey = localStorage.getItem(`swimlaneTodayBack-${currentLaneId}-${dateString}`);
+
+                            // 只有当没有新版本数据时才使用旧版本数据
+                            if (!hasFrontKey && !hasBackKey) {
+                                const content = localStorage.getItem(key);
+                                if (content && content.trim() !== '') {
+                                    // 检查是否已经在记录中
+                                    const existingRecord = allHistoryRecords.find(r => r.dateString === dateString);
+                                    if (!existingRecord) {
+                                        allHistoryRecords.push({
+                                            date: new Date(dateString),
+                                            dateString: dateString,
+                                            content: content
+                                        });
+                                    }
+                                }
                             }
                         }
                     }
@@ -6992,27 +6864,109 @@
                 
                 // 更新历史文本框
                 $('#historyNotesTextarea').val(historyContent);
-                
+
                 // 不再加载昨天的数据，因为已移除昨天文本框
 
-                // 加载今天的数据
-                const todayNoteKey = `swimlaneToday-${currentLaneId}-${currentDateString}`;
-                const todayNote = localStorage.getItem(todayNoteKey) || '';
-                $('#todayNotesTextarea').val(todayNote);
+                // 获取板块名称，判断是否是"大盘"
+                const laneName = laneElement.find('.lane-name').text().trim();
+                const isMarketLane = (laneName === '大盘');
 
-                // 加载明天的预判数据
-                const tomorrowNoteKey = `swimlaneTomorrow-${currentLaneId}-${currentDateString}`;
-                const tomorrowNote = localStorage.getItem(tomorrowNoteKey) || '';
-                $('#tomorrowNotesTextarea').val(tomorrowNote);
+                // 根据板块类型显示对应的输入框模式
+                if (isMarketLane) {
+                    // 大盘模式：显示单一输入框
+                    $('#normalModeContainer').css('display', 'none');
+                    $('#marketModeContainer').css('display', 'flex');
 
-                // 存储昨日预判数据以便查看按钮使用
-                const yesterdayPredictionKey = `swimlaneTomorrow-${currentLaneId}-${previousTradingDateString}`;
-                const yesterdayPrediction = localStorage.getItem(yesterdayPredictionKey) || '';
-                $('#notesModal').data('yesterday-prediction', yesterdayPrediction);
+                    // 加载今天的数据（大盘用单一字段）
+                    const todayNoteKey = `swimlaneToday-${currentLaneId}-${currentDateString}`;
+                    const todayNote = localStorage.getItem(todayNoteKey) || '';
+                    $('#todayNotesTextarea').val(todayNote);
+
+                    // 加载明天的预判数据（大盘用单一字段）
+                    const tomorrowNoteKey = `swimlaneTomorrow-${currentLaneId}-${currentDateString}`;
+                    const tomorrowNote = localStorage.getItem(tomorrowNoteKey) || '';
+                    $('#tomorrowNotesTextarea').val(tomorrowNote);
+
+                    // 存储昨日预判数据（大盘用单一字段）
+                    const yesterdayPredictionKey = `swimlaneTomorrow-${currentLaneId}-${previousTradingDateString}`;
+                    const yesterdayPrediction = localStorage.getItem(yesterdayPredictionKey) || '';
+                    $('#notesModal').data('yesterday-prediction', yesterdayPrediction);
+
+                } else {
+                    // 普通板块模式：显示前排后排分离输入框
+                    $('#normalModeContainer').css('display', 'flex');
+                    $('#marketModeContainer').css('display', 'none');
+
+                    // 加载今天的前排数据
+                    const todayFrontNoteKey = `swimlaneTodayFront-${currentLaneId}-${currentDateString}`;
+                    let todayFrontNote = localStorage.getItem(todayFrontNoteKey) || '';
+
+                    // 加载今天的后排数据
+                    const todayBackNoteKey = `swimlaneTodayBack-${currentLaneId}-${currentDateString}`;
+                    let todayBackNote = localStorage.getItem(todayBackNoteKey) || '';
+
+                    // 如果新字段为空，尝试从旧字段加载（向后兼容）
+                    if (!todayFrontNote && !todayBackNote) {
+                        const todayNoteKey = `swimlaneToday-${currentLaneId}-${currentDateString}`;
+                        const oldTodayNote = localStorage.getItem(todayNoteKey) || '';
+                        if (oldTodayNote) {
+                            // 将旧数据放到前排字段中
+                            todayFrontNote = oldTodayNote;
+                        }
+                    }
+
+                    $('#todayFrontNotesTextarea').val(todayFrontNote);
+                    $('#todayBackNotesTextarea').val(todayBackNote);
+
+                    // 加载明天的前排预判数据
+                    const tomorrowFrontNoteKey = `swimlaneTomorrowFront-${currentLaneId}-${currentDateString}`;
+                    let tomorrowFrontNote = localStorage.getItem(tomorrowFrontNoteKey) || '';
+
+                    // 加载明天的后排预判数据
+                    const tomorrowBackNoteKey = `swimlaneTomorrowBack-${currentLaneId}-${currentDateString}`;
+                    let tomorrowBackNote = localStorage.getItem(tomorrowBackNoteKey) || '';
+
+                    // 如果新字段为空，尝试从旧字段加载（向后兼容）
+                    if (!tomorrowFrontNote && !tomorrowBackNote) {
+                        const tomorrowNoteKey = `swimlaneTomorrow-${currentLaneId}-${currentDateString}`;
+                        const oldTomorrowNote = localStorage.getItem(tomorrowNoteKey) || '';
+                        if (oldTomorrowNote) {
+                            // 将旧数据放到前排字段中
+                            tomorrowFrontNote = oldTomorrowNote;
+                        }
+                    }
+
+                    $('#tomorrowFrontNotesTextarea').val(tomorrowFrontNote);
+                    $('#tomorrowBackNotesTextarea').val(tomorrowBackNote);
+
+                    // 存储昨日预判数据以便查看按钮使用（合并前排和后排）
+                    const yesterdayFrontPredictionKey = `swimlaneTomorrowFront-${currentLaneId}-${previousTradingDateString}`;
+                    const yesterdayBackPredictionKey = `swimlaneTomorrowBack-${currentLaneId}-${previousTradingDateString}`;
+                    const yesterdayFrontPrediction = localStorage.getItem(yesterdayFrontPredictionKey) || '';
+                    const yesterdayBackPrediction = localStorage.getItem(yesterdayBackPredictionKey) || '';
+
+                    // 合并昨日预判
+                    let yesterdayPrediction = '';
+                    if (yesterdayFrontPrediction || yesterdayBackPrediction) {
+                        const parts = [];
+                        if (yesterdayFrontPrediction) parts.push(`前排：${yesterdayFrontPrediction}`);
+                        if (yesterdayBackPrediction) parts.push(`后排：${yesterdayBackPrediction}`);
+                        yesterdayPrediction = parts.join('\n\n');
+                    } else {
+                        // 向后兼容：如果新字段为空，尝试从旧字段加载
+                        const yesterdayPredictionKey = `swimlaneTomorrow-${currentLaneId}-${previousTradingDateString}`;
+                        yesterdayPrediction = localStorage.getItem(yesterdayPredictionKey) || '';
+                    }
+
+                    $('#notesModal').data('yesterday-prediction', yesterdayPrediction);
+                }
+
+                // 存储板块名称和是否是大盘的标志
+                $('#notesModal').data('lane-name', laneName);
+                $('#notesModal').data('is-market', isMarketLane);
                 $('#notesModal').data('previous-date', previousTradingDateString);
 
                 // 更新模态框标题
-                const laneName = laneElement.find('.lane-name').text();
                 const dateDisplay = $('#dateHeader .date-col').eq(dayIndex).text();
                 $('#notesModalTitle').text(`板块笔记: ${laneName} - ${dateDisplay}`);
 
@@ -7110,18 +7064,19 @@
                 // 折叠视图
                 $('.swim-lane .lane-day').each(function() {
                     const dayCell = $(this);
-                    // 恢复原有样式
+                    // 恢复原有样式（使用新的紧凑高度）
                     dayCell.css({
-                        'height': '50px',
+                        'height': 'auto',
+                        'min-height': '35px',
                         'flex-direction': 'row',
                         'align-items': 'center',
                         'justify-content': 'center',
                         'padding': '0'
                     });
-                    
+
                     // 移除内容文本
                     dayCell.find('.today-content').remove();
-                    
+
                     // 恢复状态点样式
                     const stateDot = dayCell.find('.state-dot');
                     stateDot.css({
@@ -7130,10 +7085,10 @@
                         'margin': '0'
                     });
                 });
-                
+
                 // 移除展开类
                 $('#swimLaneContainer').removeClass('expanded');
-                
+
                 // 重新绘制连接线
                 setTimeout(drawConnectionLines, 300);
             }
@@ -7218,13 +7173,38 @@
 
         function updateDateHeader(baseDateStr) {
             const baseDate = new Date(baseDateStr + "T00:00:00Z"); // Use UTC for consistency
+            const workingDays = [];
+
+            // 生成向前推的工作日日期（跳过周六周日）
+            let currentDate = new Date(baseDate.getTime());
+            let daysToGenerate = $('#dateHeader .date-col').length; // 获取需要生成的日期数
+            let daysAdded = 0;
+            let offset = -4; // 从4天前开始
+
+            while (daysAdded < daysToGenerate) {
+                const tempDate = new Date(baseDate.getTime());
+                tempDate.setUTCDate(baseDate.getUTCDate() + offset);
+
+                // 获取星期几（0=周日，1=周一，...，6=周六）
+                const dayOfWeek = tempDate.getUTCDay();
+
+                // 只添加工作日（周一到周五）
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                    workingDays.push({
+                        display: `${tempDate.getUTCMonth() + 1}月${tempDate.getUTCDate()}日`,
+                        data: tempDate.toISOString().split('T')[0]
+                    });
+                    daysAdded++;
+                }
+                offset++;
+            }
+
+            // 更新DOM
             $('#dateHeader .date-col').each(function(index) {
-                const date = new Date(baseDate.getTime()); // Clone baseDate
-                date.setUTCDate(baseDate.getUTCDate() - 4 + index); // Manipulate in UTC
-                const formattedDisplayDate = `${date.getUTCMonth() + 1}月${date.getUTCDate()}日`;
-                const formattedDataDate = date.toISOString().split('T')[0];
-                $(this).text(formattedDisplayDate);
-                $(this).attr('data-date', formattedDataDate);
+                if (index < workingDays.length) {
+                    $(this).text(workingDays[index].display);
+                    $(this).attr('data-date', workingDays[index].data);
+                }
             });
         }
 
