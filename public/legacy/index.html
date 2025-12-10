@@ -9,42 +9,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* 全局样式 */
         :root {
-            --color-primary: #5046e4;
-            --color-primary-hover: #4039ca;
-            --color-primary-rgb: 80, 70, 228;
+            --color-primary: #007AFF;
+            --color-primary-hover: #0051D5;
+            --color-primary-rgb: 0, 122, 255;
             --color-secondary: #f97316;
             --color-secondary-soft: rgba(249, 115, 22, 0.1);
-            --color-gray-50: #f9fafb;
-            --color-gray-100: #f3f4f6;
-            --color-gray-200: #e5e7eb;
-            --color-gray-300: #d1d5db;
-            --color-gray-400: #9ca3af;
-            --color-gray-500: #6b7280;
-            --color-gray-600: #4b5563;
-            --color-gray-700: #374151;
-            --color-gray-800: #1f2937;
-            --color-gray-900: #111827;
-            --color-danger: #ef4444;
-            --color-danger-soft: rgba(239, 68, 68, 0.1);
-            --color-success: #10b981;
-            --color-success-soft: rgba(16, 185, 129, 0.1);
-            --color-warning: #f59e0b;
-            --color-warning-soft: rgba(245, 158, 11, 0.1);
-            --color-info: #3b82f6;
-            --color-info-soft: rgba(59, 130, 246, 0.1);
+            --color-gray-50: #fafafa;
+            --color-gray-100: #f5f5f7;
+            --color-gray-200: #e8e8ed;
+            --color-gray-300: #d2d2d7;
+            --color-gray-400: #aeaeb2;
+            --color-gray-500: #8e8e93;
+            --color-gray-600: #636366;
+            --color-gray-700: #48484a;
+            --color-gray-800: #3a3a3c;
+            --color-gray-900: #1c1c1e;
+            --color-danger: #FF3B30;
+            --color-danger-soft: rgba(255, 59, 48, 0.1);
+            --color-success: #34C759;
+            --color-success-soft: rgba(52, 199, 89, 0.1);
+            --color-warning: #FF9500;
+            --color-warning-soft: rgba(255, 149, 0, 0.1);
+            --color-info: #007AFF;
+            --color-info-soft: rgba(0, 122, 255, 0.1);
             --color-background: #ffffff;
             --color-surface: #ffffff;
-            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
             --card-border: 1px solid var(--color-gray-200);
-            --sidebar-width: 270px;
-            --header-height: 64px;
-            --transition-default: all 0.3s ease;
-            --font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            --sidebar-width: 280px;
+            --header-height: 72px;
+            --transition-default: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
+            --font-family-mono: 'SF Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
             
             /* 季节主题色定义 */
             --spring-primary: #f97316; /* 混沌期 - 橙色 */
@@ -73,11 +73,14 @@
         /* 基础样式 */
         body {
             font-family: var(--font-family);
-            background-color: var(--color-background);
+            background-color: var(--color-gray-50);
             color: var(--color-gray-900);
             transition: var(--transition-default);
             overflow-x: hidden;
             position: relative;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         /* 已删除深色模式body样式 */
@@ -89,23 +92,33 @@
         }
 
         .sidebar {
-            background-color: var(--color-surface);
-            border-right: var(--card-border);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-right: 0.5px solid rgba(0, 0, 0, 0.04);
             position: fixed;
             height: 100vh;
             width: var(--sidebar-width);
             overflow-y: auto;
+            overflow-x: hidden;
             transition: var(--transition-default);
             z-index: 30;
             flex-shrink: 0;
             padding: 0;
-            box-shadow: 1px 0 5px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04), 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        /* 浏览器不支持backdrop-filter时的fallback */
+        @supports not (backdrop-filter: blur(20px)) {
+            .sidebar {
+                background-color: rgb(255, 255, 255);
+            }
         }
 
         /* 整体布局优化 */
         .main-content {
             margin-left: var(--sidebar-width);
-            padding: 2rem;
+            padding: 3rem 2.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -129,22 +142,23 @@
         .app-logo {
             display: flex;
             align-items: center;
-            padding: 1.25rem 0.75rem;
-            margin-bottom: 0.75rem;
-            border-bottom: var(--card-border);
+            padding: 1.5rem 1.25rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
         }
 
         .logo-icon {
-            margin-right: 0.5rem;
-            font-size: 1.25rem;
+            margin-right: 0.625rem;
+            font-size: 1.375rem;
             color: var(--color-primary);
         }
 
         .logo-text {
-            font-size: 1.15rem;
-            font-weight: 600;
+            font-size: 1.25rem;
+            font-weight: 700;
             color: var(--color-gray-900);
             white-space: nowrap;
+            letter-spacing: -0.02em;
         }
 
         .dark .logo-text {
@@ -153,20 +167,21 @@
 
         /* 侧边栏内部元素优化 */
         .sidebar-nav {
-            padding: 0.75rem;
+            padding: 0.5rem 0.875rem;
         }
 
         .sidebar-item {
-            padding: 0.8rem 1rem;
-            margin: 0.3rem 0.6rem;
-            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0;
+            border-radius: 10px;
             cursor: pointer;
             transition: var(--transition-default);
             display: flex;
             align-items: center;
             color: var(--color-gray-700);
-            font-size: 1rem;
+            font-size: 0.9375rem;
             font-weight: 500;
+            letter-spacing: -0.01em;
         }
 
         /* 泳道图行背景颜色定义 */
@@ -183,9 +198,9 @@
         /* 泳道行样式 */
         .swim-lane {
             position: relative;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 12px;
+            margin-bottom: 10px;
             padding: 0px 0;
             background-color: var(--lane-bg-default);
             border-left: 3px solid transparent;
@@ -193,7 +208,7 @@
 
         .swim-lane.drag-over {
             border: 2px dashed var(--color-primary);
-            background-color: rgba(59, 130, 246, 0.1);
+            background-color: rgba(0, 122, 255, 0.06);
         }
 
         /* 当有状态被选中时显示对应颜色 */
@@ -236,19 +251,22 @@
         /* 泳道悬停效果 */
         .swim-lane:hover {
             transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .sidebar-item:hover {
-            background-color: var(--color-gray-100);
+            background-color: rgba(0, 0, 0, 0.04);
             color: var(--color-gray-900);
-            transform: translateX(2px);
         }
 
         .sidebar-item.active {
             background-color: var(--color-primary);
             color: white;
-            transform: translateX(0);
+            box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.25);
+        }
+
+        .sidebar-item.active:hover {
+            background-color: var(--color-primary-hover);
         }
 
         .sidebar-item i {
@@ -298,10 +316,10 @@
         .mobile-menu-toggle {
             display: none;
             position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            width: 3rem;
-            height: 3rem;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 3.5rem;
+            height: 3.5rem;
             border-radius: 50%;
             background-color: var(--color-primary);
             color: white;
@@ -309,24 +327,24 @@
             justify-content: center;
             cursor: pointer;
             z-index: 40;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(var(--color-primary-rgb), 0.4);
             transition: var(--transition-default);
         }
 
         .mobile-menu-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 28px rgba(var(--color-primary-rgb), 0.5);
         }
 
         /* 卡片样式 */
         .card {
             background-color: var(--color-surface);
-            border-radius: 0.75rem;
-            box-shadow: var(--card-shadow);
-            border: var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
             transition: var(--transition-default);
             margin-bottom: 2rem;
-            padding: 2rem;
+            padding: 2rem 2.5rem;
             width: 100%;
             max-width: 900px;
             margin-left: auto;
@@ -334,7 +352,7 @@
         }
 
         .card:hover {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.04);
             transform: translateY(-2px);
         }
 
@@ -355,8 +373,8 @@
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 48px;
-            height: 24px;
+            width: 51px;
+            height: 31px;
         }
 
         .toggle-switch input {
@@ -374,19 +392,20 @@
             bottom: 0;
             background-color: var(--color-gray-300);
             transition: var(--transition-default);
-            border-radius: 34px;
+            border-radius: 31px;
         }
 
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
+            height: 27px;
+            width: 27px;
+            left: 2px;
+            bottom: 2px;
             background-color: white;
             transition: var(--transition-default);
             border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         }
 
         input:checked + .toggle-slider {
@@ -394,17 +413,23 @@
         }
 
         input:checked + .toggle-slider:before {
-            transform: translateX(24px);
+            transform: translateX(20px);
         }
 
         /* 动画效果 */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-fade-in {
-            animation: fadeIn 0.5s ease forwards;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         /* 内容区域样式调整 */
@@ -412,7 +437,7 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
         }
 
@@ -435,22 +460,25 @@
 
         /* 现代滚动条 */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--color-gray-100);
-            border-radius: 4px;
+            background: transparent;
+            border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--color-gray-400);
-            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border: 2px solid transparent;
+            background-clip: content-box;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--color-gray-500);
+            background: rgba(0, 0, 0, 0.3);
+            background-clip: content-box;
         }
 
         .dark ::-webkit-scrollbar-track {
@@ -604,7 +632,8 @@
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--color-gray-800);
-            font-size: 1.05rem;
+            font-size: 1.0625rem;
+            letter-spacing: -0.01em;
         }
 
         .dark .question-title {
@@ -625,15 +654,15 @@
         .form-control {
             display: block;
             width: 100%;
-            padding: 0.625rem 0.75rem;
-            font-size: 0.875rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.9375rem;
             line-height: 1.5;
             color: var(--color-gray-900);
             background-color: var(--color-surface);
             background-clip: padding-box;
             border: 1px solid var(--color-gray-300);
-            border-radius: 0.375rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            border-radius: 10px;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
         .dark .form-control {
@@ -645,7 +674,7 @@
         .form-control:focus {
             border-color: var(--color-primary);
             outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
+            box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.1);
         }
 
         .form-textarea {
@@ -658,9 +687,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 500;
+            padding: 0.625rem 1.25rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
             line-height: 1.5;
             text-align: center;
             white-space: nowrap;
@@ -668,19 +697,21 @@
             cursor: pointer;
             user-select: none;
             border: 1px solid transparent;
-            border-radius: 0.375rem;
+            border-radius: 12px;
             transition: var(--transition-default);
+            letter-spacing: -0.01em;
         }
 
         .btn-primary {
             background-color: var(--color-primary);
             color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary:hover {
             background-color: var(--color-primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
         }
 
         .btn-outline {
@@ -691,8 +722,9 @@
 
         .btn-outline:hover {
             background-color: var(--color-gray-100);
-            transform: translateY(-2px);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-gray-400);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .dark .btn-outline {
@@ -707,13 +739,14 @@
 
         /* 标题样式 */
         .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.75rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
             color: var(--color-gray-900);
             position: relative;
-            padding-bottom: 0.5rem;
-            padding-left: 0.25rem;
+            padding-bottom: 0.75rem;
+            padding-left: 0;
+            letter-spacing: -0.03em;
         }
 
         .dark .section-title {
@@ -725,22 +758,22 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 3rem;
+            width: 2.5rem;
             height: 0.25rem;
             background-color: var(--color-primary);
-            border-radius: 0.125rem;
+            border-radius: 2px;
             transition: background-color 0.3s ease;
         }
 
         /* 日期选择器 */
         .date-picker {
-            padding: 0.625rem 0.75rem;
+            padding: 0.75rem 1rem;
             border: 1px solid var(--color-gray-300);
-            border-radius: 0.375rem;
+            border-radius: 10px;
             background-color: var(--color-surface);
             color: var(--color-gray-900);
             transition: var(--transition-default);
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             line-height: 1.5;
         }
 
@@ -753,7 +786,7 @@
         .date-picker:focus {
             border-color: var(--color-primary);
             outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
+            box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.1);
         }
 
         /* 头部和工具栏 */
@@ -778,7 +811,7 @@
             width: 100%;
             height: 6px;
             background-color: var(--color-gray-200);
-            border-radius: 3px;
+            border-radius: 10px;
             overflow: hidden;
             margin-bottom: 2rem;
             max-width: 900px;
@@ -788,9 +821,9 @@
 
         .progress-bar {
             height: 100%;
-            background-color: var(--color-primary);
-            border-radius: 3px;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* 导航按钮容器调整 */
@@ -819,12 +852,12 @@
         }
 
         .checkbox-item input[type="checkbox"] {
-            margin-right: 0.5rem;
+            margin-right: 0.625rem;
             appearance: none;
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.375rem;
+            height: 1.375rem;
             border: 2px solid var(--color-gray-400);
-            border-radius: 0.25rem;
+            border-radius: 6px;
             background-color: var(--color-surface);
             cursor: pointer;
             position: relative;
@@ -845,7 +878,7 @@
             width: 5px;
             height: 10px;
             border: solid white;
-            border-width: 0 2px 2px 0;
+            border-width: 0 2.5px 2.5px 0;
             transform: rotate(45deg);
         }
 
@@ -877,16 +910,16 @@
         .style-group {
             flex: 1;
             min-width: 200px;
-            border-radius: 0.75rem;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--color-gray-200);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
             transition: var(--transition-default);
         }
 
         .indicator-group:hover,
         .style-group:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
 
@@ -920,8 +953,8 @@
             flex: 1;
             min-width: 60px;
             border: 1px solid var(--color-gray-200);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: 10px;
+            padding: 0.625rem 0.5rem;
             cursor: pointer;
             transition: var(--transition-default);
             display: flex;
@@ -934,7 +967,7 @@
         .style-item:hover {
             background-color: var(--color-gray-100);
             transform: translateY(-2px);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
         }
 
         .option-item.selected,
@@ -942,7 +975,7 @@
             background-color: var(--color-primary);
             color: white;
             border-color: var(--color-primary);
-            box-shadow: 0 3px 8px rgba(var(--color-primary-rgb), 0.25);
+            box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
         }
 
         .option-icon,
@@ -985,20 +1018,19 @@
             height: 120px;
             display: flex;
             align-items: center;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
+            border-radius: 16px;
+            padding: 1.5rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border: 1px solid transparent;
-            background-color: var(--color-gray-50);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            background-color: var(--color-surface);
         }
 
         .mood-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
 
         .mood-icon {
@@ -1360,12 +1392,18 @@
         
         /* 动画效果 */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-fade-in {
-            animation: fadeIn 0.5s ease forwards;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         /* 风险检查卡片样式 */
@@ -1465,20 +1503,19 @@
             height: 120px;
             display: flex;
             align-items: center;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
+            border-radius: 16px;
+            padding: 1.5rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border: 1px solid transparent;
-            background-color: var(--color-gray-50);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            background-color: var(--color-surface);
         }
 
         .mood-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
 
         .mood-icon {
@@ -2166,7 +2203,6 @@
         }
 
         .mood-arrow:hover {
-            transform: scale(1.2) !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
         }
 
@@ -2938,16 +2974,16 @@
                                 </div>
                                 
                                 <!-- 连接箭头 -->
-                                <div class="mood-arrow chaos-to-rising popup-trigger" data-popup-id="chaos-to-rising-popup" style="position: absolute; left: 42%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow chaos-to-rising popup-trigger" data-popup-id="chaos-to-rising-popup" style="position: absolute; left: 25%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-down"></i>
                                 </div>
-                                <div class="mood-arrow rising-to-top popup-trigger" data-popup-id="rising-to-top-popup" style="position: absolute; left: 50%; top: 75%; transform: translateX(-50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow rising-to-top popup-trigger" data-popup-id="rising-to-top-popup" style="position: absolute; left: 50%; top: 75%; transform: translate(-50%, -50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-right"></i>
                                 </div>
-                                <div class="mood-arrow top-to-ebb popup-trigger" data-popup-id="top-to-ebb-popup" style="position: absolute; right: 42%; top: 50%; transform: translate(50%, -50%) rotate(-90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow top-to-ebb popup-trigger" data-popup-id="top-to-ebb-popup" style="position: absolute; left: 75%; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-down"></i>
                                 </div>
-                                <div class="mood-arrow ebb-to-chaos popup-trigger" data-popup-id="ebb-to-chaos-popup" style="position: absolute; left: 50%; top: 25%; transform: translateX(-50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow ebb-to-chaos popup-trigger" data-popup-id="ebb-to-chaos-popup" style="position: absolute; left: 50%; top: 25%; transform: translate(-50%, -50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-left"></i>
                                 </div>
                             </div>
@@ -3966,6 +4002,19 @@
     <!-- Supabase客户端 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // 全局错误处理器 - 用于诊断问题
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error('❌ JavaScript错误:', message);
+            console.error('   位置:', source, '行:', lineno, '列:', colno);
+            if (error) console.error('   错误对象:', error);
+            return false; // 不阻止默认错误处理
+        };
+
+        // Promise错误处理
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('❌ 未处理的Promise错误:', event.reason);
+        });
+
         // 自定义模态框函数
         function showCustomModal(title, message, callback) {
             // 设置标题和消息
@@ -4018,6 +4067,18 @@
         }
         
         $(document).ready(function() {
+            // 诊断信息：确认页面加载成功
+            console.log('✅ 页面JavaScript加载成功');
+            console.log('✅ jQuery版本:', $.fn.jquery);
+
+            // 检查关键元素
+            const sidebarItems = $('.sidebar-item').length;
+            console.log('✅ 侧边栏导航项数量:', sidebarItems);
+
+            if (sidebarItems === 0) {
+                console.error('❌ 错误：未找到侧边栏导航项！');
+            }
+
             // 确保"策略方法"页面的策略卡片默认是折叠状态
             setTimeout(function() {
                 // 延迟执行以确保DOM完全加载
@@ -4069,21 +4130,27 @@
             // 导航切换
                        // 导航切换
             $('.sidebar-item').click(function() {
+                console.log('🖱️ 侧边栏项被点击:', $(this).find('span').text());
+
                 const sectionId = $(this).data('section');
                 const isMacroRiskFree = $('input[name="macroRiskFree"]').is(':checked');
                 const isNonBreakingIndex = $('input[name="nonBreakingIndex"]').is(':checked');
 
                 // 如果此导航项被禁用 (通过CSS类判断)
                 if ($(this).hasClass('disabled')) {
+                    console.log('⚠️ 导航项已禁用');
                     showCustomModal('提示', '请先在"市场多空"页面确认宏观大盘无风险！');
-                    return; 
+                    return;
                 }
 
                 // 如果要切换到的部分不是section1，并且条件未满足，则阻止切换
                 if (sectionId !== 'section1' && !(isMacroRiskFree && isNonBreakingIndex)) {
+                    console.log('⚠️ 需要先确认宏观条件');
                     showCustomModal('提示', '请先在"市场多空"页面确认宏观大盘无风险！');
-                    return; 
+                    return;
                 }
+
+                console.log('✅ 切换到:', sectionId);
                 
                 $('.sidebar-item').removeClass('active');
                 $(this).addClass('active');
@@ -8347,6 +8414,17 @@
                     await saveReviewData();
                 }
             }, 5 * 60 * 1000);
+
+            // 确认所有初始化完成
+            console.log('');
+            console.log('%c✅ 页面初始化完成！', 'color: green; font-size: 16px; font-weight: bold;');
+            console.log('%c所有事件监听器已成功绑定', 'color: green; font-size: 14px;');
+            console.log('');
+            console.log('💡 如果点击没有反应，请检查：');
+            console.log('   1. 点击右下角的"诊断测试"按钮');
+            console.log('   2. 查看上方是否有❌错误信息');
+            console.log('   3. 尝试刷新页面（Ctrl+F5）清除缓存');
+            console.log('');
         });
     </script>
 </body>
