@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>宇硕复盘系统 | Yushuo Review System</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -185,7 +185,7 @@
             position: relative;
             transition: all 0.3s ease;
             border-radius: 8px;
-            margin-bottom: 0px;
+            margin-bottom: 8px;
             padding: 0px 0;
             background-color: var(--lane-bg-default);
             border-left: 3px solid transparent;
@@ -2153,29 +2153,23 @@
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+
+        /* 隐藏箭头图标，只显示圆形背景 */
+        .mood-arrow i {
+            display: none;
+        }
+
         .mood-arrow:hover {
-            transform: scale(1.2) rotate(90deg);
-            color: var(--color-secondary);
+            transform: scale(1.2) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
         }
-        
-        .mood-arrow.chaos-to-rising:hover {
-            transform: scale(1.2) rotate(90deg);
-        }
-        
-        .mood-arrow.rising-to-top:hover {
-            transform: scale(1.2) rotate(0deg);
-        }
-        
-        .mood-arrow.top-to-ebb:hover {
-            transform: scale(1.2) rotate(-90deg);
-        }
-        
-        .mood-arrow.ebb-to-chaos:hover {
-            transform: scale(1.2) rotate(180deg);
-        }
-        
+
         .strategy-popup {
             display: none;
             position: fixed;
@@ -2480,9 +2474,331 @@
             transform: translateY(-1px);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
+
+        /* 情绪阶段背景动效容器 */
+        .mood-bg-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .mood-bg-effect.active {
+            opacity: 1;
+        }
+
+        /* 混沌期 - 飘动粒子效果 */
+        .chaos-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .chaos-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.7), rgba(245, 158, 11, 0.3));
+            border-radius: 50%;
+            animation: chaosFloat 5s infinite ease-in-out;
+            box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+        }
+
+        @keyframes chaosFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+            25% {
+                transform: translate(40px, -30px) scale(1.1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translate(-20px, 30px) scale(0.9);
+                opacity: 0.4;
+            }
+            75% {
+                transform: translate(-40px, -20px) scale(1.05);
+                opacity: 0.6;
+            }
+        }
+
+        /* 主升期 - 上升光芒效果 */
+        .rising-rays {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .rising-ray {
+            position: absolute;
+            bottom: -100%;
+            width: 3px;
+            height: 200px;
+            background: linear-gradient(to top, transparent, rgba(239, 68, 68, 0.6), transparent);
+            animation: risingUp 3s infinite ease-out;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+        }
+
+        @keyframes risingUp {
+            0% {
+                bottom: -100%;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 120%;
+                opacity: 0;
+            }
+        }
+
+        /* 盘顶期 - 简洁闪电效果 */
+        .top-ripples {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 闪电主干 */
+        .lightning-bolt {
+            position: absolute;
+            width: 4px;
+            height: 60%;
+            top: 0;
+            background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(147, 197, 253, 0.8) 30%,
+                rgba(59, 130, 246, 0.6) 60%,
+                transparent 100%
+            );
+            opacity: 0;
+            animation: lightningFlash 4s infinite;
+            box-shadow: 0 0 15px rgba(147, 197, 253, 0.8),
+                        0 0 30px rgba(59, 130, 246, 0.5);
+        }
+
+        /* 闪电分支 */
+        .lightning-branch {
+            position: absolute;
+            width: 3px;
+            height: 30%;
+            background: linear-gradient(135deg,
+                rgba(147, 197, 253, 0.8) 0%,
+                rgba(59, 130, 246, 0.5) 50%,
+                transparent 100%
+            );
+            opacity: 0;
+            animation: lightningFlash 4s infinite;
+            box-shadow: 0 0 10px rgba(147, 197, 253, 0.6);
+            transform-origin: top left;
+        }
+
+        /* 闪电闪烁动画 */
+        @keyframes lightningFlash {
+            0%, 100% {
+                opacity: 0;
+            }
+            9.5% {
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            10.3% {
+                opacity: 0;
+            }
+            14.8% {
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.8;
+            }
+            15.4% {
+                opacity: 0;
+            }
+            16.8% {
+                opacity: 0;
+            }
+            17% {
+                opacity: 0.6;
+            }
+            17.5% {
+                opacity: 0;
+            }
+        }
+
+        /* 闪电时的背景闪光 */
+        .top-ripples::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+            opacity: 0;
+            animation: backgroundFlash 4s infinite;
+        }
+
+        @keyframes backgroundFlash {
+            0%, 100% {
+                opacity: 0;
+            }
+            10%, 15%, 17% {
+                opacity: 0.5;
+            }
+            10.3%, 15.4%, 17.5% {
+                opacity: 0;
+            }
+        }
+
+        /* 退潮期 - 下落雨滴效果 */
+        .ebb-drops {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ebb-drop {
+            position: absolute;
+            top: -50px;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.6));
+            animation: dropFall 2s infinite linear;
+            box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+        }
+
+        @keyframes dropFall {
+            0% {
+                top: -50px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0.5;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- 情绪阶段背景动效容器 -->
+    <div id="moodBgEffect" class="mood-bg-effect">
+        <!-- 混沌期粒子效果 -->
+        <div id="chaosEffect" class="chaos-particles" style="display: none;"></div>
+        <!-- 主升期光芒效果 -->
+        <div id="risingEffect" class="rising-rays" style="display: none;"></div>
+        <!-- 盘顶期波纹效果 -->
+        <div id="topEffect" class="top-ripples" style="display: none;"></div>
+        <!-- 退潮期雨滴效果 -->
+        <div id="ebbEffect" class="ebb-drops" style="display: none;"></div>
+    </div>
+
+    <!--
+    ========================================
+    情绪阶段音效系统 - 使用说明
+    ========================================
+
+    ⚠️ 重要提示：当前音效文件未配置，动效可以正常显示，但没有声音。
+
+    📥 快速添加音效（3个步骤）：
+
+    步骤1️⃣ - 下载音效文件
+    ----------------------------------------
+    访问 Pixabay（推荐）: https://pixabay.com/sound-effects/
+
+    搜索并下载以下关键词的音效：
+    - 搜索 "wind" 或 "windstorm"    → 下载一个风声（用于混沌期）
+    - 搜索 "fire crackling"          → 下载一个火焰声（用于主升期）
+    - 搜索 "thunder" 或 "lightning"  → 下载一个雷声（用于盘顶期）
+    - 搜索 "rain"                    → 下载一个雨声（用于退潮期）
+
+    💡 推荐时长：3-5秒的短音效（系统会在3秒后自动淡出）
+
+    步骤2️⃣ - 整理文件
+    ----------------------------------------
+    1. 在项目根目录创建文件夹：sounds
+    2. 将下载的音效重命名并放入：
+
+       项目目录/
+       ├── sounds/
+       │   ├── wind.mp3      ← 混沌期-风声
+       │   ├── fire.mp3      ← 主升期-火焰声
+       │   ├── thunder.mp3   ← 盘顶期-雷声
+       │   └── rain.mp3      ← 退潮期-雨声
+       └── index 增加板块星级.html
+
+    步骤3️⃣ - 修改HTML代码
+    ----------------------------------------
+    在下方4个 <audio> 标签中：
+
+    将：<source src="#" type="audio/mpeg">
+    改为：<source src="./sounds/wind.mp3" type="audio/mpeg">
+
+    （对4个音效都进行相应修改，见下方代码）
+
+    🎵 完成后效果：
+    - 混沌期 🌬️ → 飘动粒子 + 风声
+    - 主升期 ☀️ → 上升光芒 + 火焰声
+    - 盘顶期 ⚡ → 闪电效果 + 雷声
+    - 退潮期 🌧️ → 下落雨滴 + 雨声
+
+    💡 其他免费音效网站：
+    - Mixkit: https://mixkit.co/free-sound-effects/
+    - Freesound: https://freesound.org/（需注册）
+
+    ========================================
+    -->
+
+    <!-- 情绪阶段音效（真实音频文件） -->
+
+    <!-- 音效提示横幅（首次打开页面时显示） -->
+    <div id="audioTip" style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 9999; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; max-width: 90%; text-align: center; font-size: 14px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 20px;">🔊</span>
+            <div style="flex: 1; text-align: left;">
+                <div style="font-weight: 600; margin-bottom: 4px;">音效未配置</div>
+                <div style="font-size: 12px; opacity: 0.9;">动效正常显示，但需要下载音效文件。<a href="https://pixabay.com/sound-effects/" target="_blank" style="color: #ffd700; text-decoration: underline; margin-left: 8px;">去下载音效 →</a> <span style="margin-left: 8px; opacity: 0.7;">或按F12查看控制台说明</span></div>
+            </div>
+            <button onclick="document.getElementById('audioTip').style.display='none'; localStorage.setItem('audioTipDismissed', 'true');" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">知道了</button>
+        </div>
+    </div>
+
+    <!-- 混沌期：风声 -->
+    <audio id="chaosSound" preload="auto">
+        <!-- 已启用本地音效 - 使用实际文件名 -->
+        <source src="./混沌期.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 主升期：火焰声 -->
+    <audio id="risingSound" preload="auto">
+        <!-- 已启用本地音效 - 使用实际文件名 -->
+        <source src="./主升期.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 盘顶期：雷声/闪电声 -->
+    <audio id="topSound" preload="auto">
+        <!-- 已启用本地音效 - 使用实际文件名 -->
+        <source src="./盘顶期.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 退潮期：雨声 -->
+    <audio id="ebbSound" preload="auto">
+        <!-- 已启用本地音效 - 使用实际文件名 -->
+        <source src="./退潮期.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="app-container">
         <!-- 侧边栏 -->
         <aside class="sidebar" id="sidebar">
@@ -3894,7 +4210,429 @@
                 // 更新进度条
                 updateProgressBar();
             });
-            
+
+            // ========== 情绪阶段动效和音效系统 ==========
+
+            // 音效播放器类 - 真实音频文件版本
+            class MoodSoundPlayer {
+                constructor() {
+                    this.audioElements = {
+                        chaos: document.getElementById('chaosSound'),
+                        rising: document.getElementById('risingSound'),
+                        top: document.getElementById('topSound'),
+                        ebb: document.getElementById('ebbSound')
+                    };
+
+                    this.currentAudio = null;
+                    this.initAudioElements();
+                }
+
+                initAudioElements() {
+                    // 为所有音频元素设置默认属性
+                    let hasValidAudio = false;
+                    const loadedAudios = [];
+                    const failedAudios = [];
+
+                    Object.entries(this.audioElements).forEach(([key, audio]) => {
+                        if (audio) {
+                            audio.volume = 0.4; // 设置默认音量（40%）
+                            audio.loop = false;
+
+                            console.log(`🔍 正在加载音效: ${audio.id}`, `路径: ${audio.querySelector('source')?.src || '未设置'}`);
+
+                            // 添加错误处理
+                            audio.addEventListener('error', (e) => {
+                                const source = audio.querySelector('source');
+                                failedAudios.push(audio.id);
+                                console.error('❌ 音频加载失败:', audio.id);
+                                console.error('   文件路径:', source?.src || '未设置');
+                                console.error('   错误代码:', audio.error?.code);
+                                console.error('   错误信息:', audio.error?.message);
+                            });
+
+                            // 添加加载成功提示
+                            audio.addEventListener('canplay', () => {
+                                hasValidAudio = true;
+                                loadedAudios.push(audio.id);
+                                console.log('✅ 音效已准备就绪:', audio.id);
+                            });
+
+                            // 添加加载开始提示
+                            audio.addEventListener('loadstart', () => {
+                                console.log('⏳ 开始加载:', audio.id);
+                            });
+
+                            // 添加加载完成提示
+                            audio.addEventListener('loadeddata', () => {
+                                console.log('📦 数据已加载:', audio.id);
+                            });
+                        }
+                    });
+
+                    // 页面加载后提示用户
+                    setTimeout(() => {
+                        console.log('');
+                        console.log('═══════════════════════════════════════');
+                        console.log('🔊 音效系统状态报告');
+                        console.log('═══════════════════════════════════════');
+                        console.log('');
+                        console.log(`✅ 加载成功: ${loadedAudios.length} 个`);
+                        if (loadedAudios.length > 0) {
+                            loadedAudios.forEach(id => console.log(`   - ${id}`));
+                        }
+                        console.log('');
+                        console.log(`❌ 加载失败: ${failedAudios.length} 个`);
+                        if (failedAudios.length > 0) {
+                            failedAudios.forEach(id => console.log(`   - ${id}`));
+                        }
+                        console.log('');
+
+                        if (hasValidAudio) {
+                            console.log('🎵 音效系统已就绪！');
+                            console.log('');
+                            console.log('💡 测试方法：');
+                            console.log('1. 点击"情绪阶段"标签页');
+                            console.log('2. 选择任意情绪（混沌期/主升期/盘顶期/退潮期）');
+                            console.log('3. 或在控制台执行: testSound("chaos")');
+                            console.log('');
+                        } else {
+                            console.log('⚠️ 所有音效加载失败！');
+                            console.log('');
+                            console.log('🔍 可能的原因：');
+                            console.log('1. 音频文件不存在或路径错误');
+                            console.log('2. 文件格式不支持（请使用MP3格式）');
+                            console.log('3. 文件损坏');
+                            console.log('');
+                            console.log('📁 当前音频路径配置：');
+                            Object.values(this.audioElements).forEach(audio => {
+                                const source = audio.querySelector('source');
+                                console.log(`   ${audio.id}: ${source?.src || '未设置'}`);
+                            });
+                            console.log('');
+                        }
+                        console.log('═══════════════════════════════════════');
+                        console.log('');
+
+                        // 显示或隐藏页面提示
+                        if (!hasValidAudio && !localStorage.getItem('audioTipDismissed')) {
+                            const audioTip = document.getElementById('audioTip');
+                            if (audioTip) {
+                                audioTip.style.display = 'block';
+                                setTimeout(() => {
+                                    audioTip.style.opacity = '0';
+                                    audioTip.style.transition = 'opacity 0.5s';
+                                    setTimeout(() => {
+                                        audioTip.style.display = 'none';
+                                    }, 500);
+                                }, 8000);
+                            }
+                        }
+                    }, 2000); // 延长到2秒，确保所有音频都加载完成
+                }
+
+                // 播放不同情绪的音效
+                playMoodSound(theme) {
+                    // 停止当前正在播放的音效
+                    this.stopCurrentSound();
+
+                    // 获取对应的音频元素
+                    const audio = this.audioElements[theme];
+
+                    if (!audio) {
+                        console.warn(`未找到 ${theme} 主题的音效`);
+                        return;
+                    }
+
+                    // 检查音频源是否有效（支持 <source> 标签）
+                    const source = audio.querySelector('source');
+                    const audioSrc = audio.currentSrc || source?.src || audio.src;
+
+                    if (!audioSrc || audioSrc.endsWith('#') || audioSrc === '') {
+                        console.log(`💡 ${theme} 音效未配置，仅显示动效。`);
+                        return;
+                    }
+
+                    // 重置播放位置到开头
+                    audio.currentTime = 0;
+
+                    // 播放音效
+                    const playPromise = audio.play();
+
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                this.currentAudio = audio;
+                                console.log(`🔊 正在播放 ${theme} 音效`);
+
+                                // 3秒后淡出并停止音效（与动效同步）
+                                setTimeout(() => {
+                                    this.fadeOutAndStop(audio);
+                                }, 2500); // 2.5秒后开始淡出，保证3秒内完成
+                            })
+                            .catch(error => {
+                                console.warn('⚠️ 音效播放失败:', error.message);
+                                if (error.name === 'NotAllowedError') {
+                                    console.log('💡 提示：浏览器阻止了自动播放。请先与页面交互（点击任意位置）后再试。');
+                                } else if (error.name === 'NotSupportedError') {
+                                    console.log('💡 提示：音频文件格式不支持或文件不存在。');
+                                }
+                            });
+                    }
+                }
+
+                // 淡出并停止音效
+                fadeOutAndStop(audio) {
+                    if (!audio) return;
+
+                    const originalVolume = audio.volume;
+                    const fadeOutDuration = 500; // 淡出持续500毫秒
+                    const steps = 20;
+                    const stepDuration = fadeOutDuration / steps;
+                    const volumeDecrement = originalVolume / steps;
+
+                    let currentStep = 0;
+                    const fadeInterval = setInterval(() => {
+                        currentStep++;
+                        audio.volume = Math.max(0, originalVolume - (volumeDecrement * currentStep));
+
+                        if (currentStep >= steps) {
+                            clearInterval(fadeInterval);
+                            audio.pause();
+                            audio.currentTime = 0;
+                            audio.volume = originalVolume; // 恢复原始音量
+                        }
+                    }, stepDuration);
+                }
+
+                // 停止当前播放的音效
+                stopCurrentSound() {
+                    if (this.currentAudio) {
+                        this.currentAudio.pause();
+                        this.currentAudio.currentTime = 0;
+                        this.currentAudio = null;
+                    }
+                }
+
+                // 设置所有音效的音量
+                setVolume(volume) {
+                    const clampedVolume = Math.max(0, Math.min(1, volume));
+                    Object.values(this.audioElements).forEach(audio => {
+                        if (audio) {
+                            audio.volume = clampedVolume;
+                        }
+                    });
+                }
+
+                // 更换音效文件（允许用户自定义音效）
+                setSoundFile(theme, url) {
+                    const audio = this.audioElements[theme];
+                    if (audio) {
+                        audio.src = url;
+                        audio.load();
+                        console.log(`${theme} 音效已更新为: ${url}`);
+                    }
+                }
+            }
+
+            // 创建音效播放器实例
+            const moodSoundPlayer = new MoodSoundPlayer();
+
+            // 全局测试函数 - 供用户在控制台测试音效
+            window.testSound = function(theme) {
+                const validThemes = ['chaos', 'rising', 'top', 'ebb'];
+                if (!validThemes.includes(theme)) {
+                    console.error('❌ 无效的主题！请使用: chaos, rising, top, ebb');
+                    return;
+                }
+
+                console.log(`🎵 测试播放: ${theme} 音效`);
+                const audio = moodSoundPlayer.audioElements[theme];
+
+                if (!audio) {
+                    console.error('❌ 未找到音频元素');
+                    return;
+                }
+
+                console.log('📁 音频源:', audio.querySelector('source')?.src);
+                console.log('🔊 音量:', audio.volume);
+                console.log('⏱️ 时长:', audio.duration || '未加载');
+
+                // 强制从头播放
+                audio.currentTime = 0;
+                const playPromise = audio.play();
+
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('✅ 播放成功！');
+                        })
+                        .catch(error => {
+                            console.error('❌ 播放失败:', error.message);
+                            if (error.name === 'NotAllowedError') {
+                                console.log('💡 提示：浏览器阻止了自动播放。请先点击页面任意位置，然后重试。');
+                            } else if (error.name === 'NotSupportedError') {
+                                console.log('💡 提示：音频格式不支持或文件不存在。');
+                            }
+                        });
+                }
+            };
+
+            // 提示用户可以使用测试函数
+            console.log('💡 已加载音效测试函数：testSound(theme)');
+            console.log('   示例: testSound("chaos") - 测试混沌期音效');
+            console.log('   示例: testSound("rising") - 测试主升期音效');
+            console.log('   示例: testSound("top") - 测试盘顶期音效');
+            console.log('   示例: testSound("ebb") - 测试退潮期音效');
+
+            // 背景动效控制器
+            class MoodEffectController {
+                constructor() {
+                    this.currentEffect = null;
+                    this.hideTimer = null; // 添加定时器属性
+                    this.effectContainers = {
+                        chaos: document.getElementById('chaosEffect'),
+                        rising: document.getElementById('risingEffect'),
+                        top: document.getElementById('topEffect'),
+                        ebb: document.getElementById('ebbEffect')
+                    };
+                    this.bgContainer = document.getElementById('moodBgEffect');
+                    this.initEffects();
+                }
+
+                initEffects() {
+                    // 初始化混沌期粒子
+                    this.createChaosParticles();
+                    // 初始化主升期光芒
+                    this.createRisingRays();
+                    // 初始化盘顶期波纹
+                    this.createTopRipples();
+                    // 初始化退潮期雨滴
+                    this.createEbbDrops();
+                }
+
+                createChaosParticles() {
+                    const container = this.effectContainers.chaos;
+                    container.innerHTML = '';
+                    for (let i = 0; i < 20; i++) {
+                        const particle = document.createElement('div');
+                        particle.className = 'chaos-particle';
+                        particle.style.left = Math.random() * 100 + '%';
+                        particle.style.top = Math.random() * 100 + '%';
+                        particle.style.animationDelay = Math.random() * 3 + 's';
+                        particle.style.animationDuration = (3 + Math.random() * 2) + 's';
+                        container.appendChild(particle);
+                    }
+                }
+
+                createRisingRays() {
+                    const container = this.effectContainers.rising;
+                    container.innerHTML = '';
+                    for (let i = 0; i < 20; i++) {
+                        const ray = document.createElement('div');
+                        ray.className = 'rising-ray';
+                        ray.style.left = (i * 5) + '%';
+                        ray.style.animationDelay = Math.random() * 3 + 's';
+                        ray.style.animationDuration = (2 + Math.random() * 2) + 's';
+                        container.appendChild(ray);
+                    }
+                }
+
+                createTopRipples() {
+                    const container = this.effectContainers.top;
+                    container.innerHTML = '';
+
+                    // 创建6组闪电（主干+分支）
+                    for (let i = 0; i < 6; i++) {
+                        // 主干位置
+                        const boltLeft = 15 + i * 14 + (Math.random() * 6 - 3);
+
+                        // 创建主干
+                        const bolt = document.createElement('div');
+                        bolt.className = 'lightning-bolt';
+                        bolt.style.left = boltLeft + '%';
+                        bolt.style.animationDelay = (i * 0.4 + Math.random() * 0.5) + 's';
+                        container.appendChild(bolt);
+
+                        // 随机添加1-2个分支
+                        const branchCount = Math.random() > 0.5 ? 2 : 1;
+                        for (let j = 0; j < branchCount; j++) {
+                            const branch = document.createElement('div');
+                            branch.className = 'lightning-branch';
+
+                            // 分支从主干的某个位置发出
+                            const branchTop = 20 + Math.random() * 30; // 20%-50%的位置
+                            branch.style.left = boltLeft + '%';
+                            branch.style.top = branchTop + '%';
+
+                            // 分支向左或向右倾斜
+                            const direction = Math.random() > 0.5 ? 1 : -1;
+                            const angle = 30 + Math.random() * 30; // 30-60度
+                            branch.style.transform = `rotate(${direction * angle}deg)`;
+
+                            // 与主干同步闪烁
+                            branch.style.animationDelay = bolt.style.animationDelay;
+
+                            container.appendChild(branch);
+                        }
+                    }
+                }
+
+                createEbbDrops() {
+                    const container = this.effectContainers.ebb;
+                    container.innerHTML = '';
+                    for (let i = 0; i < 40; i++) {
+                        const drop = document.createElement('div');
+                        drop.className = 'ebb-drop';
+                        drop.style.left = Math.random() * 100 + '%';
+                        drop.style.animationDelay = Math.random() * 2 + 's';
+                        drop.style.animationDuration = (1.5 + Math.random()) + 's';
+                        container.appendChild(drop);
+                    }
+                }
+
+                showEffect(theme) {
+                    // 清除之前的定时器（如果存在）
+                    if (this.hideTimer) {
+                        clearTimeout(this.hideTimer);
+                        this.hideTimer = null;
+                    }
+
+                    // 隐藏所有效果
+                    Object.values(this.effectContainers).forEach(container => {
+                        container.style.display = 'none';
+                    });
+
+                    // 显示选中的效果
+                    if (this.effectContainers[theme]) {
+                        this.effectContainers[theme].style.display = 'block';
+                        this.bgContainer.classList.add('active');
+                        this.currentEffect = theme;
+
+                        // 3秒后自动隐藏
+                        this.hideTimer = setTimeout(() => {
+                            this.hideAllEffects();
+                        }, 3000);
+                    }
+                }
+
+                hideAllEffects() {
+                    // 清除定时器
+                    if (this.hideTimer) {
+                        clearTimeout(this.hideTimer);
+                        this.hideTimer = null;
+                    }
+
+                    Object.values(this.effectContainers).forEach(container => {
+                        container.style.display = 'none';
+                    });
+                    this.bgContainer.classList.remove('active');
+                    this.currentEffect = null;
+                }
+            }
+
+            // 创建动效控制器实例
+            const moodEffectController = new MoodEffectController();
+
             // 情绪阶段选择
             $('.mood-item').click(function() {
                 $('.mood-item').removeClass('selected');
@@ -3909,7 +4647,13 @@
                 
                 // 触发主题变化事件
                 $(document).trigger('moodThemeChanged', [theme]);
-                
+
+                // ========== 触发背景动效和音效 ==========
+                // 播放音效
+                moodSoundPlayer.playMoodSound(theme);
+                // 显示背景动效
+                moodEffectController.showEffect(theme);
+
                 // 显示相应的情绪详情
                 $('.mood-detail-card').hide();
                 $(`.mood-${theme}-detail`).fadeIn();
@@ -5274,7 +6018,18 @@
             const data = localStorage.getItem('swimlaneLanes');
             return data ? JSON.parse(data) : [];
         }
-        
+
+        // 保存板块星级
+        function saveLaneRating(laneId, rating) {
+            localStorage.setItem(`swimlaneRating-${laneId}`, rating);
+        }
+
+        // 加载板块星级
+        function loadLaneRating(laneId) {
+            const rating = localStorage.getItem(`swimlaneRating-${laneId}`);
+            return rating !== null ? parseInt(rating) : 0;
+        }
+
         function getCurrentReviewDateStr() {
             return $('#reviewDate').val();
         }
@@ -6076,7 +6831,14 @@
                 'transform': 'scale(1)'
             });
         });
-        
+
+        // 鼠标悬停在板块标签区域时显示删除按钮
+        $(document).on('mouseenter', '.lane-label', function() {
+            $(this).find('.remove-lane-btn').css('display', 'flex');
+        }).on('mouseleave', '.lane-label', function() {
+            $(this).find('.remove-lane-btn').css('display', 'none');
+        });
+
         $(document).on('click', '.state-dot', function() {
             const dot = $(this);
             const laneElement = dot.closest('.swim-lane');
@@ -6102,12 +6864,12 @@
         });
         
         $(document).on('click', '.remove-lane-btn', function(e) {
-            e.preventDefault(); 
-            e.stopPropagation(); 
-            
+            e.preventDefault();
+            e.stopPropagation();
+
             const laneToRemove = $(this).closest('.swim-lane');
             const laneIdToRemove = laneToRemove.data('lane-id');
-            
+
             showCustomModal('确认删除', '确定要删除该板块吗？删除后数据将无法恢复。', function() {
                 laneToRemove.remove();
                 let lanes = loadLaneData();
@@ -6119,13 +6881,44 @@
                         localStorage.removeItem(key);
                     }
                 }
-                
+
                 // 重新分配所有泳道的背景颜色
                 assignLaneBackgroundColors();
                 drawConnectionLines();
             });
         });
-        
+
+        // 板块名称点击事件 - 切换星级
+        $(document).on('click', '.lane-name', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const laneElement = $(this).closest('.swim-lane');
+            const laneId = laneElement.data('lane-id');
+
+            // 获取当前星级
+            let currentRating = loadLaneRating(laneId);
+
+            // 循环逻辑：0 -> 3 -> 2 -> 1 -> 0
+            let newRating;
+            if (currentRating === 0) {
+                newRating = 3;
+            } else if (currentRating === 3) {
+                newRating = 2;
+            } else if (currentRating === 2) {
+                newRating = 1;
+            } else {
+                newRating = 0;
+            }
+
+            // 保存新星级
+            saveLaneRating(laneId, newRating);
+
+            // 更新显示
+            const stars = '★'.repeat(newRating);
+            laneElement.find('.lane-stars').text(stars);
+        });
+
         function addSwimLane(name, laneIdToUse = null) {
             const laneId = laneIdToUse || `lane${laneCounter++}`;
             if (!laneIdToUse) { 
@@ -6139,14 +6932,21 @@
             
             // 根据板块名称决定是否显示删除按钮（"大盘"不显示删除按钮）
             const removeButtonHtml = (name !== '大盘')
-                ? '<button class="remove-lane-btn" style="margin-left: 5px; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 10px; cursor: pointer; transition: all 0.2s ease;"><i class="fas fa-times"></i></button>'
+                ? '<button class="remove-lane-btn" style="margin-right: 5px; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 50%; width: 14px; height: 14px; display: none; align-items: center; justify-content: center; color: #ef4444; font-size: 8px; cursor: pointer; transition: all 0.2s ease;"><i class="fas fa-times"></i></button>'
                 : '';
+
+            // 加载板块的星级评分
+            const rating = loadLaneRating(laneId);
+            const stars = '★'.repeat(rating);
 
             let laneHtml = `
                 <div class="swim-lane" data-lane-id="${laneId}" draggable="true" style="cursor: move;">
-                    <div class="lane-label" style="position: absolute; left: 0; width: 110px; padding: 10px 5px; text-align: right; font-weight: 500; display: flex; align-items: center; justify-content: flex-end;">
-                        <span class="lane-name">${name}</span>
-                        ${removeButtonHtml}
+                    <div class="lane-label" style="position: absolute; left: 0; width: 110px; padding: 10px 5px; text-align: right; font-weight: 500; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
+                        <div style="display: flex; align-items: center;">
+                            ${removeButtonHtml}
+                            <span class="lane-name" style="cursor: pointer; user-select: none; font-size: 12px;">${name}</span>
+                        </div>
+                        <span class="lane-stars" style="color: #fbbf24; font-size: 10px; user-select: none; line-height: 1;">${stars}</span>
                     </div>
                     <div class="lane-content" style="display: flex; margin-left: 120px; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 2px;">
             `;
