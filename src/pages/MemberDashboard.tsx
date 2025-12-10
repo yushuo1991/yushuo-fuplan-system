@@ -226,35 +226,37 @@ export default function MemberDashboard() {
                             </div>
                         </div>
 
-                        {/* 风险管控 */}
-                        <div className="bg-white overflow-hidden shadow rounded-lg opacity-75">
+                        {/* 心理评估系统 */}
+                        <div
+                            onClick={() => window.open('https://xinli.yushuo.click', '_blank')}
+                            className="bg-white overflow-hidden shadow rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                        >
                             <div className="p-5">
                                 <div className="flex items-center">
                                     <div className="flex-shrink-0">
-                                        <i className="fas fa-shield-alt text-red-400 text-2xl"></i>
+                                        <i className="fas fa-brain text-purple-400 text-2xl"></i>
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
                                             <dt className="text-sm font-medium text-gray-500 truncate">
-                                                风险管控
+                                                心理评估系统
                                             </dt>
                                             <dd className="text-lg font-medium text-gray-900">
-                                                多维度风险评估
+                                                交易心理分析
                                             </dd>
                                         </dl>
                                     </div>
                                 </div>
                                 <div className="mt-3">
                                     <p className="text-sm text-gray-500">
-                                        实时仓位监控，建立完善的风险管理体系
+                                        专业的交易心理评估，帮助您建立理性的交易心态
                                     </p>
                                 </div>
                                 <div className="mt-4">
-                                    <button 
-                                        className="w-full px-4 py-2 bg-gray-300 text-gray-600 rounded-md cursor-not-allowed"
-                                        disabled
+                                    <button
+                                        className="w-full px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
                                     >
-                                        即将开放
+                                        访问心理评估
                                     </button>
                                 </div>
                             </div>
