@@ -192,8 +192,8 @@ export default function MemberDashboard() {
                         </div>
 
                         {/* 宇硕板块节奏 */}
-                        <div 
-                            onClick={() => window.open('https://bk.yuhsuo.click', '_blank')}
+                        <div
+                            onClick={() => window.open('https://bk.yushuo.click', '_blank')}
                             className="bg-white overflow-hidden shadow rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
                         >
                             <div className="p-5">
