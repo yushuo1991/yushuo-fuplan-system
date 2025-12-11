@@ -9,42 +9,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* 全局样式 */
         :root {
-            --color-primary: #007AFF;
-            --color-primary-hover: #0051D5;
-            --color-primary-rgb: 0, 122, 255;
+            --color-primary: #5046e4;
+            --color-primary-hover: #4039ca;
+            --color-primary-rgb: 80, 70, 228;
             --color-secondary: #f97316;
             --color-secondary-soft: rgba(249, 115, 22, 0.1);
-            --color-gray-50: #fafafa;
-            --color-gray-100: #f5f5f7;
-            --color-gray-200: #e8e8ed;
-            --color-gray-300: #d2d2d7;
-            --color-gray-400: #aeaeb2;
-            --color-gray-500: #8e8e93;
-            --color-gray-600: #636366;
-            --color-gray-700: #48484a;
-            --color-gray-800: #3a3a3c;
-            --color-gray-900: #1c1c1e;
-            --color-danger: #FF3B30;
-            --color-danger-soft: rgba(255, 59, 48, 0.1);
-            --color-success: #34C759;
-            --color-success-soft: rgba(52, 199, 89, 0.1);
-            --color-warning: #FF9500;
-            --color-warning-soft: rgba(255, 149, 0, 0.1);
-            --color-info: #007AFF;
-            --color-info-soft: rgba(0, 122, 255, 0.1);
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-gray-900: #111827;
+            --color-danger: #ef4444;
+            --color-danger-soft: rgba(239, 68, 68, 0.1);
+            --color-success: #10b981;
+            --color-success-soft: rgba(16, 185, 129, 0.1);
+            --color-warning: #f59e0b;
+            --color-warning-soft: rgba(245, 158, 11, 0.1);
+            --color-info: #3b82f6;
+            --color-info-soft: rgba(59, 130, 246, 0.1);
             --color-background: #ffffff;
             --color-surface: #ffffff;
-            --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
             --card-border: 1px solid var(--color-gray-200);
-            --sidebar-width: 280px;
-            --header-height: 72px;
-            --transition-default: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
-            --font-family-mono: 'SF Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            --sidebar-width: 270px;
+            --header-height: 64px;
+            --transition-default: all 0.3s ease;
+            --font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
             
             /* 季节主题色定义 */
             --spring-primary: #f97316; /* 混沌期 - 橙色 */
@@ -73,14 +73,11 @@
         /* 基础样式 */
         body {
             font-family: var(--font-family);
-            background-color: var(--color-gray-50);
+            background-color: var(--color-background);
             color: var(--color-gray-900);
             transition: var(--transition-default);
             overflow-x: hidden;
             position: relative;
-            letter-spacing: -0.01em;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
         
         /* 已删除深色模式body样式 */
@@ -92,33 +89,23 @@
         }
 
         .sidebar {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-right: 0.5px solid rgba(0, 0, 0, 0.04);
+            background-color: var(--color-surface);
+            border-right: var(--card-border);
             position: fixed;
             height: 100vh;
             width: var(--sidebar-width);
             overflow-y: auto;
-            overflow-x: hidden;
             transition: var(--transition-default);
             z-index: 30;
             flex-shrink: 0;
             padding: 0;
-            box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04), 0 4px 20px rgba(0, 0, 0, 0.03);
-        }
-
-        /* 浏览器不支持backdrop-filter时的fallback */
-        @supports not (backdrop-filter: blur(20px)) {
-            .sidebar {
-                background-color: rgb(255, 255, 255);
-            }
+            box-shadow: 1px 0 5px rgba(0, 0, 0, 0.05);
         }
 
         /* 整体布局优化 */
         .main-content {
             margin-left: var(--sidebar-width);
-            padding: 3rem 2.5rem;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -142,23 +129,22 @@
         .app-logo {
             display: flex;
             align-items: center;
-            padding: 1.5rem 1.25rem;
-            margin-bottom: 0.5rem;
-            border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+            padding: 1.25rem 0.75rem;
+            margin-bottom: 0.75rem;
+            border-bottom: var(--card-border);
         }
 
         .logo-icon {
-            margin-right: 0.625rem;
-            font-size: 1.375rem;
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
             color: var(--color-primary);
         }
 
         .logo-text {
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.15rem;
+            font-weight: 600;
             color: var(--color-gray-900);
             white-space: nowrap;
-            letter-spacing: -0.02em;
         }
 
         .dark .logo-text {
@@ -167,21 +153,20 @@
 
         /* 侧边栏内部元素优化 */
         .sidebar-nav {
-            padding: 0.5rem 0.875rem;
+            padding: 0.75rem;
         }
 
         .sidebar-item {
-            padding: 0.75rem 1rem;
-            margin: 0.25rem 0;
-            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            margin: 0.3rem 0.6rem;
+            border-radius: 0.5rem;
             cursor: pointer;
             transition: var(--transition-default);
             display: flex;
             align-items: center;
             color: var(--color-gray-700);
-            font-size: 0.9375rem;
+            font-size: 1rem;
             font-weight: 500;
-            letter-spacing: -0.01em;
         }
 
         /* 泳道图行背景颜色定义 */
@@ -198,9 +183,9 @@
         /* 泳道行样式 */
         .swim-lane {
             position: relative;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 12px;
-            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 8px;
             padding: 0px 0;
             background-color: var(--lane-bg-default);
             border-left: 3px solid transparent;
@@ -208,7 +193,7 @@
 
         .swim-lane.drag-over {
             border: 2px dashed var(--color-primary);
-            background-color: rgba(0, 122, 255, 0.06);
+            background-color: rgba(59, 130, 246, 0.1);
         }
 
         /* 当有状态被选中时显示对应颜色 */
@@ -251,22 +236,19 @@
         /* 泳道悬停效果 */
         .swim-lane:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar-item:hover {
-            background-color: rgba(0, 0, 0, 0.04);
+            background-color: var(--color-gray-100);
             color: var(--color-gray-900);
+            transform: translateX(2px);
         }
 
         .sidebar-item.active {
             background-color: var(--color-primary);
             color: white;
-            box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.25);
-        }
-
-        .sidebar-item.active:hover {
-            background-color: var(--color-primary-hover);
+            transform: translateX(0);
         }
 
         .sidebar-item i {
@@ -316,10 +298,10 @@
         .mobile-menu-toggle {
             display: none;
             position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 3.5rem;
-            height: 3.5rem;
+            bottom: 1rem;
+            right: 1rem;
+            width: 3rem;
+            height: 3rem;
             border-radius: 50%;
             background-color: var(--color-primary);
             color: white;
@@ -327,24 +309,24 @@
             justify-content: center;
             cursor: pointer;
             z-index: 40;
-            box-shadow: 0 8px 20px rgba(var(--color-primary-rgb), 0.4);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: var(--transition-default);
         }
 
         .mobile-menu-toggle:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 28px rgba(var(--color-primary-rgb), 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
         /* 卡片样式 */
         .card {
             background-color: var(--color-surface);
-            border-radius: 16px;
-            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            border-radius: 0.75rem;
+            box-shadow: var(--card-shadow);
+            border: var(--card-border);
             transition: var(--transition-default);
             margin-bottom: 2rem;
-            padding: 2rem 2.5rem;
+            padding: 2rem;
             width: 100%;
             max-width: 900px;
             margin-left: auto;
@@ -352,7 +334,7 @@
         }
 
         .card:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transform: translateY(-2px);
         }
 
@@ -373,8 +355,8 @@
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 51px;
-            height: 31px;
+            width: 48px;
+            height: 24px;
         }
 
         .toggle-switch input {
@@ -392,20 +374,19 @@
             bottom: 0;
             background-color: var(--color-gray-300);
             transition: var(--transition-default);
-            border-radius: 31px;
+            border-radius: 34px;
         }
 
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 27px;
-            width: 27px;
-            left: 2px;
-            bottom: 2px;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
             background-color: white;
             transition: var(--transition-default);
             border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         }
 
         input:checked + .toggle-slider {
@@ -413,23 +394,17 @@
         }
 
         input:checked + .toggle-slider:before {
-            transform: translateX(20px);
+            transform: translateX(24px);
         }
 
         /* 动画效果 */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .animate-fade-in {
-            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: fadeIn 0.5s ease forwards;
         }
 
         /* 内容区域样式调整 */
@@ -437,7 +412,7 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.3s ease-out;
             width: 100%;
         }
 
@@ -460,25 +435,22 @@
 
         /* 现代滚动条 */
         ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 5px;
+            background: var(--color-gray-100);
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            border: 2px solid transparent;
-            background-clip: content-box;
+            background: var(--color-gray-400);
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 0, 0, 0.3);
-            background-clip: content-box;
+            background: var(--color-gray-500);
         }
 
         .dark ::-webkit-scrollbar-track {
@@ -632,8 +604,7 @@
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--color-gray-800);
-            font-size: 1.0625rem;
-            letter-spacing: -0.01em;
+            font-size: 1.05rem;
         }
 
         .dark .question-title {
@@ -654,15 +625,15 @@
         .form-control {
             display: block;
             width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 0.9375rem;
+            padding: 0.625rem 0.75rem;
+            font-size: 0.875rem;
             line-height: 1.5;
             color: var(--color-gray-900);
             background-color: var(--color-surface);
             background-clip: padding-box;
             border: 1px solid var(--color-gray-300);
-            border-radius: 10px;
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border-radius: 0.375rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
         .dark .form-control {
@@ -674,7 +645,7 @@
         .form-control:focus {
             border-color: var(--color-primary);
             outline: 0;
-            box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.1);
+            box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
         }
 
         .form-textarea {
@@ -687,9 +658,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.625rem 1.25rem;
-            font-size: 0.9375rem;
-            font-weight: 600;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
             line-height: 1.5;
             text-align: center;
             white-space: nowrap;
@@ -697,21 +668,19 @@
             cursor: pointer;
             user-select: none;
             border: 1px solid transparent;
-            border-radius: 12px;
+            border-radius: 0.375rem;
             transition: var(--transition-default);
-            letter-spacing: -0.01em;
         }
 
         .btn-primary {
             background-color: var(--color-primary);
             color: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary:hover {
             background-color: var(--color-primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.3);
         }
 
         .btn-outline {
@@ -722,9 +691,8 @@
 
         .btn-outline:hover {
             background-color: var(--color-gray-100);
-            border-color: var(--color-gray-400);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .dark .btn-outline {
@@ -739,14 +707,13 @@
 
         /* 标题样式 */
         .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 600;
             margin-bottom: 1.5rem;
             color: var(--color-gray-900);
             position: relative;
-            padding-bottom: 0.75rem;
-            padding-left: 0;
-            letter-spacing: -0.03em;
+            padding-bottom: 0.5rem;
+            padding-left: 0.25rem;
         }
 
         .dark .section-title {
@@ -758,22 +725,22 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 2.5rem;
+            width: 3rem;
             height: 0.25rem;
             background-color: var(--color-primary);
-            border-radius: 2px;
+            border-radius: 0.125rem;
             transition: background-color 0.3s ease;
         }
 
         /* 日期选择器 */
         .date-picker {
-            padding: 0.75rem 1rem;
+            padding: 0.625rem 0.75rem;
             border: 1px solid var(--color-gray-300);
-            border-radius: 10px;
+            border-radius: 0.375rem;
             background-color: var(--color-surface);
             color: var(--color-gray-900);
             transition: var(--transition-default);
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             line-height: 1.5;
         }
 
@@ -786,7 +753,7 @@
         .date-picker:focus {
             border-color: var(--color-primary);
             outline: 0;
-            box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.1);
+            box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
         }
 
         /* 头部和工具栏 */
@@ -811,7 +778,7 @@
             width: 100%;
             height: 6px;
             background-color: var(--color-gray-200);
-            border-radius: 10px;
+            border-radius: 3px;
             overflow: hidden;
             margin-bottom: 2rem;
             max-width: 900px;
@@ -821,9 +788,9 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
-            border-radius: 10px;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: var(--color-primary);
+            border-radius: 3px;
+            transition: width 0.3s ease;
         }
 
         /* 导航按钮容器调整 */
@@ -852,12 +819,12 @@
         }
 
         .checkbox-item input[type="checkbox"] {
-            margin-right: 0.625rem;
+            margin-right: 0.5rem;
             appearance: none;
-            width: 1.375rem;
-            height: 1.375rem;
+            width: 1.25rem;
+            height: 1.25rem;
             border: 2px solid var(--color-gray-400);
-            border-radius: 6px;
+            border-radius: 0.25rem;
             background-color: var(--color-surface);
             cursor: pointer;
             position: relative;
@@ -878,7 +845,7 @@
             width: 5px;
             height: 10px;
             border: solid white;
-            border-width: 0 2.5px 2.5px 0;
+            border-width: 0 2px 2px 0;
             transform: rotate(45deg);
         }
 
@@ -910,16 +877,16 @@
         .style-group {
             flex: 1;
             min-width: 200px;
-            border-radius: 12px;
+            border-radius: 0.75rem;
             overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--color-gray-200);
             transition: var(--transition-default);
         }
 
         .indicator-group:hover,
         .style-group:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
             transform: translateY(-2px);
         }
 
@@ -953,8 +920,8 @@
             flex: 1;
             min-width: 60px;
             border: 1px solid var(--color-gray-200);
-            border-radius: 10px;
-            padding: 0.625rem 0.5rem;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
             cursor: pointer;
             transition: var(--transition-default);
             display: flex;
@@ -967,7 +934,7 @@
         .style-item:hover {
             background-color: var(--color-gray-100);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
         }
 
         .option-item.selected,
@@ -975,7 +942,7 @@
             background-color: var(--color-primary);
             color: white;
             border-color: var(--color-primary);
-            box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
+            box-shadow: 0 3px 8px rgba(var(--color-primary-rgb), 0.25);
         }
 
         .option-icon,
@@ -1018,19 +985,20 @@
             height: 120px;
             display: flex;
             align-items: center;
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
-            background-color: var(--color-surface);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid transparent;
+            background-color: var(--color-gray-50);
         }
 
         .mood-item:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         .mood-icon {
@@ -1392,18 +1360,12 @@
         
         /* 动画效果 */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .animate-fade-in {
-            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: fadeIn 0.5s ease forwards;
         }
 
         /* 风险检查卡片样式 */
@@ -1503,19 +1465,20 @@
             height: 120px;
             display: flex;
             align-items: center;
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
-            background-color: var(--color-surface);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid transparent;
+            background-color: var(--color-gray-50);
         }
 
         .mood-item:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         .mood-icon {
@@ -2203,6 +2166,7 @@
         }
 
         .mood-arrow:hover {
+            transform: scale(1.2) !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
         }
 
@@ -2974,16 +2938,16 @@
                                 </div>
                                 
                                 <!-- 连接箭头 -->
-                                <div class="mood-arrow chaos-to-rising popup-trigger" data-popup-id="chaos-to-rising-popup" style="position: absolute; left: 25%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow chaos-to-rising popup-trigger" data-popup-id="chaos-to-rising-popup" style="position: absolute; left: 42%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-down"></i>
                                 </div>
-                                <div class="mood-arrow rising-to-top popup-trigger" data-popup-id="rising-to-top-popup" style="position: absolute; left: 50%; top: 75%; transform: translate(-50%, -50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow rising-to-top popup-trigger" data-popup-id="rising-to-top-popup" style="position: absolute; left: 50%; top: 75%; transform: translateX(-50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-right"></i>
                                 </div>
-                                <div class="mood-arrow top-to-ebb popup-trigger" data-popup-id="top-to-ebb-popup" style="position: absolute; left: 75%; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow top-to-ebb popup-trigger" data-popup-id="top-to-ebb-popup" style="position: absolute; right: 42%; top: 50%; transform: translate(50%, -50%) rotate(-90deg); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-down"></i>
                                 </div>
-                                <div class="mood-arrow ebb-to-chaos popup-trigger" data-popup-id="ebb-to-chaos-popup" style="position: absolute; left: 50%; top: 25%; transform: translate(-50%, -50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.9); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
+                                <div class="mood-arrow ebb-to-chaos popup-trigger" data-popup-id="ebb-to-chaos-popup" style="position: absolute; left: 50%; top: 25%; transform: translateX(-50%); color: var(--color-primary); font-size: 2rem; background-color: rgba(255,255,255,0.7); padding: 8px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; cursor: pointer;">
                                     <i class="fas fa-arrow-left"></i>
                                 </div>
                             </div>
@@ -4002,19 +3966,6 @@
     <!-- Supabase客户端 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // 全局错误处理器 - 用于诊断问题
-        window.onerror = function(message, source, lineno, colno, error) {
-            console.error('❌ JavaScript错误:', message);
-            console.error('   位置:', source, '行:', lineno, '列:', colno);
-            if (error) console.error('   错误对象:', error);
-            return false; // 不阻止默认错误处理
-        };
-
-        // Promise错误处理
-        window.addEventListener('unhandledrejection', function(event) {
-            console.error('❌ 未处理的Promise错误:', event.reason);
-        });
-
         // 自定义模态框函数
         function showCustomModal(title, message, callback) {
             // 设置标题和消息
@@ -4067,18 +4018,6 @@
         }
         
         $(document).ready(function() {
-            // 诊断信息：确认页面加载成功
-            console.log('✅ 页面JavaScript加载成功');
-            console.log('✅ jQuery版本:', $.fn.jquery);
-
-            // 检查关键元素
-            const sidebarItems = $('.sidebar-item').length;
-            console.log('✅ 侧边栏导航项数量:', sidebarItems);
-
-            if (sidebarItems === 0) {
-                console.error('❌ 错误：未找到侧边栏导航项！');
-            }
-
             // 确保"策略方法"页面的策略卡片默认是折叠状态
             setTimeout(function() {
                 // 延迟执行以确保DOM完全加载
@@ -4130,27 +4069,21 @@
             // 导航切换
                        // 导航切换
             $('.sidebar-item').click(function() {
-                console.log('🖱️ 侧边栏项被点击:', $(this).find('span').text());
-
                 const sectionId = $(this).data('section');
                 const isMacroRiskFree = $('input[name="macroRiskFree"]').is(':checked');
                 const isNonBreakingIndex = $('input[name="nonBreakingIndex"]').is(':checked');
 
                 // 如果此导航项被禁用 (通过CSS类判断)
                 if ($(this).hasClass('disabled')) {
-                    console.log('⚠️ 导航项已禁用');
                     showCustomModal('提示', '请先在"市场多空"页面确认宏观大盘无风险！');
-                    return;
+                    return; 
                 }
 
                 // 如果要切换到的部分不是section1，并且条件未满足，则阻止切换
                 if (sectionId !== 'section1' && !(isMacroRiskFree && isNonBreakingIndex)) {
-                    console.log('⚠️ 需要先确认宏观条件');
                     showCustomModal('提示', '请先在"市场多空"页面确认宏观大盘无风险！');
-                    return;
+                    return; 
                 }
-
-                console.log('✅ 切换到:', sectionId);
                 
                 $('.sidebar-item').removeClass('active');
                 $(this).addClass('active');
@@ -8308,9 +8241,14 @@
                 // 收集表单数据
                 const formData = collectFormData();
                 formData.user_id = user.id;
-                formData.review_date = new Date().toISOString().split('T')[0];
 
-                // 检查是否已存在今日的复盘记录
+                // 使用日期选择器中的日期，如果没有选择则使用今天
+                const selectedDate = $('#reviewDate').val();
+                formData.review_date = selectedDate || new Date().toISOString().split('T')[0];
+
+                console.log(`💾 正在保存复盘数据到日期: ${formData.review_date}`);
+
+                // 检查是否已存在该日期的复盘记录
                 const { data: existingRecord, error: checkError } = await supabaseClient
                     .from('review_records')
                     .select('id')
@@ -8377,12 +8315,219 @@
             }
         }
 
+        // 加载复盘数据
+        async function loadReviewData(reviewDate = null) {
+            try {
+                // 获取当前用户
+                const user = await getCurrentUser();
+                if (!user) {
+                    console.log('用户未登录，跳过数据加载');
+                    return null;
+                }
+
+                // 如果没有指定日期，使用今天的日期
+                const targetDate = reviewDate || new Date().toISOString().split('T')[0];
+
+                console.log(`📥 正在加载 ${targetDate} 的复盘数据...`);
+
+                // 从数据库加载复盘记录
+                const { data: reviewRecord, error: reviewError } = await supabaseClient
+                    .from('review_records')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .eq('review_date', targetDate)
+                    .maybeSingle();
+
+                if (reviewError && reviewError.code !== 'PGRST116') {
+                    throw reviewError;
+                }
+
+                if (!reviewRecord) {
+                    console.log('未找到该日期的复盘记录');
+                    return null;
+                }
+
+                // 加载交易记录
+                const { data: tradingRecords, error: tradingError } = await supabaseClient
+                    .from('trading_records')
+                    .select('*')
+                    .eq('review_id', reviewRecord.id);
+
+                if (tradingError) {
+                    console.error('加载交易记录失败:', tradingError);
+                }
+
+                console.log('✅ 数据加载成功:', reviewRecord);
+
+                return {
+                    review: reviewRecord,
+                    trading: tradingRecords || []
+                };
+            } catch (error) {
+                console.error('加载复盘数据失败:', error);
+                showCustomModal('错误', '加载数据失败: ' + error.message);
+                return null;
+            }
+        }
+
+        // 将数据填充到表单中
+        function fillFormData(data, showSuccessMessage = true) {
+            if (!data || !data.review) {
+                console.log('没有数据需要填充');
+                return;
+            }
+
+            const review = data.review;
+            console.log('📝 正在填充表单数据...');
+
+            try {
+                // Section 1: 市场多空
+                if (review.macro_risk_free !== null) {
+                    $('input[name="macroRiskFree"]').prop('checked', review.macro_risk_free);
+                }
+                if (review.non_breaking_index !== null) {
+                    $('input[name="nonBreakingIndex"]').prop('checked', review.non_breaking_index);
+                }
+                if (review.market_direction) {
+                    $('.market-choice-btn').removeClass('selected');
+                    $('.market-choice-btn').filter(function() {
+                        return $(this).text().trim() === review.market_direction;
+                    }).addClass('selected');
+                }
+
+                // Section 2: 情绪阶段
+                if (review.emotion_stage) {
+                    $('.mood-choice-btn').removeClass('selected');
+                    $('.mood-choice-btn').filter(function() {
+                        return $(this).text().trim() === review.emotion_stage;
+                    }).addClass('selected');
+                }
+                if (review.volume_amplified !== null) {
+                    $('#volumeAmplified').prop('checked', review.volume_amplified);
+                }
+                if (review.index_turning_point !== null) {
+                    $('#indexTurningPoint').prop('checked', review.index_turning_point);
+                }
+
+                // Section 3: 板块节奏
+                if (review.sector_option1) $('input[name="sectorOption1"]').val(review.sector_option1);
+                if (review.sector_option2) $('input[name="sectorOption2"]').val(review.sector_option2);
+                if (review.sector_option3) $('input[name="sectorOption3"]').val(review.sector_option3);
+                if (review.sector_option4) $('input[name="sectorOption4"]').val(review.sector_option4);
+                if (review.sector_option5) $('input[name="sectorOption5"]').val(review.sector_option5);
+                if (review.rising_theme1) $('input[name="risingTheme1"]').val(review.rising_theme1);
+                if (review.rising_theme2) $('input[name="risingTheme2"]').val(review.rising_theme2);
+
+                // 恢复泳道数据
+                if (review.swim_lane_data) {
+                    restoreSwimLaneData(review.swim_lane_data);
+                }
+
+                // Section 4: 策略方法
+                if (review.personal_strategy) {
+                    $('textarea[name="personalStrategy"]').val(review.personal_strategy);
+                }
+
+                // Section 5: 执行计划
+                if (review.stock_position) $('textarea[name="stockPosition"]').val(review.stock_position);
+                if (review.funding_support) $('textarea[name="fundingSupport"]').val(review.funding_support);
+                if (review.expectation) $('textarea[name="expectation"]').val(review.expectation);
+                if (review.stock_selection) $('textarea[name="stockSelection"]').val(review.stock_selection);
+                if (review.focus_stocks) $('textarea[name="focusStocks"]').val(review.focus_stocks);
+                if (review.buy_plan) $('textarea[name="buyPlan"]').val(review.buy_plan);
+                if (review.sell_plan) $('textarea[name="sellPlan"]').val(review.sell_plan);
+                if (review.risk_control) $('textarea[name="riskControl"]').val(review.risk_control);
+                if (review.mental_adjustment) $('textarea[name="mentalAdjustment"]').val(review.mental_adjustment);
+
+                // Section 6: 交易记录
+                if (review.trading_reflection) {
+                    $('textarea[name="tradingReflection"]').val(review.trading_reflection);
+                }
+
+                // 填充交易记录表格
+                if (data.trading && data.trading.length > 0) {
+                    fillTradingRecords(data.trading);
+                }
+
+                console.log('✅ 表单数据填充完成');
+                if (showSuccessMessage) {
+                    showCustomModal('成功', '已加载您的复盘数据');
+                }
+            } catch (error) {
+                console.error('填充表单数据失败:', error);
+                showCustomModal('错误', '填充数据失败: ' + error.message);
+            }
+        }
+
+        // 恢复泳道数据
+        function restoreSwimLaneData(swimLaneData) {
+            try {
+                if (swimLaneData && swimLaneData.lanes) {
+                    window.lanes = swimLaneData.lanes;
+                    window.dates = swimLaneData.dates || [];
+
+                    // 重新渲染泳道图（如果有渲染函数的话）
+                    if (typeof renderSwimLanes === 'function') {
+                        renderSwimLanes();
+                    }
+
+                    console.log('✅ 泳道数据已恢复');
+                }
+            } catch (error) {
+                console.error('恢复泳道数据失败:', error);
+            }
+        }
+
+        // 填充交易记录
+        function fillTradingRecords(tradingRecords) {
+            try {
+                // 清空现有的交易记录行（保留第一行作为模板）
+                const firstRow = $('input[name="stock[]"]').first().closest('tr');
+                if (firstRow.length > 0) {
+                    firstRow.siblings().remove();
+
+                    tradingRecords.forEach((record, index) => {
+                        if (index === 0) {
+                            // 填充第一行
+                            $('input[name="stock[]"]').first().val(record.stock_name || '');
+                            $('input[name="buyPrice[]"]').first().val(record.buy_price || '');
+                            $('input[name="sellPrice[]"]').first().val(record.sell_price || '');
+                            $('input[name="profit[]"]').first().val(record.profit_percent || '');
+                        } else {
+                            // 克隆并添加新行
+                            const newRow = firstRow.clone();
+                            newRow.find('input[name="stock[]"]').val(record.stock_name || '');
+                            newRow.find('input[name="buyPrice[]"]').val(record.buy_price || '');
+                            newRow.find('input[name="sellPrice[]"]').val(record.sell_price || '');
+                            newRow.find('input[name="profit[]"]').val(record.profit_percent || '');
+                            firstRow.parent().append(newRow);
+                        }
+                    });
+
+                    console.log(`✅ 已填充 ${tradingRecords.length} 条交易记录`);
+                }
+            } catch (error) {
+                console.error('填充交易记录失败:', error);
+            }
+        }
+
         // 在页面中添加保存按钮（如果还没有的话）
-        $(document).ready(function() {
+        $(document).ready(async function() {
             // 页面加载时自动获取盘面回顾数据
             console.log('📊 页面加载，开始获取盘面回顾数据...');
             loadBasicMarketData();
-            
+
+            // 自动加载用户的复盘数据
+            console.log('📥 正在加载用户的复盘数据...');
+            const savedData = await loadReviewData();
+            if (savedData) {
+                // 首次加载时不显示成功提示
+                fillFormData(savedData, false);
+                console.log('✅ 已静默加载今日复盘数据');
+            } else {
+                console.log('ℹ️ 今日暂无复盘记录，您可以开始新的复盘');
+            }
+
             // 在表单底部添加保存按钮
             if ($('#saveReviewBtn').length === 0) {
                 const saveBtn = $('<button>')
@@ -8406,6 +8551,20 @@
                 $('body').append(saveBtn);
             }
 
+            // 监听日期选择器的变化，加载对应日期的复盘数据
+            $('#reviewDate').on('change', async function() {
+                const selectedDate = $(this).val();
+                if (selectedDate) {
+                    console.log(`📅 用户选择了日期: ${selectedDate}`);
+                    const data = await loadReviewData(selectedDate);
+                    if (data) {
+                        fillFormData(data);
+                    } else {
+                        showCustomModal('提示', `未找到 ${selectedDate} 的复盘记录，您可以开始填写新的复盘。`);
+                    }
+                }
+            });
+
             // 定期自动保存（每5分钟）
             setInterval(async function() {
                 const user = await getCurrentUser();
@@ -8414,17 +8573,6 @@
                     await saveReviewData();
                 }
             }, 5 * 60 * 1000);
-
-            // 确认所有初始化完成
-            console.log('');
-            console.log('%c✅ 页面初始化完成！', 'color: green; font-size: 16px; font-weight: bold;');
-            console.log('%c所有事件监听器已成功绑定', 'color: green; font-size: 14px;');
-            console.log('');
-            console.log('💡 如果点击没有反应，请检查：');
-            console.log('   1. 点击右下角的"诊断测试"按钮');
-            console.log('   2. 查看上方是否有❌错误信息');
-            console.log('   3. 尝试刷新页面（Ctrl+F5）清除缓存');
-            console.log('');
         });
     </script>
 </body>
