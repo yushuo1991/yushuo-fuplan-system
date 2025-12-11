@@ -7093,13 +7093,26 @@
             
             const swimLanesContent = $('#swimLanesContent');
             const marketLane = swimLanesContent.find('.swim-lane .lane-name:contains("大盘")').closest('.swim-lane');
+            const emotionLane = swimLanesContent.find('.swim-lane .lane-name:contains("情绪")').closest('.swim-lane');
 
             if (name === '大盘') {
                 swimLanesContent.prepend(laneHtml);
-            } else if (marketLane.length > 0) {
-                marketLane.after(laneHtml);
+            } else if (name === '情绪') {
+                // Insert 情绪 after 大盘
+                if (marketLane.length > 0) {
+                    marketLane.after(laneHtml);
+                } else {
+                    swimLanesContent.prepend(laneHtml);
+                }
             } else {
-                swimLanesContent.prepend(laneHtml); // Fallback if 大盘 somehow isn't there yet
+                // Insert other lanes after 情绪 if it exists, else after 大盘
+                if (emotionLane.length > 0) {
+                    emotionLane.after(laneHtml);
+                } else if (marketLane.length > 0) {
+                    marketLane.after(laneHtml);
+                } else {
+                    swimLanesContent.append(laneHtml);
+                }
             }
             
             // 重新分配所有泳道的背景颜色

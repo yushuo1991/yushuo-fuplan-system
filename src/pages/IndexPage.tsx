@@ -28,7 +28,7 @@ export default function IndexPage() {
 
             {/* 主页内容 */}
             <iframe
-                src="/legacy/index.html?v=1.2.1"
+                src="/legacy/index.html?v=1.2.2"
                 className="w-full h-full border-0"
                 title="宇硕复盘系统"
             />
