@@ -6992,13 +6992,34 @@
             laneElement.find('.lane-stars').text(stars);
         });
 
+        // 确保lanes数组顺序正确：大盘第一，情绪第二，其他按原顺序
+        function ensureLanesOrder(lanes) {
+            const daPan = lanes.find(lane => lane.name === '大盘');
+            const qingxu = lanes.find(lane => lane.name === '情绪');
+            const others = lanes.filter(lane => lane.name !== '大盘' && lane.name !== '情绪');
+
+            const orderedLanes = [];
+            if (daPan) orderedLanes.push(daPan);
+            if (qingxu) orderedLanes.push(qingxu);
+            orderedLanes.push(...others);
+
+            return orderedLanes;
+        }
+
         function addSwimLane(name, laneIdToUse = null) {
             const laneId = laneIdToUse || `lane${laneCounter++}`;
-            if (!laneIdToUse) { 
+            if (!laneIdToUse) {
                 let lanes = loadLaneData();
                 if (!lanes.find(lane => lane.id === laneId)) {
                     const creationDate = getCurrentReviewDateStr();
-                    lanes.push({ id: laneId, name: name, creationDate: creationDate });
+                    const newLane = { id: laneId, name: name, creationDate: creationDate };
+
+                    // 将新板块添加到数组
+                    lanes.push(newLane);
+
+                    // 重新排序，确保大盘和情绪始终在最前面
+                    lanes = ensureLanesOrder(lanes);
+
                     saveLaneData(lanes);
                 }
             }
@@ -7217,7 +7238,7 @@
             // 确保"大盘"存在
             if (!lanes.find(lane => lane.name === '大盘')) {
                 const daPanId = `lane${laneCounter++}`;
-                lanes.unshift({ id: daPanId, name: '大盘', creationDate: '1970-01-01' });
+                lanes.push({ id: daPanId, name: '大盘', creationDate: '1970-01-01' });
             }
 
             // 确保"情绪"存在
@@ -7226,16 +7247,8 @@
                 lanes.push({ id: qingxuId, name: '情绪', creationDate: '1970-01-01' });
             }
 
-            // 重新排序：大盘和情绪必须在最前面，且顺序固定
-            const daPan = lanes.find(lane => lane.name === '大盘');
-            const qingxu = lanes.find(lane => lane.name === '情绪');
-            const others = lanes.filter(lane => lane.name !== '大盘' && lane.name !== '情绪');
-
-            // 重组数组：大盘第一，情绪第二，其他按原顺序
-            lanes = [];
-            if (daPan) lanes.push(daPan);
-            if (qingxu) lanes.push(qingxu);
-            lanes = lanes.concat(others);
+            // 使用统一的排序函数，确保大盘和情绪始终在最前面
+            lanes = ensureLanesOrder(lanes);
 
             // 保存重新排序后的数据
             saveLaneData(lanes);
@@ -7356,6 +7369,9 @@
                     } else {
                         lanes.splice(newTargetIndex, 0, draggedLane);
                     }
+
+                    // 确保大盘和情绪始终在最前面
+                    lanes = ensureLanesOrder(lanes);
 
                     // 保存新的顺序
                     saveLaneData(lanes);
