@@ -6240,7 +6240,13 @@
                 
                 if (todayContent && todayContent.trim() !== '') {
                     hasAnyContent = true;
-                    const iconClass = lane.name === '大盘' ? 'fa-chart-line' : 'fa-layer-group';
+                    // 为不同类型的栏设置不同的图标
+                    let iconClass = 'fa-layer-group'; // 默认图标
+                    if (lane.name === '大盘') {
+                        iconClass = 'fa-chart-line';
+                    } else if (lane.name === '情绪') {
+                        iconClass = 'fa-heart-pulse';
+                    }
                     const colorTheme = colorThemes[colorIndex % colorThemes.length];
                     summaryHtml += `
                         <div class="history-lane-item">
@@ -6997,8 +7003,8 @@
                 }
             }
             
-            // 根据板块名称决定是否显示删除按钮（"大盘"不显示删除按钮）
-            const removeButtonHtml = (name !== '大盘')
+            // 根据板块名称决定是否显示删除按钮（"大盘"和"情绪"不显示删除按钮）
+            const removeButtonHtml = (name !== '大盘' && name !== '情绪')
                 ? '<button class="remove-lane-btn" style="margin-right: 5px; background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 50%; width: 14px; height: 14px; display: none; align-items: center; justify-content: center; color: #ef4444; font-size: 8px; cursor: pointer; transition: all 0.2s ease;"><i class="fas fa-times"></i></button>'
                 : '';
 
@@ -7006,8 +7012,12 @@
             const rating = loadLaneRating(laneId);
             const stars = '★'.repeat(rating);
 
+            // "大盘"和"情绪"不可拖拽
+            const isDraggable = (name !== '大盘' && name !== '情绪');
+            const cursorStyle = isDraggable ? 'cursor: move;' : 'cursor: default;';
+
             let laneHtml = `
-                <div class="swim-lane" data-lane-id="${laneId}" draggable="true" style="cursor: move;">
+                <div class="swim-lane" data-lane-id="${laneId}" draggable="${isDraggable}" style="${cursorStyle}">
                     <div class="lane-label" style="position: absolute; left: 0; width: 110px; padding: 10px 5px; text-align: right; font-weight: 500; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
                         <div style="display: flex; align-items: center;">
                             ${removeButtonHtml}
@@ -7137,13 +7147,21 @@
             const allLanes = loadLaneData();
             const currentReviewDate = getCurrentReviewDateStr();
 
+            // 先添加"大盘"
             const daPanLane = allLanes.find(lane => lane.name === '大盘');
             if (daPanLane) {
                 addSwimLane(daPanLane.name, daPanLane.id);
             }
 
+            // 然后添加"情绪"
+            const qingxuLane = allLanes.find(lane => lane.name === '情绪');
+            if (qingxuLane) {
+                addSwimLane(qingxuLane.name, qingxuLane.id);
+            }
+
+            // 最后添加其他板块
             allLanes.forEach(lane => {
-                if (lane.name === '大盘') return; 
+                if (lane.name === '大盘' || lane.name === '情绪') return;
 
                 if ((lane.creationDate && lane.creationDate <= currentReviewDate) || !lane.creationDate) {
                     addSwimLane(lane.name, lane.id);
@@ -7185,24 +7203,40 @@
 
             const initialDateStr = getCurrentReviewDateStr() || new Date().toISOString().split('T')[0];
             if (!getCurrentReviewDateStr()) {
-                 $('#reviewDate').val(initialDateStr); 
+                 $('#reviewDate').val(initialDateStr);
             }
             previousReviewDate = new Date(initialDateStr + "T00:00:00Z"); // Use UTC
             updateDateHeader(initialDateStr);
-            
+
             // 确保初始化时内容是折叠的
             $('#swimLaneContainer').removeClass('expanded');
             $('#expandTodayBtn').html('<i class="fas fa-expand"></i> 展|折');
-            
+
             let lanes = loadLaneData();
+
+            // 确保"大盘"存在
             if (!lanes.find(lane => lane.name === '大盘')) {
                 const daPanId = `lane${laneCounter++}`;
                 lanes.unshift({ id: daPanId, name: '大盘', creationDate: '1970-01-01' });
                 saveLaneData(lanes);
             }
-            
+
+            // 确保"情绪"存在（放在大盘后面）
+            if (!lanes.find(lane => lane.name === '情绪')) {
+                const qingxuId = `lane${laneCounter++}`;
+                const daPanIndex = lanes.findIndex(lane => lane.name === '大盘');
+                if (daPanIndex !== -1) {
+                    // 在大盘后面插入情绪栏
+                    lanes.splice(daPanIndex + 1, 0, { id: qingxuId, name: '情绪', creationDate: '1970-01-01' });
+                } else {
+                    // 如果找不到大盘，就放在最前面
+                    lanes.unshift({ id: qingxuId, name: '情绪', creationDate: '1970-01-01' });
+                }
+                saveLaneData(lanes);
+            }
+
             reloadAllSwimLanes();
-            
+
             // 初始化时分配背景颜色
             assignLaneBackgroundColors();
 
