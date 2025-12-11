@@ -8308,9 +8308,14 @@
                 // 收集表单数据
                 const formData = collectFormData();
                 formData.user_id = user.id;
-                formData.review_date = new Date().toISOString().split('T')[0];
 
-                // 检查是否已存在今日的复盘记录
+                // 使用日期选择器中的日期，如果没有选择则使用今天
+                const selectedDate = $('#reviewDate').val();
+                formData.review_date = selectedDate || new Date().toISOString().split('T')[0];
+
+                console.log(`💾 正在保存复盘数据到日期: ${formData.review_date}`);
+
+                // 检查是否已存在该日期的复盘记录
                 const { data: existingRecord, error: checkError } = await supabaseClient
                     .from('review_records')
                     .select('id')
@@ -8377,12 +8382,219 @@
             }
         }
 
+        // 加载复盘数据
+        async function loadReviewData(reviewDate = null) {
+            try {
+                // 获取当前用户
+                const user = await getCurrentUser();
+                if (!user) {
+                    console.log('用户未登录，跳过数据加载');
+                    return null;
+                }
+
+                // 如果没有指定日期，使用今天的日期
+                const targetDate = reviewDate || new Date().toISOString().split('T')[0];
+
+                console.log(`📥 正在加载 ${targetDate} 的复盘数据...`);
+
+                // 从数据库加载复盘记录
+                const { data: reviewRecord, error: reviewError } = await supabaseClient
+                    .from('review_records')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .eq('review_date', targetDate)
+                    .maybeSingle();
+
+                if (reviewError && reviewError.code !== 'PGRST116') {
+                    throw reviewError;
+                }
+
+                if (!reviewRecord) {
+                    console.log('未找到该日期的复盘记录');
+                    return null;
+                }
+
+                // 加载交易记录
+                const { data: tradingRecords, error: tradingError } = await supabaseClient
+                    .from('trading_records')
+                    .select('*')
+                    .eq('review_id', reviewRecord.id);
+
+                if (tradingError) {
+                    console.error('加载交易记录失败:', tradingError);
+                }
+
+                console.log('✅ 数据加载成功:', reviewRecord);
+
+                return {
+                    review: reviewRecord,
+                    trading: tradingRecords || []
+                };
+            } catch (error) {
+                console.error('加载复盘数据失败:', error);
+                showCustomModal('错误', '加载数据失败: ' + error.message);
+                return null;
+            }
+        }
+
+        // 将数据填充到表单中
+        function fillFormData(data, showSuccessMessage = true) {
+            if (!data || !data.review) {
+                console.log('没有数据需要填充');
+                return;
+            }
+
+            const review = data.review;
+            console.log('📝 正在填充表单数据...');
+
+            try {
+                // Section 1: 市场多空
+                if (review.macro_risk_free !== null) {
+                    $('input[name="macroRiskFree"]').prop('checked', review.macro_risk_free);
+                }
+                if (review.non_breaking_index !== null) {
+                    $('input[name="nonBreakingIndex"]').prop('checked', review.non_breaking_index);
+                }
+                if (review.market_direction) {
+                    $('.market-choice-btn').removeClass('selected');
+                    $('.market-choice-btn').filter(function() {
+                        return $(this).text().trim() === review.market_direction;
+                    }).addClass('selected');
+                }
+
+                // Section 2: 情绪阶段
+                if (review.emotion_stage) {
+                    $('.mood-choice-btn').removeClass('selected');
+                    $('.mood-choice-btn').filter(function() {
+                        return $(this).text().trim() === review.emotion_stage;
+                    }).addClass('selected');
+                }
+                if (review.volume_amplified !== null) {
+                    $('#volumeAmplified').prop('checked', review.volume_amplified);
+                }
+                if (review.index_turning_point !== null) {
+                    $('#indexTurningPoint').prop('checked', review.index_turning_point);
+                }
+
+                // Section 3: 板块节奏
+                if (review.sector_option1) $('input[name="sectorOption1"]').val(review.sector_option1);
+                if (review.sector_option2) $('input[name="sectorOption2"]').val(review.sector_option2);
+                if (review.sector_option3) $('input[name="sectorOption3"]').val(review.sector_option3);
+                if (review.sector_option4) $('input[name="sectorOption4"]').val(review.sector_option4);
+                if (review.sector_option5) $('input[name="sectorOption5"]').val(review.sector_option5);
+                if (review.rising_theme1) $('input[name="risingTheme1"]').val(review.rising_theme1);
+                if (review.rising_theme2) $('input[name="risingTheme2"]').val(review.rising_theme2);
+
+                // 恢复泳道数据
+                if (review.swim_lane_data) {
+                    restoreSwimLaneData(review.swim_lane_data);
+                }
+
+                // Section 4: 策略方法
+                if (review.personal_strategy) {
+                    $('textarea[name="personalStrategy"]').val(review.personal_strategy);
+                }
+
+                // Section 5: 执行计划
+                if (review.stock_position) $('textarea[name="stockPosition"]').val(review.stock_position);
+                if (review.funding_support) $('textarea[name="fundingSupport"]').val(review.funding_support);
+                if (review.expectation) $('textarea[name="expectation"]').val(review.expectation);
+                if (review.stock_selection) $('textarea[name="stockSelection"]').val(review.stock_selection);
+                if (review.focus_stocks) $('textarea[name="focusStocks"]').val(review.focus_stocks);
+                if (review.buy_plan) $('textarea[name="buyPlan"]').val(review.buy_plan);
+                if (review.sell_plan) $('textarea[name="sellPlan"]').val(review.sell_plan);
+                if (review.risk_control) $('textarea[name="riskControl"]').val(review.risk_control);
+                if (review.mental_adjustment) $('textarea[name="mentalAdjustment"]').val(review.mental_adjustment);
+
+                // Section 6: 交易记录
+                if (review.trading_reflection) {
+                    $('textarea[name="tradingReflection"]').val(review.trading_reflection);
+                }
+
+                // 填充交易记录表格
+                if (data.trading && data.trading.length > 0) {
+                    fillTradingRecords(data.trading);
+                }
+
+                console.log('✅ 表单数据填充完成');
+                if (showSuccessMessage) {
+                    showCustomModal('成功', '已加载您的复盘数据');
+                }
+            } catch (error) {
+                console.error('填充表单数据失败:', error);
+                showCustomModal('错误', '填充数据失败: ' + error.message);
+            }
+        }
+
+        // 恢复泳道数据
+        function restoreSwimLaneData(swimLaneData) {
+            try {
+                if (swimLaneData && swimLaneData.lanes) {
+                    window.lanes = swimLaneData.lanes;
+                    window.dates = swimLaneData.dates || [];
+
+                    // 重新渲染泳道图（如果有渲染函数的话）
+                    if (typeof renderSwimLanes === 'function') {
+                        renderSwimLanes();
+                    }
+
+                    console.log('✅ 泳道数据已恢复');
+                }
+            } catch (error) {
+                console.error('恢复泳道数据失败:', error);
+            }
+        }
+
+        // 填充交易记录
+        function fillTradingRecords(tradingRecords) {
+            try {
+                // 清空现有的交易记录行（保留第一行作为模板）
+                const firstRow = $('input[name="stock[]"]').first().closest('tr');
+                if (firstRow.length > 0) {
+                    firstRow.siblings().remove();
+
+                    tradingRecords.forEach((record, index) => {
+                        if (index === 0) {
+                            // 填充第一行
+                            $('input[name="stock[]"]').first().val(record.stock_name || '');
+                            $('input[name="buyPrice[]"]').first().val(record.buy_price || '');
+                            $('input[name="sellPrice[]"]').first().val(record.sell_price || '');
+                            $('input[name="profit[]"]').first().val(record.profit_percent || '');
+                        } else {
+                            // 克隆并添加新行
+                            const newRow = firstRow.clone();
+                            newRow.find('input[name="stock[]"]').val(record.stock_name || '');
+                            newRow.find('input[name="buyPrice[]"]').val(record.buy_price || '');
+                            newRow.find('input[name="sellPrice[]"]').val(record.sell_price || '');
+                            newRow.find('input[name="profit[]"]').val(record.profit_percent || '');
+                            firstRow.parent().append(newRow);
+                        }
+                    });
+
+                    console.log(`✅ 已填充 ${tradingRecords.length} 条交易记录`);
+                }
+            } catch (error) {
+                console.error('填充交易记录失败:', error);
+            }
+        }
+
         // 在页面中添加保存按钮（如果还没有的话）
-        $(document).ready(function() {
+        $(document).ready(async function() {
             // 页面加载时自动获取盘面回顾数据
             console.log('📊 页面加载，开始获取盘面回顾数据...');
             loadBasicMarketData();
-            
+
+            // 自动加载用户的复盘数据
+            console.log('📥 正在加载用户的复盘数据...');
+            const savedData = await loadReviewData();
+            if (savedData) {
+                // 首次加载时不显示成功提示
+                fillFormData(savedData, false);
+                console.log('✅ 已静默加载今日复盘数据');
+            } else {
+                console.log('ℹ️ 今日暂无复盘记录，您可以开始新的复盘');
+            }
+
             // 在表单底部添加保存按钮
             if ($('#saveReviewBtn').length === 0) {
                 const saveBtn = $('<button>')
@@ -8405,6 +8617,20 @@
                 
                 $('body').append(saveBtn);
             }
+
+            // 监听日期选择器的变化，加载对应日期的复盘数据
+            $('#reviewDate').on('change', async function() {
+                const selectedDate = $(this).val();
+                if (selectedDate) {
+                    console.log(`📅 用户选择了日期: ${selectedDate}`);
+                    const data = await loadReviewData(selectedDate);
+                    if (data) {
+                        fillFormData(data);
+                    } else {
+                        showCustomModal('提示', `未找到 ${selectedDate} 的复盘记录，您可以开始填写新的复盘。`);
+                    }
+                }
+            });
 
             // 定期自动保存（每5分钟）
             setInterval(async function() {
