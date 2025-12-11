@@ -7218,22 +7218,27 @@
             if (!lanes.find(lane => lane.name === '大盘')) {
                 const daPanId = `lane${laneCounter++}`;
                 lanes.unshift({ id: daPanId, name: '大盘', creationDate: '1970-01-01' });
-                saveLaneData(lanes);
             }
 
-            // 确保"情绪"存在（放在大盘后面）
+            // 确保"情绪"存在
             if (!lanes.find(lane => lane.name === '情绪')) {
                 const qingxuId = `lane${laneCounter++}`;
-                const daPanIndex = lanes.findIndex(lane => lane.name === '大盘');
-                if (daPanIndex !== -1) {
-                    // 在大盘后面插入情绪栏
-                    lanes.splice(daPanIndex + 1, 0, { id: qingxuId, name: '情绪', creationDate: '1970-01-01' });
-                } else {
-                    // 如果找不到大盘，就放在最前面
-                    lanes.unshift({ id: qingxuId, name: '情绪', creationDate: '1970-01-01' });
-                }
-                saveLaneData(lanes);
+                lanes.push({ id: qingxuId, name: '情绪', creationDate: '1970-01-01' });
             }
+
+            // 重新排序：大盘和情绪必须在最前面，且顺序固定
+            const daPan = lanes.find(lane => lane.name === '大盘');
+            const qingxu = lanes.find(lane => lane.name === '情绪');
+            const others = lanes.filter(lane => lane.name !== '大盘' && lane.name !== '情绪');
+
+            // 重组数组：大盘第一，情绪第二，其他按原顺序
+            lanes = [];
+            if (daPan) lanes.push(daPan);
+            if (qingxu) lanes.push(qingxu);
+            lanes = lanes.concat(others);
+
+            // 保存重新排序后的数据
+            saveLaneData(lanes);
 
             reloadAllSwimLanes();
 
