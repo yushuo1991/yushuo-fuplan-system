@@ -7257,6 +7257,16 @@
         let draggedElement = null;
 
         $(document).on('dragstart', '.swim-lane', function(e) {
+            // 检查是否是固定栏位（大盘和情绪），如果是则阻止拖拽
+            const laneId = $(this).data('lane-id');
+            const lanes = loadLaneData();
+            const lane = lanes.find(l => l.id === laneId);
+
+            if (lane && (lane.name === '大盘' || lane.name === '情绪')) {
+                e.preventDefault();
+                return false;
+            }
+
             draggedElement = this;
             $(this).css('opacity', '0.5');
             e.originalEvent.dataTransfer.effectAllowed = 'move';
@@ -7277,6 +7287,15 @@
         });
 
         $(document).on('dragenter', '.swim-lane', function(e) {
+            // 不允许拖拽到固定栏位上
+            const laneId = $(this).data('lane-id');
+            const lanes = loadLaneData();
+            const lane = lanes.find(l => l.id === laneId);
+
+            if (lane && (lane.name === '大盘' || lane.name === '情绪')) {
+                return false;
+            }
+
             if (draggedElement !== this) {
                 $(this).addClass('drag-over');
             }
@@ -7289,6 +7308,15 @@
         $(document).on('drop', '.swim-lane', function(e) {
             if (e.stopPropagation) {
                 e.stopPropagation();
+            }
+
+            // 不允许放到固定栏位上
+            const targetLaneId = $(this).data('lane-id');
+            const lanes = loadLaneData();
+            const targetLane = lanes.find(l => l.id === targetLaneId);
+
+            if (targetLane && (targetLane.name === '大盘' || targetLane.name === '情绪')) {
+                return false;
             }
 
             if (draggedElement !== this) {
@@ -7304,9 +7332,7 @@
                 }
 
                 // 更新localStorage中的泳道顺序
-                let lanes = loadLaneData();
                 const draggedLaneId = $(draggedElement).data('lane-id');
-                const targetLaneId = $(this).data('lane-id');
 
                 // 找到对应的lane对象
                 const draggedLaneIndex = lanes.findIndex(l => l.id === draggedLaneId);
