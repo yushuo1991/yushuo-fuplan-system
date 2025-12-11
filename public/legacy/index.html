@@ -6870,25 +6870,51 @@
         
         // 添加新泳道
         $('#addSwimLaneBtn').click(function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             const laneName = $('#newLaneName').val().trim();
-            if (laneName) {
-                addSwimLane(laneName);
+            const nameToAdd = laneName || `板块${laneCounter}`;
+
+            // 添加到localStorage
+            const laneId = `lane${laneCounter++}`;
+            let lanes = loadLaneData();
+            if (!lanes.find(lane => lane.id === laneId)) {
+                const creationDate = getCurrentReviewDateStr();
+                lanes.push({ id: laneId, name: nameToAdd, creationDate: creationDate });
+
+                // 重新排序，确保大盘和情绪在最前面
+                lanes = ensureLanesOrder(lanes);
+                saveLaneData(lanes);
+
+                // 重新加载所有泳道
+                reloadAllSwimLanes();
+
+                // 清空输入框
                 $('#newLaneName').val('');
-            } else {
-                addSwimLane(`板块${laneCounter}`);
             }
         });
-        
+
         $('#newLaneName').keypress(function(e) {
             if (e.which === 13) {
-                e.preventDefault(); 
+                e.preventDefault();
                 const laneName = $(this).val().trim();
-                if (laneName) {
-                    addSwimLane(laneName);
+                const nameToAdd = laneName || `板块${laneCounter}`;
+
+                // 添加到localStorage
+                const laneId = `lane${laneCounter++}`;
+                let lanes = loadLaneData();
+                if (!lanes.find(lane => lane.id === laneId)) {
+                    const creationDate = getCurrentReviewDateStr();
+                    lanes.push({ id: laneId, name: nameToAdd, creationDate: creationDate });
+
+                    // 重新排序，确保大盘和情绪在最前面
+                    lanes = ensureLanesOrder(lanes);
+                    saveLaneData(lanes);
+
+                    // 重新加载所有泳道
+                    reloadAllSwimLanes();
+
+                    // 清空输入框
                     $(this).val('');
-                } else {
-                    addSwimLane(`板块${laneCounter}`);
                 }
             }
         });
