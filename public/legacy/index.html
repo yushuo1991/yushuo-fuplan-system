@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- html2canvas for image generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* 全局样式 */
         :root {
@@ -40,7 +42,7 @@
             --color-surface: #ffffff;
             --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
             --card-border: 1px solid var(--color-gray-200);
-            --sidebar-width: 280px;
+            --sidebar-width: 220px;
             --header-height: 72px;
             --transition-default: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
@@ -118,7 +120,7 @@
         /* 整体布局优化 */
         .main-content {
             margin-left: var(--sidebar-width);
-            padding: 3rem 2.5rem;
+            padding: 3rem 3.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -129,20 +131,20 @@
 
         #reviewForm {
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .main-content > * {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
         }
 
         /* Logo和导航栏样式 */
         .app-logo {
             display: flex;
             align-items: center;
-            padding: 1.5rem 1.25rem;
+            padding: 1.5rem 1.125rem;
             margin-bottom: 0.5rem;
             border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
         }
@@ -171,7 +173,7 @@
         }
 
         .sidebar-item {
-            padding: 0.75rem 1rem;
+            padding: 0.75rem 0.9rem;
             margin: 0.25rem 0;
             border-radius: 10px;
             cursor: pointer;
@@ -270,9 +272,10 @@
         }
 
         .sidebar-item i {
-            margin-right: 0.5rem;
+            margin-right: 0.625rem;
             width: 1.25rem;
             text-align: center;
+            font-size: 1rem;
         }
 
         .sidebar-item.disabled {
@@ -346,7 +349,7 @@
             margin-bottom: 2rem;
             padding: 2rem 2.5rem;
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -451,7 +454,7 @@
 
         .section-title {
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
             text-align: center;
             margin-bottom: 2rem;
             margin-left: auto;
@@ -625,14 +628,14 @@
 
         /* 表单元素样式 */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .question-title {
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--color-gray-800);
-            font-size: 1.0625rem;
+            font-size: 1.125rem;
             letter-spacing: -0.01em;
         }
 
@@ -644,6 +647,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
+            font-size: 0.9375rem;
             color: var(--color-gray-700);
         }
 
@@ -796,7 +800,7 @@
             align-items: center;
             margin-bottom: 1.5rem;
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -814,7 +818,7 @@
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 2rem;
-            max-width: 900px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -833,7 +837,7 @@
             margin-top: 1.5rem;
             gap: 0.75rem;
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -849,6 +853,7 @@
             margin-bottom: 0.5rem;
             cursor: pointer;
             user-select: none;
+            font-size: 0.9375rem;
         }
 
         .checkbox-item input[type="checkbox"] {
@@ -1046,13 +1051,13 @@
         }
 
         .mood-name {
-            font-size: 1.1rem;
+            font-size: 1.125rem;
             font-weight: 600;
             margin-bottom: 0.25rem;
         }
 
         .mood-desc {
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             color: var(--color-gray-600);
         }
 
@@ -1409,11 +1414,11 @@
         /* 风险检查卡片样式 */
         .risk-check-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
             margin-bottom: 1.5rem;
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -1457,14 +1462,14 @@
 
         .risk-check-title {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.125rem;
             margin-bottom: 0.5rem;
             color: var(--color-gray-900);
         }
 
         .risk-check-desc {
             color: var(--color-gray-600);
-            font-size: 0.9rem;
+            font-size: 0.9375rem;
             margin-bottom: 1rem;
         }
 
@@ -1477,7 +1482,7 @@
             color: var(--color-gray-600);
             font-style: italic;
             margin: 1.5rem auto 2rem;
-            max-width: 900px;
+            max-width: 1100px;
             width: 100%;
         }
 
@@ -1488,7 +1493,7 @@
             gap: 1.5rem;
             margin: 2rem auto;
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
         }
 
         /* 问题标题居中 */
@@ -1623,8 +1628,8 @@
         /* 核心梳理样式 */
         .core-item-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
             margin-top: 1rem;
         }
 
@@ -1645,6 +1650,7 @@
             padding: 0.75rem 1rem;
             background-color: var(--color-primary);
             color: white;
+            font-size: 0.9375rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -1652,6 +1658,7 @@
 
         .core-item-header i {
             margin-right: 0.5rem;
+            font-size: 0.875rem;
         }
 
         .core-item .form-textarea {
@@ -1664,8 +1671,8 @@
         /* 明日计划样式 */
         .plan-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
             margin-top: 1rem;
         }
 
@@ -1686,6 +1693,7 @@
             padding: 0.75rem 1rem;
             background-color: var(--color-primary);
             color: white;
+            font-size: 0.9375rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -1693,6 +1701,7 @@
 
         .plan-item-header i {
             margin-right: 0.5rem;
+            font-size: 0.875rem;
         }
 
         .plan-item .form-textarea {
@@ -2017,8 +2026,8 @@
         /* 板块节奏页面样式增强 */
         .sector-input-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.25rem;
             margin-bottom: 1.5rem;
         }
 
@@ -2027,7 +2036,7 @@
         }
 
         .sector-input-label {
-            font-size: 0.9rem;
+            font-size: 0.9375rem;
             font-weight: 500;
             margin-bottom: 0.25rem;
             color: var(--color-gray-700);
@@ -2140,13 +2149,13 @@
 
         /* 修复内容区域卡片展示 */
         .card {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto 1.5rem;
         }
 
         /* 为情绪页面和市场多空页面添加特殊样式 */
         #section1 .card, #section2 .card {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto 1.5rem;
             padding: 2rem;
             background-color: #f8fafc;
@@ -2903,9 +2912,9 @@
                     <h2 class="section-title">市场多空</h2>
                     
                     <div class="card">
-                        <div class="form-group" style="width: 100%; max-width: 900px; margin: 0 auto;">
+                        <div class="form-group" style="width: 100%; max-width: 1100px; margin: 0 auto;">
                             <label class="question-title" style="text-align: center; font-size: 1.25rem; margin-bottom: 2rem; display: block;">宏观大盘无风险</label>
-                            <div class="mood-selection" style="margin: 2rem auto; width: 100%; max-width: 900px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem;">
+                            <div class="mood-selection" style="margin: 2rem auto; width: 100%; max-width: 1100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem;">
                                 <div class="checkbox-card" style="padding: 1.5rem; border: 1px solid var(--color-gray-200); border-radius: 0.5rem; display: flex; align-items: center; background-color: var(--color-surface); cursor: pointer; transition: var(--transition-default);">
                                     <input type="checkbox" name="macroRiskFree" value="true" id="macroRiskFree" style="margin-right: 1rem; width: 1.2rem; height: 1.2rem;">
                                     <label for="macroRiskFree" style="cursor: pointer; font-size: 1.1rem;">宏观确定无风险</label>
@@ -2939,8 +2948,8 @@
                     <h2 class="section-title">情绪阶段</h2>
                     
                     <div class="card">
-                        <div class="form-group" style="width: 100%; max-width: 900px; margin: 0 auto;">
-                            <div class="mood-selection" style="margin: 2rem auto; width: 100%; max-width: 900px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; position: relative;">
+                        <div class="form-group" style="width: 100%; max-width: 1100px; margin: 0 auto;">
+                            <div class="mood-selection" style="margin: 2rem auto; width: 100%; max-width: 1100px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; position: relative;">
                                 <div class="mood-item mood-chaos" data-mood="混沌期" data-theme="chaos" style="height: 140px; padding: 1.5rem; grid-column: 1; grid-row: 1;">
                                     <div class="mood-icon" style="font-size: 2.5rem; margin-right: 1.5rem;">🌬️</div>
                                     <div class="mood-info">
@@ -3191,11 +3200,26 @@
                                 <!-- 日期头部 -->
                                 <div id="dateHeader" style="display: flex; margin-left: 120px; padding-bottom: 10px; border-bottom: 1px solid var(--color-gray-300);">
                                     <!-- 日期会动态生成 -->
-                                    <div class="date-col" style="flex: 1; text-align: center; font-weight: 600; padding: 8px; min-width: 80px;" data-date="2023-05-20">5月20日</div>
-                                    <div class="date-col" style="flex: 1; text-align: center; font-weight: 600; padding: 8px; min-width: 80px;" data-date="2023-05-21">5月21日</div>
-                                    <div class="date-col" style="flex: 1; text-align: center; font-weight: 600; padding: 8px; min-width: 80px;" data-date="2023-05-22">5月22日</div>
-                                    <div class="date-col" style="flex: 1; text-align: center; font-weight: 600; padding: 8px; min-width: 80px;" data-date="2023-05-23">5月23日</div>
-                                    <div class="date-col" style="flex: 1; text-align: center; font-weight: 600; padding: 8px; min-width: 80px;" data-date="2023-05-24">5月24日</div>
+                                    <div class="date-col" style="flex: 1; text-align: center; padding: 8px; min-width: 80px;" data-date="2023-05-20">
+                                        <div style="font-weight: 600; font-size: 0.9375rem;">5月20日</div>
+                                        <div style="font-size: 0.75rem; color: var(--color-gray-500); margin-top: 2px;">周六</div>
+                                    </div>
+                                    <div class="date-col" style="flex: 1; text-align: center; padding: 8px; min-width: 80px;" data-date="2023-05-21">
+                                        <div style="font-weight: 600; font-size: 0.9375rem;">5月21日</div>
+                                        <div style="font-size: 0.75rem; color: var(--color-gray-500); margin-top: 2px;">周日</div>
+                                    </div>
+                                    <div class="date-col" style="flex: 1; text-align: center; padding: 8px; min-width: 80px;" data-date="2023-05-22">
+                                        <div style="font-weight: 600; font-size: 0.9375rem;">5月22日</div>
+                                        <div style="font-size: 0.75rem; color: var(--color-gray-500); margin-top: 2px;">周一</div>
+                                    </div>
+                                    <div class="date-col" style="flex: 1; text-align: center; padding: 8px; min-width: 80px;" data-date="2023-05-23">
+                                        <div style="font-weight: 600; font-size: 0.9375rem;">5月23日</div>
+                                        <div style="font-size: 0.75rem; color: var(--color-gray-500); margin-top: 2px;">周二</div>
+                                    </div>
+                                    <div class="date-col" style="flex: 1; text-align: center; padding: 8px; min-width: 80px;" data-date="2023-05-24">
+                                        <div style="font-weight: 600; font-size: 0.9375rem;">5月24日</div>
+                                        <div style="font-size: 0.75rem; color: var(--color-gray-500); margin-top: 2px;">周三</div>
+                                    </div>
                                 </div>
                                 
 
@@ -5308,36 +5332,388 @@
                     $('#emotionValue').css('color', '#ef4444'); // 红色 - 贪婪
                 }
             });
-            
-            // 生成报告按钮
+
+            // ==================== 复盘笔记生成功能 ====================
+
+            // 格式化日期
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+                return `${year}年${month}月${day}日`;
+            }
+
+            // 收集复盘数据
+            function collectReviewData(selectedMood) {
+                const today = new Date().toISOString().split('T')[0];
+                const formattedDate = formatDate(today);
+
+                // 情绪阶段主题配置
+                const themeConfig = {
+                    '混沌期': {
+                        emoji: '🌬️',
+                        desc: '资金进攻方向不一致，市场轮动加快',
+                        primary: '#f97316',
+                        secondary: '#f59e0b',
+                        bg: '#fffbf7',
+                        cardBg: '#fefaf6',
+                        gradient: 'linear-gradient(135deg, #f97316 0%, #f59e0b 100%)'
+                    },
+                    '主升期': {
+                        emoji: '☀️',
+                        desc: '资金进攻集中，龙头带动明显',
+                        primary: '#ef4444',
+                        secondary: '#f43f5e',
+                        bg: '#fff9f9',
+                        cardBg: '#fff5f5',
+                        gradient: 'linear-gradient(135deg, #ef4444 0%, #f43f5e 100%)'
+                    },
+                    '盘顶期': {
+                        emoji: '⚡',
+                        desc: '资金犹豫风险积累，高位震荡加剧',
+                        primary: '#3b82f6',
+                        secondary: '#6366f1',
+                        bg: '#f5f8ff',
+                        cardBg: '#f0f5ff',
+                        gradient: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)'
+                    },
+                    '退潮期': {
+                        emoji: '🌧️',
+                        desc: '资金获利出清，市场进入调整',
+                        primary: '#10b981',
+                        secondary: '#14b8a6',
+                        bg: '#f0fbf8',
+                        cardBg: '#edfcf7',
+                        gradient: 'linear-gradient(135deg, #10b981 0%, #14b8a6 100%)'
+                    }
+                };
+
+                const themeColors = themeConfig[selectedMood];
+
+                // 收集板块数据
+                const sectors = [];
+                for (let i = 1; i <= 5; i++) {
+                    const val = $(`input[name="sectorOption${i}"]`).val();
+                    if (val && val.trim()) sectors.push(val.trim());
+                }
+
+                return {
+                    date: formattedDate,
+                    mood: selectedMood,
+                    themeColors: themeColors,
+                    macroRiskFree: $('input[name="macroRiskFree"]').is(':checked'),
+                    nonBreakingIndex: $('input[name="nonBreakingIndex"]').is(':checked'),
+                    volumeAmplified: $('#volumeAmplified').is(':checked'),
+                    indexTurningPoint: $('#indexTurningPoint').is(':checked'),
+                    sectors: sectors,
+                    personalStrategy: $('textarea[name="personalStrategy"]').val() || '',
+                    stockPosition: $('textarea[name="stockPosition"]').val() || '',
+                    fundingSupport: $('textarea[name="fundingSupport"]').val() || '',
+                    expectation: $('textarea[name="expectation"]').val() || '',
+                    stockSelection: $('textarea[name="stockSelection"]').val() || '',
+                    focusStocks: $('textarea[name="focusStocks"]').val() || '',
+                    buyPlan: $('textarea[name="buyPlan"]').val() || '',
+                    sellPlan: $('textarea[name="sellPlan"]').val() || '',
+                    riskControl: $('textarea[name="riskControl"]').val() || '',
+                    mentalAdjustment: $('textarea[name="mentalAdjustment"]').val() || '',
+                    tradingReflection: $('textarea[name="tradingReflection"]').val() || '',
+                    emotionValue: $('#fearSlider').val() || '5'
+                };
+            }
+
+            // 生成报告HTML的主函数（使用内联样式避免样式问题）
+            function generateReportHTML(data) {
+                const { themeColors } = data;
+                const sectorsHTML = data.sectors.length > 0
+                    ? data.sectors.map(s => `<span style="display: inline-block; padding: 6px 14px; background: ${themeColors.cardBg}; border: 1px solid ${themeColors.primary}; color: ${themeColors.primary}; border-radius: 50px; font-size: 14px; margin: 4px;">${s}</span>`).join('')
+                    : '<p style="color: #8e8e93;">暂无板块数据</p>';
+
+                // 市场多空部分
+                const marketSection = `
+    <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
+        <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">⚖️</div>
+        <h2 style="font-size: 24px; font-weight: 700;">市场多空判断</h2>
+    </div>
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
+        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 16px;">宏观风险评估</div>
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px;">✓ 宏观大盘无风险</div>
+            <div style="color: #636366;">${data.macroRiskFree ? '当前宏观环境稳定，无重大风险事件' : '存在宏观风险，需谨慎操作'}</div>
+        </div>
+        <div style="padding: 12px 0;">
+            <div style="font-weight: 600; margin-bottom: 4px;">✓ 指数未破位</div>
+            <div style="color: #636366;">${data.nonBreakingIndex ? '主要指数站稳关键支撑位，趋势向上' : '指数破位，需要等待企稳'}</div>
+        </div>
+    </div>
+                `;
+
+                // 板块节奏部分
+                const sectorSection = data.sectors.length > 0 ? `
+    <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
+        <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📊</div>
+        <h2 style="font-size: 24px; font-weight: 700;">板块节奏分析</h2>
+    </div>
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
+        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 16px;">量能板块指标</div>
+        <div>${sectorsHTML}</div>
+        ${data.volumeAmplified ? '<p style="margin-top: 16px;">✓ 量能放大</p>' : ''}
+        ${data.indexTurningPoint ? '<p style="margin-top: 8px;">✓ 指数拐点</p>' : ''}
+    </div>
+                ` : '';
+
+                // 策略方法部分
+                const strategySection = data.personalStrategy ? `
+    <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
+        <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">♟️</div>
+        <h2 style="font-size: 24px; font-weight: 700;">操作策略</h2>
+    </div>
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
+        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 16px;">个人策略补充</div>
+        <p style="line-height: 1.8;">${data.personalStrategy.replace(/\n/g, '<br>')}</p>
+    </div>
+                ` : '';
+
+                // 明日计划部分
+                const planSection = (data.focusStocks || data.buyPlan || data.sellPlan) ? `
+    <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
+        <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📅</div>
+        <h2 style="font-size: 24px; font-weight: 700;">明日计划</h2>
+    </div>
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
+        ${data.focusStocks ? `<div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;"><div style="font-weight: 600; margin-bottom: 4px;">重点关注</div><div style="color: #636366;">${data.focusStocks.replace(/\n/g, '<br>')}</div></div>` : ''}
+        ${data.buyPlan ? `<div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;"><div style="font-weight: 600; margin-bottom: 4px;">买入计划</div><div style="color: #636366;">${data.buyPlan.replace(/\n/g, '<br>')}</div></div>` : ''}
+        ${data.sellPlan ? `<div style="padding: 12px 0;"><div style="font-weight: 600; margin-bottom: 4px;">卖出计划</div><div style="color: #636366;">${data.sellPlan.replace(/\n/g, '<br>')}</div></div>` : ''}
+    </div>
+                ` : '';
+
+                // 完整HTML - 使用简化结构，完全内联样式
+                return `
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Sans SC', sans-serif; background: ${themeColors.bg}; color: #1c1c1e; line-height: 1.6; padding: 60px 40px;">
+    <div style="text-align: center;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: ${themeColors.gradient}; color: white; padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">📝 复盘笔记</div>
+        <h1 style="font-size: 48px; font-weight: 800; background: ${themeColors.gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;">宇硕交易复盘</h1>
+        <div style="color: #8e8e93; margin-bottom: 48px;">${data.date}</div>
+    </div>
+
+    <div style="background: ${themeColors.cardBg}; border-radius: 24px; padding: 48px; margin: 48px 0; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);">
+        <div style="font-size: 80px; margin-bottom: 20px;">${data.themeColors.emoji}</div>
+        <h2 style="font-size: 40px; font-weight: 700; color: ${themeColors.primary}; margin-bottom: 12px;">${data.mood}</h2>
+        <p style="font-size: 18px; color: #636366;">${data.themeColors.desc}</p>
+    </div>
+
+    ${marketSection}
+    ${sectorSection}
+    ${strategySection}
+    ${planSection}
+
+    <div style="text-align: center; margin-top: 80px; padding-top: 32px; border-top: 1px solid #e8e8ed;">
+        <div style="font-size: 20px; font-weight: 700; background: ${themeColors.gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px;">宇硕复盘系统</div>
+        <div style="font-size: 14px; color: #8e8e93;">持续复盘 · 不断进化 · 稳定盈利</div>
+        <div style="font-size: 14px; color: #8e8e93; margin-top: 8px;">生成时间：${new Date().toLocaleString('zh-CN')}</div>
+    </div>
+</div>
+                `;
+            }
+
+            // 生成复盘笔记图片报告的主函数
+            window.generateReviewImageReport = function(selectedMood) {
+                console.log('🔄 开始生成复盘笔记...', selectedMood);
+
+                try {
+                    // 检查html2canvas是否可用
+                    if (typeof html2canvas === 'undefined') {
+                        console.error('❌ html2canvas未加载');
+                        showCustomModal('错误', 'html2canvas库未加载，请刷新页面重试');
+                        return;
+                    }
+                    console.log('✅ html2canvas已加载');
+
+                    // 收集所有表单数据
+                    console.log('📋 正在收集表单数据...');
+                    const reviewData = collectReviewData(selectedMood);
+                    console.log('✅ 数据收集完成', reviewData);
+
+                    // 生成HTML内容
+                    console.log('📝 正在生成HTML...');
+                    const reportHTML = generateReportHTML(reviewData);
+                    console.log('✅ HTML生成完成，长度:', reportHTML.length);
+
+                    // 创建临时容器
+                    console.log('🎨 正在创建临时容器...');
+
+                    // 添加遮罩层
+                    const overlay = $('<div>').css({
+                        position: 'fixed',
+                        top: '0',
+                        left: '0',
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        zIndex: '99998',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '20px',
+                        fontWeight: 'bold'
+                    }).html('<div style="text-align: center;"><div style="font-size: 48px; margin-bottom: 20px;">🎨</div><div>正在生成复盘笔记...</div></div>').appendTo('body');
+
+                    const tempContainer = $('<div>').attr('id', 'tempReportContainer').css({
+                        position: 'fixed',
+                        left: '50%',
+                        top: '50px',
+                        transform: 'translateX(-50%)',
+                        width: '900px',
+                        backgroundColor: reviewData.themeColors.bg,
+                        zIndex: '99999',
+                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+                        maxHeight: '80vh',
+                        overflow: 'auto'
+                    }).html(reportHTML).appendTo('body');
+
+                    console.log('✅ 临时容器已创建');
+                    console.log('📊 容器尺寸:', tempContainer.width(), 'x', tempContainer.height());
+
+                    // 等待字体和样式加载
+                    setTimeout(() => {
+                        console.log('🖼️ 开始转换为图片...');
+
+                        // 临时移除滚动条并设置正确高度
+                        const scrollHeight = tempContainer[0].scrollHeight;
+                        tempContainer.css({
+                            height: scrollHeight + 'px',
+                            overflow: 'visible',
+                            maxHeight: 'none'
+                        });
+
+                        console.log('📏 实际内容高度:', scrollHeight);
+                        console.log('📄 容器HTML长度:', tempContainer.html().length);
+                        console.log('🎨 背景色:', reviewData.themeColors.bg);
+
+                        // 调试：输出容器的前500个字符
+                        console.log('📝 容器内容预览:', tempContainer.html().substring(0, 500));
+
+                        // 使用html2canvas生成图片
+                        html2canvas(tempContainer[0], {
+                            backgroundColor: reviewData.themeColors.bg,
+                            scale: 2,
+                            logging: true,
+                            useCORS: true,
+                            allowTaint: false,
+                            width: 900,
+                            height: scrollHeight,
+                            windowWidth: 900,
+                            windowHeight: scrollHeight,
+                            onclone: function(clonedDoc) {
+                                console.log('📋 克隆文档完成');
+                                const clonedContainer = clonedDoc.getElementById('tempReportContainer');
+                                if (clonedContainer) {
+                                    console.log('✅ 克隆容器找到');
+                                    console.log('📐 克隆容器尺寸:', clonedContainer.offsetWidth, 'x', clonedContainer.offsetHeight);
+                                } else {
+                                    console.error('❌ 克隆容器未找到！');
+                                }
+                            }
+                        }).then(canvas => {
+                            console.log('✅ 图片转换成功，尺寸:', canvas.width, 'x', canvas.height);
+
+                            // 调试：检查canvas是否有内容
+                            const ctx = canvas.getContext('2d');
+                            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                            let hasContent = false;
+                            for (let i = 0; i < imageData.data.length; i += 4) {
+                                // 检查是否有非白色像素
+                                if (imageData.data[i] !== 255 || imageData.data[i+1] !== 255 || imageData.data[i+2] !== 255) {
+                                    hasContent = true;
+                                    break;
+                                }
+                            }
+                            console.log('🖼️ Canvas有内容:', hasContent);
+
+                            // 暂时不关闭预览，方便调试
+                            console.warn('⏸️ 预览窗口保持打开状态，方便调试。请手动关闭页面遮罩层。');
+
+                            // 转换为图片并下载
+                            canvas.toBlob(function(blob) {
+                                if (!blob) {
+                                    console.error('❌ Blob生成失败');
+                                    tempContainer.remove();
+                                    overlay.remove();
+                                    showCustomModal('错误', '图片生成失败，请重试');
+                                    return;
+                                }
+
+                                console.log('✅ Blob生成成功，大小:', (blob.size / 1024).toFixed(2), 'KB');
+
+                                const url = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                const today = new Date().toISOString().split('T')[0];
+                                link.download = `宇硕复盘笔记_${selectedMood}_${today}.png`;
+                                link.href = url;
+                                document.body.appendChild(link);
+                                link.click();
+                                console.log('✅ 下载已触发');
+
+                                // 清理
+                                setTimeout(() => {
+                                    document.body.removeChild(link);
+                                    URL.revokeObjectURL(url);
+                                    tempContainer.remove();
+                                    overlay.remove();
+                                    console.log('✅ 清理完成');
+                                }, 100);
+
+                                // 显示成功提示
+                                $('#customModal').fadeOut(200);
+                                setTimeout(() => {
+                                    showCustomModal('成功', '复盘笔记已生成并下载！');
+                                }, 300);
+                            }, 'image/png');
+
+                        }).catch(error => {
+                            console.error('❌ html2canvas转换失败:', error);
+                            tempContainer.remove();
+                            overlay.remove();
+                            showCustomModal('错误', '图片转换失败: ' + error.message);
+                        });
+                    }, 1500); // 增加到1.5秒，确保样式完全加载
+
+                } catch (error) {
+                    console.error('❌ 生成报告出错:', error);
+                    // 尝试移除可能存在的遮罩层
+                    $('#tempReportContainer').remove();
+                    $('body > div[style*="rgba(0, 0, 0, 0.7)"]').remove();
+                    showCustomModal('错误', '生成报告出错: ' + error.message);
+                }
+            };
+
+            console.log('✅ 复盘笔记生成功能已加载');
+
+            // 生成报告按钮 - 生成精美长图片
             $('#generateReportBtn, #finalGenerateBtn').click(function() {
-                // 收集表单数据
-                const formData = $('#reviewForm').serializeArray();
-                
                 // 基础验证
                 const isMacroRiskFree = $('input[name="macroRiskFree"]').is(':checked');
                 const isNonBreakingIndex = $('input[name="nonBreakingIndex"]').is(':checked');
-                
+
                 if (!isMacroRiskFree || !isNonBreakingIndex) {
-                    alert('请先确认宏观大盘无风险！');
+                    showCustomModal('提示', '请先确认宏观大盘无风险！');
                     return;
                 }
-                
+
                 const selectedMood = $('.mood-item.selected').data('mood');
                 if (!selectedMood) {
-                    alert('请选择当前的市场情绪阶段！');
+                    showCustomModal('提示', '请选择当前的市场情绪阶段！');
                     return;
                 }
-                
-                // 这里可以添加更多验证
-                
-                // 模拟生成报告过程
-                alert('报告生成中，请稍候...');
-                
-                // 实际项目中，这里会提交数据到服务器进行处理
+
+                // 显示加载提示
+                showCustomModal('生成中', '正在生成精美复盘笔记，请稍候...');
+
+                // 延迟执行以显示提示
                 setTimeout(function() {
-                    alert('复盘报告已生成并保存！');
-                }, 1500);
+                    generateReviewImageReport(selectedMood);
+                }, 500);
             });
             
             // 保存草稿按钮
@@ -7169,6 +7545,9 @@
             const baseDate = new Date(baseDateStr + "T00:00:00Z"); // Use UTC for consistency
             const workingDays = [];
 
+            // 星期几的中文映射
+            const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
             // 生成向前推的工作日日期（跳过周六周日）
             let currentDate = new Date(baseDate.getTime());
             let daysToGenerate = $('#dateHeader .date-col').length; // 获取需要生成的日期数
@@ -7186,6 +7565,7 @@
                 if (dayOfWeek !== 0 && dayOfWeek !== 6) {
                     workingDays.push({
                         display: `${tempDate.getUTCMonth() + 1}月${tempDate.getUTCDate()}日`,
+                        weekday: weekDays[dayOfWeek],
                         data: tempDate.toISOString().split('T')[0]
                     });
                     daysAdded++;
@@ -7196,7 +7576,11 @@
             // 更新DOM
             $('#dateHeader .date-col').each(function(index) {
                 if (index < workingDays.length) {
-                    $(this).text(workingDays[index].display);
+                    // 使用HTML结构显示日期和星期
+                    $(this).html(`
+                        <div style="font-weight: 600; font-size: 0.9375rem;">${workingDays[index].display}</div>
+                        <div style="font-size: 0.75rem; color: var(--color-gray-500); margin-top: 2px;">${workingDays[index].weekday}</div>
+                    `);
                     $(this).attr('data-date', workingDays[index].data);
                 }
             });
@@ -7953,9 +8337,11 @@
                 $('#notesModal').data('is-market', isMarketLane);
                 $('#notesModal').data('previous-date', previousTradingDateString);
 
-                // 更新模态框标题
-                const dateDisplay = $('#dateHeader .date-col').eq(dayIndex).text();
-                $('#notesModalTitle').text(`板块笔记: ${laneName} - ${dateDisplay}`);
+                // 更新模态框标题 - 获取日期和星期
+                const dateCol = $('#dateHeader .date-col').eq(dayIndex);
+                const dateText = dateCol.find('div').first().text(); // 获取第一个div的文本（日期）
+                const weekText = dateCol.find('div').last().text(); // 获取第二个div的文本（星期）
+                $('#notesModalTitle').text(`板块笔记: ${laneName} - ${dateText} ${weekText}`);
 
                 // 显示模态框
                 $('#notesModal').css('display', 'flex');
@@ -8162,6 +8548,9 @@
             const baseDate = new Date(baseDateStr + "T00:00:00Z"); // Use UTC for consistency
             const workingDays = [];
 
+            // 星期几的中文映射
+            const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
             // 生成向前推的工作日日期（跳过周六周日）
             let currentDate = new Date(baseDate.getTime());
             let daysToGenerate = $('#dateHeader .date-col').length; // 获取需要生成的日期数
@@ -8179,6 +8568,7 @@
                 if (dayOfWeek !== 0 && dayOfWeek !== 6) {
                     workingDays.push({
                         display: `${tempDate.getUTCMonth() + 1}月${tempDate.getUTCDate()}日`,
+                        weekday: weekDays[dayOfWeek],
                         data: tempDate.toISOString().split('T')[0]
                     });
                     daysAdded++;
@@ -8189,7 +8579,11 @@
             // 更新DOM
             $('#dateHeader .date-col').each(function(index) {
                 if (index < workingDays.length) {
-                    $(this).text(workingDays[index].display);
+                    // 使用HTML结构显示日期和星期
+                    $(this).html(`
+                        <div style="font-weight: 600; font-size: 0.9375rem;">${workingDays[index].display}</div>
+                        <div style="font-size: 0.75rem; color: var(--color-gray-500); margin-top: 2px;">${workingDays[index].weekday}</div>
+                    `);
                     $(this).attr('data-date', workingDays[index].data);
                 }
             });
@@ -8771,6 +9165,7 @@
             console.log('   2. 查看上方是否有❌错误信息');
             console.log('   3. 尝试刷新页面（Ctrl+F5）清除缓存');
             console.log('');
+
         });
     </script>
 </body>
