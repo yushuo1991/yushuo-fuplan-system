@@ -5391,11 +5391,37 @@
 
                 const themeColors = themeConfig[selectedMood];
 
-                // 收集板块数据
+                // ===== 收集板块节奏数据（从汇总中读取） =====
+                console.log('📊 开始收集板块节奏汇总数据...');
+                const swimLaneData = [];
+                const lanesDataStr = localStorage.getItem('swimlaneLanes');
+                if (lanesDataStr) {
+                    const lanes = JSON.parse(lanesDataStr);
+                    lanes.forEach(lane => {
+                        const todayNoteKey = `swimlaneToday-${lane.id}-${today}`;
+                        const todayContent = localStorage.getItem(todayNoteKey);
+                        if (todayContent && todayContent.trim() !== '') {
+                            swimLaneData.push({
+                                name: lane.name,
+                                content: todayContent.trim()
+                            });
+                        }
+                    });
+                }
+                console.log(`✅ 收集到 ${swimLaneData.length} 个板块的汇总数据`, swimLaneData);
+
+                // 收集板块题材数据（表单输入）
                 const sectors = [];
                 for (let i = 1; i <= 5; i++) {
                     const val = $(`input[name="sectorOption${i}"]`).val();
                     if (val && val.trim()) sectors.push(val.trim());
+                }
+
+                // 收集主升期题材
+                const risingThemes = [];
+                for (let i = 1; i <= 2; i++) {
+                    const val = $(`input[name="risingTheme${i}"]`).val();
+                    if (val && val.trim()) risingThemes.push(val.trim());
                 }
 
                 return {
@@ -5407,6 +5433,8 @@
                     volumeAmplified: $('#volumeAmplified').is(':checked'),
                     indexTurningPoint: $('#indexTurningPoint').is(':checked'),
                     sectors: sectors,
+                    risingThemes: risingThemes,
+                    swimLaneData: swimLaneData, // 板块节奏汇总数据
                     personalStrategy: $('textarea[name="personalStrategy"]').val() || '',
                     stockPosition: $('textarea[name="stockPosition"]').val() || '',
                     fundingSupport: $('textarea[name="fundingSupport"]').val() || '',
@@ -5425,9 +5453,16 @@
             // 生成报告HTML的主函数（使用内联样式避免样式问题）
             function generateReportHTML(data) {
                 const { themeColors } = data;
+
+                // 量能板块题材标签 - 优化样式
                 const sectorsHTML = data.sectors.length > 0
-                    ? data.sectors.map(s => `<span style="display: inline-block; padding: 6px 14px; background: ${themeColors.cardBg}; border: 1px solid ${themeColors.primary}; color: ${themeColors.primary}; border-radius: 50px; font-size: 14px; margin: 4px;">${s}</span>`).join('')
-                    : '<p style="color: #8e8e93;">暂无板块数据</p>';
+                    ? data.sectors.map(s => `<span style="display: inline-block; padding: 8px 16px; background: linear-gradient(135deg, ${themeColors.cardBg} 0%, rgba(255,255,255,0.95) 100%); border: 1.5px solid ${themeColors.primary}; color: ${themeColors.primary}; border-radius: 20px; font-size: 13px; font-weight: 600; margin: 6px 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease;">${s}</span>`).join('')
+                    : '';
+
+                // 主升期题材标签 - 优化样式
+                const risingThemesHTML = data.risingThemes && data.risingThemes.length > 0
+                    ? data.risingThemes.map(s => `<span style="display: inline-block; padding: 8px 16px; background: linear-gradient(135deg, ${themeColors.cardBg} 0%, rgba(255,255,255,0.95) 100%); border: 1.5px solid ${themeColors.primary}; color: ${themeColors.primary}; border-radius: 20px; font-size: 13px; font-weight: 600; margin: 6px 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">${s}</span>`).join('')
+                    : '';
 
                 // 市场多空部分
                 const marketSection = `
@@ -5448,87 +5483,243 @@
     </div>
                 `;
 
-                // 板块节奏部分
-                const sectorSection = data.sectors.length > 0 ? `
+                // 板块节奏部分 - 显示汇总数据
+                let sectorSection = '';
+                const hasSwimLaneData = data.swimLaneData && data.swimLaneData.length > 0;
+                const hasSectorData = data.sectors.length > 0 || risingThemesHTML;
+
+                if (hasSwimLaneData || hasSectorData) {
+                    sectorSection = `
     <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
         <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📊</div>
         <h2 style="font-size: 24px; font-weight: 700;">板块节奏分析</h2>
-    </div>
-    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
-        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 16px;">量能板块指标</div>
-        <div>${sectorsHTML}</div>
-        ${data.volumeAmplified ? '<p style="margin-top: 16px;">✓ 量能放大</p>' : ''}
-        ${data.indexTurningPoint ? '<p style="margin-top: 8px;">✓ 指数拐点</p>' : ''}
-    </div>
-                ` : '';
+    </div>`;
 
-                // 策略方法部分
-                const strategySection = data.personalStrategy ? `
+                    // 显示量能板块指标（混沌期）或主升题材（主升期）
+                    if (sectorsHTML || risingThemesHTML) {
+                        sectorSection += `
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
+        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 16px;">${data.mood === '混沌期' ? '量能板块指标' : data.mood === '主升期' ? '主升题材' : '板块题材'}</div>
+        <div>${sectorsHTML}${risingThemesHTML}</div>
+        ${data.volumeAmplified ? '<p style="margin-top: 16px; font-weight: 600;">✓ 量能放大</p>' : ''}
+        ${data.indexTurningPoint ? '<p style="margin-top: 8px; font-weight: 600;">✓ 指数拐点</p>' : ''}
+    </div>`;
+                    }
+
+                    // 显示板块节奏汇总数据
+                    if (hasSwimLaneData) {
+                        const swimLaneCardsHTML = data.swimLaneData.map((lane, index) => {
+                            // 为不同板块设置不同图标
+                            let iconClass = 'fa-layer-group';
+                            if (lane.name === '大盘') iconClass = 'fa-chart-line';
+                            else if (lane.name === '情绪') iconClass = 'fa-heart-pulse';
+
+                            return `
+        <div style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04); border-left: 4px solid ${themeColors.primary};">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <div style="width: 32px; height: 32px; background: ${themeColors.gradient}; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                    <i class="${iconClass}"></i>
+                </div>
+                <div style="font-size: 16px; font-weight: 700; color: ${themeColors.primary};">${lane.name}</div>
+            </div>
+            <div style="color: #3a3a3c; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${lane.content}</div>
+        </div>`;
+                        }).join('');
+
+                        sectorSection += `
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
+        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 20px;">板块节奏汇总</div>
+        ${swimLaneCardsHTML}
+    </div>`;
+                    }
+                }
+
+                // 策略方法部分（包含所有策略相关字段）
+                let strategySection = '';
+                const hasStrategyData = data.personalStrategy || data.stockPosition || data.fundingSupport ||
+                                       data.expectation || data.stockSelection;
+                if (hasStrategyData) {
+                    strategySection = `
     <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
         <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">♟️</div>
         <h2 style="font-size: 24px; font-weight: 700;">操作策略</h2>
-    </div>
+    </div>`;
+
+                    if (data.personalStrategy) {
+                        strategySection += `
     <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
         <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 16px;">个人策略补充</div>
-        <p style="line-height: 1.8;">${data.personalStrategy.replace(/\n/g, '<br>')}</p>
-    </div>
-                ` : '';
+        <p style="line-height: 1.8; color: #3a3a3c; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.personalStrategy}</p>
+    </div>`;
+                    }
 
-                // 明日计划部分
-                const planSection = (data.focusStocks || data.buyPlan || data.sellPlan) ? `
+                    // 自问清单相关
+                    const hasQuestions = data.stockPosition || data.fundingSupport || data.expectation || data.stockSelection;
+                    if (hasQuestions) {
+                        strategySection += `
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
+        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 20px;">自问清单</div>`;
+
+                        if (data.stockPosition) {
+                            strategySection += `
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">地位判断</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.stockPosition}</div>
+        </div>`;
+                        }
+
+                        if (data.fundingSupport) {
+                            strategySection += `
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">资金接力</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.fundingSupport}</div>
+        </div>`;
+                        }
+
+                        if (data.expectation) {
+                            strategySection += `
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">预期打造</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.expectation}</div>
+        </div>`;
+                        }
+
+                        if (data.stockSelection) {
+                            strategySection += `
+        <div style="padding: 12px 0;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">选股范围</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.stockSelection}</div>
+        </div>`;
+                        }
+
+                        strategySection += `
+    </div>`;
+                    }
+                }
+
+                // 明日计划部分（包含心理调整）
+                let planSection = '';
+                const hasPlanData = data.focusStocks || data.buyPlan || data.sellPlan ||
+                                   data.riskControl || data.mentalAdjustment;
+                if (hasPlanData) {
+                    planSection = `
     <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
         <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📅</div>
         <h2 style="font-size: 24px; font-weight: 700;">明日计划</h2>
     </div>
+    <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">`;
+
+                    if (data.focusStocks) {
+                        planSection += `
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">重点关注</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.focusStocks}</div>
+        </div>`;
+                    }
+
+                    if (data.buyPlan) {
+                        planSection += `
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">买入计划</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.buyPlan}</div>
+        </div>`;
+                    }
+
+                    if (data.sellPlan) {
+                        planSection += `
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">卖出计划</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.sellPlan}</div>
+        </div>`;
+                    }
+
+                    if (data.riskControl) {
+                        planSection += `
+        <div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">风险控制</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.riskControl}</div>
+        </div>`;
+                    }
+
+                    if (data.mentalAdjustment) {
+                        planSection += `
+        <div style="padding: 12px 0;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: #1c1c1e;">心理调整</div>
+            <div style="color: #636366; line-height: 1.8; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.mentalAdjustment}</div>
+        </div>`;
+                    }
+
+                    planSection += `
+    </div>`;
+                }
+
+                // 交易总结部分
+                let summarySection = '';
+                if (data.tradingReflection) {
+                    summarySection = `
+    <div style="display: flex; align-items: center; gap: 12px; margin: 48px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid ${themeColors.primary};">
+        <div style="width: 40px; height: 40px; background: ${themeColors.gradient}; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📝</div>
+        <h2 style="font-size: 24px; font-weight: 700;">交易总结</h2>
+    </div>
     <div style="background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);">
-        ${data.focusStocks ? `<div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;"><div style="font-weight: 600; margin-bottom: 4px;">重点关注</div><div style="color: #636366;">${data.focusStocks.replace(/\n/g, '<br>')}</div></div>` : ''}
-        ${data.buyPlan ? `<div style="padding: 12px 0; border-bottom: 1px solid #f5f5f7;"><div style="font-weight: 600; margin-bottom: 4px;">买入计划</div><div style="color: #636366;">${data.buyPlan.replace(/\n/g, '<br>')}</div></div>` : ''}
-        ${data.sellPlan ? `<div style="padding: 12px 0;"><div style="font-weight: 600; margin-bottom: 4px;">卖出计划</div><div style="color: #636366;">${data.sellPlan.replace(/\n/g, '<br>')}</div></div>` : ''}
-    </div>
-                ` : '';
+        <div style="font-size: 18px; font-weight: 600; color: ${themeColors.primary}; margin-bottom: 16px;">复盘反思</div>
+        <p style="line-height: 1.8; color: #3a3a3c; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;">${data.tradingReflection}</p>
+    </div>`;
+                }
 
-                // 完整HTML - 使用简化结构，完全内联样式
+                // 完整HTML - 使用简化结构，完全内联样式，优化布局
                 return `
-<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Sans SC', sans-serif; background: ${themeColors.bg}; color: #1c1c1e; line-height: 1.6; padding: 60px 40px;">
-    <div style="text-align: center;">
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: ${themeColors.gradient}; color: white; padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">📝 复盘笔记</div>
-        <h1 style="font-size: 48px; font-weight: 800; background: ${themeColors.gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;">宇硕交易复盘</h1>
-        <div style="color: #8e8e93; margin-bottom: 48px;">${data.date}</div>
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Sans SC', sans-serif; background: linear-gradient(to bottom, ${themeColors.bg} 0%, #ffffff 100%); color: #1c1c1e; line-height: 1.7; padding: 40px 30px; min-height: 100vh; box-sizing: border-box; max-width: 100%; overflow-wrap: break-word;">
+    <!-- 顶部装饰线 -->
+    <div style="height: 4px; background: ${themeColors.gradient}; border-radius: 2px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+
+    <!-- 标题区域 -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <div style="display: inline-flex; align-items: center; gap: 10px; background: ${themeColors.gradient}; color: white; padding: 8px 20px; border-radius: 25px; font-size: 12px; font-weight: 700; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); letter-spacing: 1px;">
+            <span style="font-size: 14px;">📝</span>
+            <span>复盘笔记</span>
+        </div>
+        <h1 style="font-size: 44px; font-weight: 900; background: ${themeColors.gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 14px; letter-spacing: -1px; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">宇硕交易复盘</h1>
+        <div style="color: #8e8e93; font-size: 14px; font-weight: 500; letter-spacing: 0.5px;">${data.date}</div>
     </div>
 
-    <div style="background: ${themeColors.cardBg}; border-radius: 24px; padding: 48px; margin: 48px 0; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);">
-        <div style="font-size: 80px; margin-bottom: 20px;">${data.themeColors.emoji}</div>
-        <h2 style="font-size: 40px; font-weight: 700; color: ${themeColors.primary}; margin-bottom: 12px;">${data.mood}</h2>
-        <p style="font-size: 18px; color: #636366;">${data.themeColors.desc}</p>
+    <!-- 情绪阶段卡片 -->
+    <div style="background: linear-gradient(135deg, ${themeColors.cardBg} 0%, rgba(255,255,255,0.9) 100%); border-radius: 24px; padding: 40px 30px; margin: 40px 0; text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;">
+        <!-- 背景装饰 -->
+        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: ${themeColors.gradient}; opacity: 0.08; border-radius: 50%; filter: blur(40px);"></div>
+        <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: ${themeColors.gradient}; opacity: 0.08; border-radius: 50%; filter: blur(40px);"></div>
+
+        <div style="position: relative; z-index: 1;">
+            <div style="font-size: 70px; margin-bottom: 20px; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));">${data.themeColors.emoji}</div>
+            <h2 style="font-size: 36px; font-weight: 800; color: ${themeColors.primary}; margin-bottom: 14px; letter-spacing: -0.5px;">${data.mood}</h2>
+            <p style="font-size: 15px; color: #636366; font-weight: 500; line-height: 1.6;">${data.themeColors.desc}</p>
+        </div>
     </div>
 
     ${marketSection}
     ${sectorSection}
     ${strategySection}
     ${planSection}
+    ${summarySection}
 
-    <div style="text-align: center; margin-top: 80px; padding-top: 32px; border-top: 1px solid #e8e8ed;">
-        <div style="font-size: 20px; font-weight: 700; background: ${themeColors.gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px;">宇硕复盘系统</div>
-        <div style="font-size: 14px; color: #8e8e93;">持续复盘 · 不断进化 · 稳定盈利</div>
-        <div style="font-size: 14px; color: #8e8e93; margin-top: 8px;">生成时间：${new Date().toLocaleString('zh-CN')}</div>
+    <!-- 页脚 -->
+    <div style="text-align: center; margin-top: 60px; padding-top: 30px; border-top: 2px solid #e8e8ed;">
+        <div style="font-size: 20px; font-weight: 800; background: ${themeColors.gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; letter-spacing: 0.5px;">宇硕复盘系统</div>
+        <div style="font-size: 13px; color: #8e8e93; font-weight: 500; margin-bottom: 6px;">持续复盘 · 不断进化 · 稳定盈利</div>
+        <div style="font-size: 12px; color: #aeaeb2; margin-top: 10px;">生成时间：${new Date().toLocaleString('zh-CN')}</div>
     </div>
+
+    <!-- 底部装饰线 -->
+    <div style="height: 4px; background: ${themeColors.gradient}; border-radius: 2px; margin-top: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
 </div>
                 `;
             }
 
-            // 生成复盘笔记图片报告的主函数
+            // 生成复盘笔记图片报告的主函数（简化版 - 只生成预览）
             window.generateReviewImageReport = function(selectedMood) {
-                console.log('🔄 开始生成复盘笔记...', selectedMood);
+                console.log('🔄 开始生成复盘笔记预览...', selectedMood);
 
                 try {
-                    // 检查html2canvas是否可用
-                    if (typeof html2canvas === 'undefined') {
-                        console.error('❌ html2canvas未加载');
-                        showCustomModal('错误', 'html2canvas库未加载，请刷新页面重试');
-                        return;
-                    }
-                    console.log('✅ html2canvas已加载');
-
                     // 收集所有表单数据
                     console.log('📋 正在收集表单数据...');
                     const reviewData = collectReviewData(selectedMood);
@@ -5539,156 +5730,106 @@
                     const reportHTML = generateReportHTML(reviewData);
                     console.log('✅ HTML生成完成，长度:', reportHTML.length);
 
-                    // 创建临时容器
-                    console.log('🎨 正在创建临时容器...');
+                    // 保存数据到全局变量，供下载使用
+                    window.currentReportData = {
+                        reviewData: reviewData,
+                        selectedMood: selectedMood,
+                        html: reportHTML
+                    };
 
-                    // 添加遮罩层
-                    const overlay = $('<div>').css({
-                        position: 'fixed',
-                        top: '0',
-                        left: '0',
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        zIndex: '99998',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        fontSize: '20px',
-                        fontWeight: 'bold'
-                    }).html('<div style="text-align: center;"><div style="font-size: 48px; margin-bottom: 20px;">🎨</div><div>正在生成复盘笔记...</div></div>').appendTo('body');
+                    // 在预览窗口中显示
+                    $('#reportPreviewContainer').html(reportHTML);
+                    $('#reportPreviewModal').fadeIn(300);
 
-                    const tempContainer = $('<div>').attr('id', 'tempReportContainer').css({
-                        position: 'fixed',
-                        left: '50%',
-                        top: '50px',
-                        transform: 'translateX(-50%)',
-                        width: '900px',
-                        backgroundColor: reviewData.themeColors.bg,
-                        zIndex: '99999',
-                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-                        maxHeight: '80vh',
-                        overflow: 'auto'
-                    }).html(reportHTML).appendTo('body');
-
-                    console.log('✅ 临时容器已创建');
-                    console.log('📊 容器尺寸:', tempContainer.width(), 'x', tempContainer.height());
-
-                    // 等待字体和样式加载
-                    setTimeout(() => {
-                        console.log('🖼️ 开始转换为图片...');
-
-                        // 临时移除滚动条并设置正确高度
-                        const scrollHeight = tempContainer[0].scrollHeight;
-                        tempContainer.css({
-                            height: scrollHeight + 'px',
-                            overflow: 'visible',
-                            maxHeight: 'none'
-                        });
-
-                        console.log('📏 实际内容高度:', scrollHeight);
-                        console.log('📄 容器HTML长度:', tempContainer.html().length);
-                        console.log('🎨 背景色:', reviewData.themeColors.bg);
-
-                        // 调试：输出容器的前500个字符
-                        console.log('📝 容器内容预览:', tempContainer.html().substring(0, 500));
-
-                        // 使用html2canvas生成图片
-                        html2canvas(tempContainer[0], {
-                            backgroundColor: reviewData.themeColors.bg,
-                            scale: 2,
-                            logging: true,
-                            useCORS: true,
-                            allowTaint: false,
-                            width: 900,
-                            height: scrollHeight,
-                            windowWidth: 900,
-                            windowHeight: scrollHeight,
-                            onclone: function(clonedDoc) {
-                                console.log('📋 克隆文档完成');
-                                const clonedContainer = clonedDoc.getElementById('tempReportContainer');
-                                if (clonedContainer) {
-                                    console.log('✅ 克隆容器找到');
-                                    console.log('📐 克隆容器尺寸:', clonedContainer.offsetWidth, 'x', clonedContainer.offsetHeight);
-                                } else {
-                                    console.error('❌ 克隆容器未找到！');
-                                }
-                            }
-                        }).then(canvas => {
-                            console.log('✅ 图片转换成功，尺寸:', canvas.width, 'x', canvas.height);
-
-                            // 调试：检查canvas是否有内容
-                            const ctx = canvas.getContext('2d');
-                            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                            let hasContent = false;
-                            for (let i = 0; i < imageData.data.length; i += 4) {
-                                // 检查是否有非白色像素
-                                if (imageData.data[i] !== 255 || imageData.data[i+1] !== 255 || imageData.data[i+2] !== 255) {
-                                    hasContent = true;
-                                    break;
-                                }
-                            }
-                            console.log('🖼️ Canvas有内容:', hasContent);
-
-                            // 暂时不关闭预览，方便调试
-                            console.warn('⏸️ 预览窗口保持打开状态，方便调试。请手动关闭页面遮罩层。');
-
-                            // 转换为图片并下载
-                            canvas.toBlob(function(blob) {
-                                if (!blob) {
-                                    console.error('❌ Blob生成失败');
-                                    tempContainer.remove();
-                                    overlay.remove();
-                                    showCustomModal('错误', '图片生成失败，请重试');
-                                    return;
-                                }
-
-                                console.log('✅ Blob生成成功，大小:', (blob.size / 1024).toFixed(2), 'KB');
-
-                                const url = URL.createObjectURL(blob);
-                                const link = document.createElement('a');
-                                const today = new Date().toISOString().split('T')[0];
-                                link.download = `宇硕复盘笔记_${selectedMood}_${today}.png`;
-                                link.href = url;
-                                document.body.appendChild(link);
-                                link.click();
-                                console.log('✅ 下载已触发');
-
-                                // 清理
-                                setTimeout(() => {
-                                    document.body.removeChild(link);
-                                    URL.revokeObjectURL(url);
-                                    tempContainer.remove();
-                                    overlay.remove();
-                                    console.log('✅ 清理完成');
-                                }, 100);
-
-                                // 显示成功提示
-                                $('#customModal').fadeOut(200);
-                                setTimeout(() => {
-                                    showCustomModal('成功', '复盘笔记已生成并下载！');
-                                }, 300);
-                            }, 'image/png');
-
-                        }).catch(error => {
-                            console.error('❌ html2canvas转换失败:', error);
-                            tempContainer.remove();
-                            overlay.remove();
-                            showCustomModal('错误', '图片转换失败: ' + error.message);
-                        });
-                    }, 1500); // 增加到1.5秒，确保样式完全加载
+                    console.log('✅ 预览已显示');
 
                 } catch (error) {
-                    console.error('❌ 生成报告出错:', error);
-                    // 尝试移除可能存在的遮罩层
-                    $('#tempReportContainer').remove();
-                    $('body > div[style*="rgba(0, 0, 0, 0.7)"]').remove();
-                    showCustomModal('错误', '生成报告出错: ' + error.message);
+                    console.error('❌ 生成报告预览出错:', error);
+                    showCustomModal('错误', '生成报告预览出错: ' + error.message);
                 }
             };
 
             console.log('✅ 复盘笔记生成功能已加载');
+
+            // 关闭预览窗口
+            $('#closePreviewBtn').click(function() {
+                $('#reportPreviewModal').fadeOut(300);
+                window.currentReportData = null;
+            });
+
+            // 下载报告按钮 - 从预览窗口下载
+            $('#downloadReportBtn').click(function() {
+                if (!window.currentReportData) {
+                    showCustomModal('错误', '没有可下载的报告数据');
+                    return;
+                }
+
+                const { reviewData, selectedMood } = window.currentReportData;
+
+                // 显示下载提示
+                $(this).html('<i class="fas fa-spinner fa-spin"></i> <span>正在生成...</span>');
+                $(this).prop('disabled', true);
+
+                // 创建临时容器用于渲染
+                const tempContainer = $('<div>').attr('id', 'tempDownloadContainer').css({
+                    position: 'fixed',
+                    left: '-9999px',
+                    top: '0',
+                    width: '900px',
+                    backgroundColor: reviewData.themeColors.bg
+                }).html(window.currentReportData.html).appendTo('body');
+
+                // 等待渲染
+                setTimeout(() => {
+                    const scrollHeight = tempContainer[0].scrollHeight;
+                    tempContainer.css({
+                        height: scrollHeight + 'px'
+                    });
+
+                    // 使用html2canvas生成图片
+                    html2canvas(tempContainer[0], {
+                        backgroundColor: reviewData.themeColors.bg,
+                        scale: 2,
+                        logging: false,
+                        useCORS: true,
+                        allowTaint: false,
+                        width: 900,
+                        height: scrollHeight
+                    }).then(canvas => {
+                        // 转换为图片并下载
+                        canvas.toBlob(function(blob) {
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            const today = new Date().toISOString().split('T')[0];
+                            link.download = `宇硕复盘笔记_${selectedMood}_${today}.png`;
+                            link.href = url;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(url);
+
+                            // 清理
+                            tempContainer.remove();
+
+                            // 恢复按钮状态
+                            $('#downloadReportBtn').html('<i class="fas fa-download"></i> <span>下载报告</span>');
+                            $('#downloadReportBtn').prop('disabled', false);
+
+                            // 显示成功提示并关闭预览
+                            showCustomModal('成功', '复盘笔记已下载！');
+                            setTimeout(() => {
+                                $('#reportPreviewModal').fadeOut(300);
+                            }, 1000);
+                        }, 'image/png');
+                    }).catch(error => {
+                        console.error('❌ 图片生成失败:', error);
+                        tempContainer.remove();
+                        $('#downloadReportBtn').html('<i class="fas fa-download"></i> <span>下载报告</span>');
+                        $('#downloadReportBtn').prop('disabled', false);
+                        showCustomModal('错误', '图片生成失败: ' + error.message);
+                    });
+                }, 500);
+            });
 
             // 生成报告按钮 - 生成精美长图片
             $('#generateReportBtn, #finalGenerateBtn').click(function() {
@@ -8705,6 +8846,63 @@
                 </div>
             </div>
         </div>
+
+    <!-- 报告预览窗口 -->
+    <div id="reportPreviewModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 100000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+        <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px;">
+
+            <!-- 主预览容器 - 占据大部分屏幕 -->
+            <div style="position: relative; width: 95%; max-width: 1400px; height: 95vh; background: white; border-radius: 20px; box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; overflow: hidden;">
+
+                <!-- 顶部标题栏 - 简化 -->
+                <div style="background: linear-gradient(135deg, #007AFF 0%, #0051D5 100%); color: white; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 24px;">📄</span>
+                        <span style="font-size: 18px; font-weight: 700; letter-spacing: 0.5px;">报告预览</span>
+                    </div>
+                    <button id="closePreviewBtn" style="background: rgba(255, 255, 255, 0.2); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.3s ease; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+                        <i class="fas fa-times"></i>
+                        <span>关闭</span>
+                    </button>
+                </div>
+
+                <!-- 内容区域 - 左侧预览 + 右侧操作栏 -->
+                <div style="flex: 1; display: flex; overflow: hidden;">
+
+                    <!-- 左侧：预览内容区 -->
+                    <div id="reportPreviewContainer" style="flex: 1; overflow-y: auto; overflow-x: hidden; background: #f5f5f7; padding: 20px;">
+                        <!-- 报告内容将动态插入这里 -->
+                    </div>
+
+                    <!-- 右侧：固定操作栏 -->
+                    <div style="width: 200px; background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%); border-left: 1px solid #e8e8ed; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; flex-shrink: 0;">
+
+                        <!-- 下载按钮 -->
+                        <button id="downloadReportBtn" style="width: 100%; background: linear-gradient(135deg, #007AFF 0%, #0051D5 100%); color: white; border: none; padding: 16px 20px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4); transition: all 0.3s ease;">
+                            <i class="fas fa-download" style="font-size: 28px;"></i>
+                            <span>下载报告</span>
+                        </button>
+
+                        <!-- 提示信息 -->
+                        <div style="text-align: center; color: #8e8e93; font-size: 12px; line-height: 1.6; margin-top: 20px; padding: 15px; background: rgba(0, 0, 0, 0.03); border-radius: 10px;">
+                            <div style="margin-bottom: 8px;">💡 <strong>提示</strong></div>
+                            <div>左侧可滚动查看完整报告</div>
+                            <div style="margin-top: 8px;">确认无误后点击下载</div>
+                        </div>
+
+                        <!-- 报告信息 -->
+                        <div style="margin-top: auto; text-align: center; color: #aeaeb2; font-size: 11px; line-height: 1.5;">
+                            <div style="margin-bottom: 6px;">
+                                <i class="fas fa-file-image"></i>
+                            </div>
+                            <div>高清PNG格式</div>
+                            <div>2倍分辨率</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Supabase 集成脚本 -->
     <script>
